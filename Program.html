@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Church — Programs</title>
+<style>
+  @font-face{font-family:"Georgia";src:url("project/fonts/Georgia.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Geneva";src:url("project/fonts/Geneva.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+  :root{
+    --crm-purple:#500F50;--crm-purple-deep:#3A0B3A;
+    --crm-purple-tint:rgba(228,110,228,0.20);--crm-purple-soft:rgba(80,15,80,0.06);
+    --crm-gold:#FDB52A;--crm-gold-soft:#FFF0D2;--crm-red:#F50100;
+    --crm-black:#0A0A0A;--crm-ink:#282828;--crm-ink-2:#333333;
+    --crm-ink-3:#777777;--crm-ink-4:#9B9B9B;--crm-white:#FFFFFF;
+    --crm-bg:#F7F7F7;--crm-bg-alt:#F7FCFF;--crm-line:#EEEEEE;--crm-line-2:#D2D2D2;
+    --crm-surface-dark:#0A0A0A;--crm-surface-dark-2:#1F1F1F;
+    --crm-on-dark-1:#FFFFFF;--crm-on-dark-2:rgba(255,255,255,0.70);--crm-on-dark-3:rgba(255,255,255,0.30);
+    --crm-fg-1:var(--crm-black);--crm-fg-2:var(--crm-ink);--crm-fg-3:var(--crm-ink-3);
+    --crm-accent:var(--crm-purple);--crm-accent-warm:var(--crm-gold);
+    --crm-font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-display:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-script:"Caveat","Lucida Handwriting",cursive;
+    --crm-font-serif:Georgia,"Times New Roman",serif;
+    --crm-font-ui:"DM Sans","Inter",sans-serif;
+    --crm-text-xs:12px;--crm-text-sm:14px;--crm-text-base:16px;--crm-text-md:18px;
+    --crm-text-lg:20px;--crm-text-xl:24px;--crm-text-2xl:30px;--crm-text-3xl:40px;
+    --crm-text-4xl:56px;--crm-text-5xl:72px;--crm-text-display:100px;
+    --crm-radius-xs:6px;--crm-radius-sm:8px;--crm-radius-md:12px;--crm-radius-lg:16px;
+    --crm-radius-xl:24px;--crm-radius-2xl:40px;--crm-radius-pill:1920px;
+    --crm-space-1:4px;--crm-space-2:8px;--crm-space-3:12px;--crm-space-4:16px;
+    --crm-space-5:20px;--crm-space-6:24px;--crm-space-8:32px;--crm-space-10:40px;
+    --crm-space-12:56px;--crm-space-16:80px;--crm-space-20:120px;--crm-space-24:150px;
+    --crm-shadow-sm:0 1px 2px rgba(0,0,0,0.04);--crm-shadow-md:0 8px 24px rgba(0,0,0,0.06);
+    --crm-shadow-lg:0 24px 60px rgba(0,0,0,0.10);--crm-shadow-poster:0 18px 40px rgba(0,0,0,0.18);
+    --crm-container:1280px;--crm-page-gutter:80px;--crm-nav-height:72px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #1a1a1a; }
+  body { font-family: var(--crm-font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  img { display: block; }
+
+  #scaler { transform-origin: top center; }
+  .page { width: 1440px; background: #fff; margin: 0 auto; overflow: hidden; position: relative; }
+
+  /* ── Nav ── */
+  .nav {
+    position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
+  }
+  .brand { display: flex; align-items: center; gap: 7px; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; }
+  .brand .wordmark { font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px; line-height: 16px; color: var(--crm-ink-2); width: 78px; }
+  .nav-rail { display: flex; align-items: center; gap: 20px; background: rgba(155,155,155,0.10); border-radius: 8px; padding: 7px 4px; }
+  .nav-rail a { font-family: var(--crm-font-sans); font-size: 14px; line-height: 20px; color: var(--crm-ink-2); text-decoration: none; padding: 0 4px; transition: opacity 140ms ease; }
+  .nav-rail a:hover { opacity: 0.7; }
+  .nav-rail a.active { font-weight: 700; color: var(--crm-purple); background: rgba(228,110,228,0.20); border-radius: 6px; padding: 9px 8px; }
+  .btn-cta { background-color: var(--crm-purple); color: #fff; font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px; border: none; border-radius: 16px; padding: 11px 28px; cursor: pointer; transition: background-color 140ms ease; }
+  .btn-cta:hover { background-color: var(--crm-purple-deep); }
+
+  .pill-dark { background: var(--crm-ink); color: #fff; font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px; border-radius: 1920px; padding: 9px 32px; text-decoration: none; transition: opacity 140ms ease; display: inline-block; }
+  .pill-dark:hover { opacity: 0.85; }
+
+  /* ── Hero (split) ── */
+  .hero { padding: 99px 72px 0; }
+  .hero-card { width: 1296px; height: 775px; position: relative; overflow: hidden; display: flex; }
+  .hero-card .half { width: 648px; height: 775px; overflow: hidden; }
+  .hero-card .half img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-card .half.left img  { object-position: 16% 84%; }
+  .hero-card .half.right img { object-position: 50% 36%; }
+  .hero-card .grad { position: absolute; inset: 0; background: linear-gradient(181.5deg, rgba(0,0,0,0.2) 6.6%, rgba(0,0,0,0.9) 97.86%); }
+  .hero-card .headline { position: absolute; left: 0; right: 0; bottom: 66px; text-align: center; font-family: var(--crm-font-sans); font-weight: 700; font-size: 80px; line-height: 1.0; letter-spacing: 0.03em; color: #fff; padding: 0 200px; }
+
+  /* ── Events section ── */
+  .events { padding: 56px 80px 0; }
+  .events-inner { width: 1280px; margin: 0 auto; }
+
+  /* List */
+  .event-list { margin-top: 90px; border-top: 1px solid #D2D2D2; }
+  .event { display: flex; justify-content: space-between; align-items: center; gap: 40px; padding: 48px 0; border-bottom: 1px solid #D2D2D2; }
+  .event .copy { width: 700px; flex: none; }
+  .event .title { font-family: var(--crm-font-sans); font-weight: 700; font-size: 32px; line-height: 40px; color: var(--crm-ink); text-transform: uppercase; }
+  .event .when { font-family: var(--crm-font-sans); font-weight: 600; font-size: 17px; line-height: 24px; color: var(--crm-ink); margin-top: 22px; }
+  .event .where { font-family: var(--crm-font-sans); font-weight: 400; font-size: 15px; line-height: 24px; color: #777; margin-top: 16px; max-width: 600px; }
+  .event .poster { flex: none; overflow: hidden; }
+  .event .poster img { width: 100%; height: 100%; display: block; }
+
+  /* ── Other Yearly Programs ── */
+  .yearly { padding: 64px 124px 96px; }
+  .yearly-box {
+    position: relative; overflow: hidden;
+    background: linear-gradient(212deg, rgba(255,223,224,0.1) 47.68%, rgba(239,217,227,0.6) 107.89%), #F5F3EE;
+    padding: 46px 32px 27px;
+  }
+  .yearly-box .ttl { font-family: var(--crm-font-sans); font-weight: 600; font-size: 30px; line-height: 1; color: #282828; margin-bottom: 50px; }
+  .ytab { display: flex; align-items: baseline; gap: 22px; padding: 24px 0; border-bottom: 1px solid rgba(21,58,67,0.5); font-family: var(--crm-font-sans); font-size: 40px; line-height: 48px; letter-spacing: -0.4px; color: #282828; flex-wrap: wrap; }
+  .ytab:last-child { border-bottom: none; }
+  .ytab .name { font-weight: 500; }
+  .ytab .dash { font-weight: 500; opacity: 0.7; }
+  .ytab .date { font-weight: 700; }
+
+  /* ── Scripture band ── */
+  .scripture {
+    height: 598px; position: relative;
+    background: url(project/assets/about-scripture.jpg) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .scripture .ref { font-family: var(--crm-font-script); font-weight: 700; font-size: 48px; color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px; }
+  .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px; line-height: 84px; color: #fff; }
+
+  /* ── Footer ── */
+  .footer { background: url(project/assets/footer-bg.png) center / cover no-repeat, var(--crm-black); padding: 50px 75px 0; position: relative; color: #fff; }
+  .footer-top { display: flex; padding: 48px 0; }
+  .footer-col-1 { width: 410px; display: flex; align-items: center; justify-content: center; }
+  .footer-direction { text-align: center; }
+  .footer-direction .loc { width: 139px; height: 139px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+  .footer-direction .loc svg { width: 60px; height: 60px; color: #fff; }
+  .footer-direction .label { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 16px; }
+  .footer-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 60px; }
+  .footer-col-2 { width: 440px; }
+  .footer-col-2 h3 { font-family: var(--crm-font-sans); font-weight: 400; font-size: 24px; line-height: 34px; }
+  .footer-col-2 .hope { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 6px; }
+  .footer-col-2 .addr { font-family: var(--crm-font-sans); font-size: 18px; line-height: 30px; opacity: 0.8; margin-top: 32px; max-width: 369px; }
+  .footer-contact { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .footer-contact svg { width: 22px; height: 22px; color: #fff; }
+  .footer-contact span { font-family: var(--crm-font-sans); font-size: 20px; }
+  .footer-col-3 { flex: 1; }
+  .footer-col-3 h4 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 20px; margin-bottom: 32px; }
+  .flag-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 28px 8px; justify-content: start; font-size: 50px; line-height: 1; }
+  .footer-mid { display: flex; align-items: flex-start; padding: 48px 0 64px; gap: 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .fm-brand { width: 483px; }
+  .fm-brand .logo-row { display: flex; align-items: center; gap: 22px; }
+  .fm-brand .logo-row img { width: 93px; height: 93px; border-radius: 50%; }
+  .fm-brand .logo-row span { font-family: var(--crm-font-sans); font-size: 24px; line-height: 34px; width: 249px; }
+  .fm-brand .social { display: flex; gap: 16px; margin-top: 32px; }
+  .fm-brand .social a { width: 36px; height: 36px; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; transition: opacity 140ms ease; }
+  .fm-brand .social a:hover { opacity: 0.85; }
+  .fm-brand .social svg { width: 18px; height: 18px; color: var(--crm-black); }
+  .fm-links { width: 198px; }
+  .fm-links h5 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; letter-spacing: 1.08px; margin-bottom: 56px; }
+  .fm-links a { display: block; font-family: var(--crm-font-sans); font-size: 16px; color: #fff; text-decoration: none; margin-bottom: 16px; opacity: 0.85; transition: opacity 140ms ease; }
+  .fm-links a:hover { opacity: 1; }
+  .fm-connect { flex: 1; }
+  .fm-connect h3 { font-family: var(--crm-font-sans); font-weight: 500; font-size: 38.7px; letter-spacing: -1px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding: 40px 0 48px; text-align: center; }
+  .footer-bottom span { font-family: var(--crm-font-sans); font-size: 16px; }
+
+  /* ════════ TWEAK: Headline voice ════════ */
+  .page[data-voice="modern"] .hero-card .headline,
+  .page[data-voice="modern"] .scripture h2 { font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em; }
+  .page[data-voice="editorial"] .hero-card .headline,
+  .page[data-voice="editorial"] .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; letter-spacing: 0; }
+
+  /* ════════ TWEAK: Atmosphere ════════ */
+  .page[data-air="compact"] .event { padding: 32px 0; }
+  .page[data-air="compact"] .event-list { margin-top: 56px; }
+  .page[data-air="airy"] .event { padding: 72px 0; }
+  .page[data-air="airy"] .event-list { margin-top: 120px; }
+
+  #tweak-root { font-family: var(--crm-font-sans); }
+
+  .brand { text-decoration: none; color: inherit; }
+  .program-card, .giving-card, .pastor-card, .stream-card { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .program-card:hover, .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+  .pastor-card:hover, .stream-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.14); }
+  .ministry-tab { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .ministry-tab:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+</style>
+</head>
+<body style="font-size: 16px">
+<div id="scaler">
+  <div class="page" data-screen-label="Programs" data-voice="modern" data-air="balanced">
+
+    <!-- NAV -->
+    <header class="nav">
+      <a href="Home.html" class="brand">
+        <img src="project/assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark">Rebuilder's Ministry</span>
+      </a>
+      <nav class="nav-rail">
+        <a href="Home.html">Home</a>
+        <a href="About.html">About Us</a>
+        <a href="Program.html" class="active">Programs</a>
+        <a href="Sermon.html">Sermon</a>
+        <a href="Giving.html">Giving</a>
+      </nav>
+      <button class="btn-cta">Reachout to us</button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <div class="half left"><img src="project/assets/prog-hero-left.jpg" alt="CRM choir in worship" /></div>
+        <div class="half right"><img src="project/assets/prog-hero-right.jpg" alt="Worshipper in prayer" /></div>
+        <div class="grad"></div>
+        <div class="headline">Worship With Us today</div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="events">
+      <div class="events-inner">
+        <div class="event-list" id="eventList"></div>
+      </div>
+    </section>
+
+    <!-- OTHER YEARLY PROGRAMS -->
+    <section class="yearly">
+      <div class="yearly-box">
+        <div class="ttl">Other Yearly Programs</div>
+        <div class="ytab" style="font-size: 34px"><span class="name">Feet Washing</span><span class="dash">—</span><span class="date">1st of October Every year</span></div>
+        <div class="ytab" style="font-size: 34px"><span class="name">Ephphatha</span><span class="dash">—</span><span class="date">September Every Year</span></div>
+        <div class="ytab" style="font-size: 34px"><span class="name">Church Anniversary and Conference</span><span class="dash">—</span><span class="date">April Every Year</span></div>
+      </div>
+    </section>
+
+    <!-- SCRIPTURE BAND -->
+    <section class="scripture">
+      <span class="ref">Matthew 19:26</span>
+      <h2>"With God all things<br />are possible"</h2>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-col-1">
+          <div class="footer-direction">
+            <div class="loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="label">Direction</div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-2">
+          <h3>Christ The Rebuilder's Ministry</h3>
+          <div class="hope">(Hope Sanctuary)</div>
+          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+234-708652527237</span>
+          </div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+            <span>Info@Rebuilder.com</span>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-3">
+          <h4>Other Branches In</h4>
+          <div class="flag-grid">
+            <span>🇺🇸</span><span>🇬🇧</span><span>🇩🇪</span>
+            <span>🇦🇹</span><span>🇭🇷</span><span>🇧🇭</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="fm-brand">
+          <div class="logo-row">
+            <img src="project/assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder's Ministry</span>
+          </div>
+          <div class="social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
+          </div>
+        </div>
+        <div class="fm-links">
+          <h5>Pages</h5>
+          <a href="Home.html">Home</a>
+          <a href="About.html">About Us</a>
+          <a href="Program.html">Programs</a>
+          <a href="Sermon.html">Sermon</a>
+          <a href="Giving.html">Giving</a>
+        </div>
+        <div class="fm-links">
+          <h5>Quick</h5>
+          <a href="Contact.html">Contact Us</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
+        </div>
+        <div class="fm-connect">
+          <h3>Stay Connected</h3>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 | CRM Church - All Right Reserved</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var LOCATION = 'C.R.M HQ, And All Her Branches Globally. No 1, Alhaji Kazeem Street, Oko filling bustop Igando Lagos, Nigeria';
+    var EVENTS = [
+      { title: 'Thanksgiving Sunday',            when: 'Every First Sunday of Month - 7:30am',      img: 'project/assets/prog-thanksgiving.jpg',   w: 396, h: 496, fit: 'cover',   pos: '50% 50%' },
+      { title: 'Sunday Service',                 when: 'Every Sunday of Month - 7:30am',            img: 'project/assets/prog-sunday-service.jpg', w: 550, h: 359, fit: 'cover',   pos: '50% 0%' },
+      { title: 'Bible Study',                    when: 'Every Sunday of Month - 7:30am',            img: 'project/assets/prog-bible-study.jpg',    w: 550, h: 407, fit: 'contain', pos: '50% 50%' },
+      { title: 'Moment of Lifting',              when: 'Every Thursday - 8:00am',                   img: 'project/assets/prog-moment-lifting.jpg', w: 397, h: 474, fit: 'cover',   pos: '32% 0%' },
+      { title: 'Operation Push',                 when: 'Every Third Friday of The Month - 10:00pm', img: 'project/assets/prog-operation-push.jpg', w: 397, h: 474, fit: 'cover',   pos: '32% 0%' },
+      { title: '3Days Monthly Fasting & Prayer', when: 'Every First 3 Days of The Month',           img: 'project/assets/prog-fasting-prayer.jpg', w: 550, h: 407, fit: 'contain', pos: '50% 50%' }
+    ];
+    var list = document.getElementById('eventList');
+    list.innerHTML = EVENTS.map(function (e) {
+      return '<article class="event">'
+        + '<div class="copy">'
+        +   '<div class="title">' + e.title + '</div>'
+        +   '<div class="when">' + e.when + '</div>'
+        +   '<div class="where">' + LOCATION + '</div>'
+        + '</div>'
+        + '<div class="poster" style="width:' + e.w + 'px;height:' + e.h + 'px">'
+        +   '<img src="' + e.img + '" alt="' + e.title + ' poster" style="object-fit:' + e.fit + ';object-position:' + e.pos + '" />'
+        + '</div>'
+        + '</article>';
+    }).join('');
+  })();
+
+  function fitScale() {
+    var scaler = document.getElementById('scaler');
+    var page = scaler.querySelector('.page');
+    var vw = document.documentElement.clientWidth;
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('load', fitScale);
+  fitScale();
+  window.fitScale = fitScale;
+</script>
+
+<script>
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
+  });
+
+  (function() {
+    var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
+    var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    var SEL = 'h1,h2,h3,.script,.ref,.sermon-card,.program-card,.believe-col,.giving-card,.pastor-card,.stream-card,.ministry-tab,.contact-chip,.form-card,.ym-card,.ym-ministry-card,.ym-img-left,.ym-img-right,.pill-row,.center-row,.footer-direction,.footer-col-2,.footer-col-3';
+    window.addEventListener('load', function() {
+      var els = Array.from(document.querySelectorAll(SEL));
+      var vp = window.innerHeight;
+      els.forEach(function(el) { if (el.getBoundingClientRect().top > vp * 0.85) el.classList.add('scroll-pop'); });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var peers = Array.from(el.parentElement.children).filter(function(c){return c.classList.contains('scroll-pop');});
+          var idx = peers.indexOf(el);
+          setTimeout(function(){ el.classList.add('in'); }, Math.max(0, idx) * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el){ if (el.classList.contains('scroll-pop')) io.observe(el); });
+    });
+  })();
+</script>
+
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="project/tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = { "palette": ["#FDB52A","#500F50","#3A0B3A"], "voice": "mixed", "air": "balanced" };
+  const PALETTES = [
+    { value: ["#FDB52A","#500F50","#3A0B3A"], label: "Heritage" },
+    { value: ["#F76C5E","#3A1142","#280B2E"], label: "Coral & Plum" },
+    { value: ["#E8A317","#5C1A2E","#40121F"], label: "Saffron & Wine" },
+    { value: ["#F4B400","#1F3A5F","#142840"], label: "Sky & Slate" },
+  ];
+  function CRMTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const pal = t.palette || PALETTES[0].value;
+      root.style.setProperty('--crm-gold', pal[0]);
+      root.style.setProperty('--crm-purple', pal[1]);
+      root.style.setProperty('--crm-purple-deep', pal[2] || pal[1]);
+      const page = document.querySelector('.page');
+      if (page) { page.setAttribute('data-voice', t.voice); page.setAttribute('data-air', t.air); }
+      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
+    }, [t.palette, t.voice, t.air]);
+    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color mood" />
+        <div style={note}>Re-skins the gold signature and the purple seal across every section.</div>
+        <TweakColor label="Palette" value={t.palette} options={PALETTES.map(p => p.value)} onChange={(v) => setTweak('palette', v)} />
+        <TweakSection label="Headline voice" />
+        <div style={note}>Modern is bold sans; Editorial sets the hero and scripture in serif.</div>
+        <TweakRadio label="Voice" value={t.voice} options={["modern","mixed","editorial"]} onChange={(v) => setTweak('voice', v)} />
+        <TweakSection label="Atmosphere" />
+        <div style={note}>How much room the events list breathes.</div>
+        <TweakRadio label="Spacing" value={t.air} options={["compact","balanced","airy"]} onChange={(v) => setTweak('air', v)} />
+      </TweaksPanel>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
+</script>
+</body>
+</html>

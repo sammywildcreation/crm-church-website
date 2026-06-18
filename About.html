@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Church — About Us</title>
+<style>
+  @font-face{font-family:"Georgia";src:url("project/fonts/Georgia.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Geneva";src:url("project/fonts/Geneva.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap');
+  :root{
+    --crm-purple:#500F50;--crm-purple-deep:#3A0B3A;
+    --crm-purple-tint:rgba(228,110,228,0.20);--crm-purple-soft:rgba(80,15,80,0.06);
+    --crm-gold:#FDB52A;--crm-gold-soft:#FFF0D2;--crm-red:#F50100;
+    --crm-black:#0A0A0A;--crm-ink:#282828;--crm-ink-2:#333333;
+    --crm-ink-3:#777777;--crm-ink-4:#9B9B9B;--crm-white:#FFFFFF;
+    --crm-bg:#F7F7F7;--crm-bg-alt:#F7FCFF;--crm-line:#EEEEEE;--crm-line-2:#D2D2D2;
+    --crm-surface-dark:#0A0A0A;--crm-surface-dark-2:#1F1F1F;
+    --crm-on-dark-1:#FFFFFF;--crm-on-dark-2:rgba(255,255,255,0.70);--crm-on-dark-3:rgba(255,255,255,0.30);
+    --crm-fg-1:var(--crm-black);--crm-fg-2:var(--crm-ink);--crm-fg-3:var(--crm-ink-3);
+    --crm-accent:var(--crm-purple);--crm-accent-warm:var(--crm-gold);
+    --crm-font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-display:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-script:"Caveat","Lucida Handwriting",cursive;
+    --crm-font-serif:Georgia,"Times New Roman",serif;
+    --crm-font-ui:"DM Sans","Inter",sans-serif;
+    --crm-text-xs:12px;--crm-text-sm:14px;--crm-text-base:16px;--crm-text-md:18px;
+    --crm-text-lg:20px;--crm-text-xl:24px;--crm-text-2xl:30px;--crm-text-3xl:40px;
+    --crm-text-4xl:56px;--crm-text-5xl:72px;--crm-text-display:100px;
+    --crm-radius-xs:6px;--crm-radius-sm:8px;--crm-radius-md:12px;--crm-radius-lg:16px;
+    --crm-radius-xl:24px;--crm-radius-2xl:40px;--crm-radius-pill:1920px;
+    --crm-space-1:4px;--crm-space-2:8px;--crm-space-3:12px;--crm-space-4:16px;
+    --crm-space-5:20px;--crm-space-6:24px;--crm-space-8:32px;--crm-space-10:40px;
+    --crm-space-12:56px;--crm-space-16:80px;--crm-space-20:120px;--crm-space-24:150px;
+    --crm-shadow-sm:0 1px 2px rgba(0,0,0,0.04);--crm-shadow-md:0 8px 24px rgba(0,0,0,0.06);
+    --crm-shadow-lg:0 24px 60px rgba(0,0,0,0.10);--crm-shadow-poster:0 18px 40px rgba(0,0,0,0.18);
+    --crm-container:1280px;--crm-page-gutter:80px;--crm-nav-height:72px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #1a1a1a; }
+  body {
+    font-family: var(--crm-font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; }
+
+  #scaler { transform-origin: top center; }
+  .page {
+    width: 1440px;
+    background: var(--crm-bg);
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 80px;
+    background: rgba(255,255,255,0.02);
+  }
+  .brand { display: flex; align-items: center; gap: 7px; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; }
+  .brand .wordmark {
+    font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px;
+    line-height: 16px; color: var(--crm-ink-2); width: 78px;
+  }
+  .nav-rail {
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(155,155,155,0.10);
+    border-radius: 8px; padding: 7px 4px;
+  }
+  .nav-rail a {
+    font-family: var(--crm-font-sans); font-size: 14px; line-height: 20px;
+    color: var(--crm-ink-2); text-decoration: none; padding: 0 4px;
+    transition: opacity 140ms ease;
+  }
+  .nav-rail a:hover { opacity: 0.7; }
+  .nav-rail a.active {
+    font-weight: 700; color: var(--crm-purple);
+    background: rgba(228,110,228,0.20);
+    border-radius: 6px; padding: 9px 8px;
+  }
+  .btn-cta {
+    background-color: var(--crm-purple); color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    border: none; border-radius: 16px; padding: 11px 28px; cursor: pointer;
+    transition: background-color 140ms ease;
+  }
+  .btn-cta:hover { background-color: var(--crm-purple-deep); }
+
+  /* ── Shared pills / links ── */
+  .pill-dark {
+    background: var(--crm-ink); color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    border-radius: 1920px; padding: 9px 32px; text-decoration: none;
+    transition: opacity 140ms ease; display: inline-block;
+  }
+  .pill-dark:hover { opacity: 0.85; }
+  .link-arrow {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 16px;
+    color: var(--crm-ink); text-decoration: none;
+  }
+  .link-arrow svg { width: 16px; height: 16px; }
+
+  /* ── Hero ── */
+  .hero {
+    height: 1020px; position: relative;
+    background: url(project/assets/about-hero-bg.png) center top / cover no-repeat, #fff;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 114px 80px 0;
+  }
+  .hero-card {
+    width: 1302px; height: 853px; position: relative; overflow: hidden;
+  }
+  .hero-card img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .hero-card .grad {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 21%, rgba(0,0,0,0.8) 99%);
+  }
+  .hero-card .headline {
+    position: absolute; left: 47px; bottom: 20px; color: #fff;
+  }
+  .hero-card .headline .l1 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 80px;
+    line-height: 1.0; letter-spacing: -1.19px;
+  }
+  .hero-card .headline .l2 {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 118px;
+    line-height: 1.0; letter-spacing: -1.19px; margin-top: 6px;
+  }
+
+  /* ── Intro statement ── */
+  .intro {
+    background: url(project/assets/paper-texture.png) center / cover no-repeat, #fff;
+    height: 550px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 0 208px;
+  }
+  .intro .stmt {
+    font-family: var(--crm-font-serif); font-weight: 400; font-size: 42px;
+    line-height: 65px; letter-spacing: -0.52px; color: var(--crm-ink);
+    max-width: 1024px;
+  }
+  .intro .stmt img {
+    display: inline-block; vertical-align: middle; border-radius: 8px;
+    height: 52px; object-fit: cover; margin: 0 6px;
+  }
+  .intro .chip-a { width: 83px; }
+  .intro .chip-b, .intro .chip-c { width: 104px; }
+  .intro .pill-dark { margin-top: 28px; }
+
+  /* ── Mission / Vision (dark) ── */
+  .mission {
+    position: relative; height: 1166px; background: var(--crm-black);
+    overflow: hidden;
+  }
+  .mission .book {
+    position: absolute; left: 74px; top: 186px; width: 575px; height: 432px;
+    border-radius: 18px; object-fit: cover;
+  }
+  .mv-block { position: absolute; }
+  .mv-block.mission-block { left: 735px; top: 226px; width: 470px; }
+  .mv-block.vision-block { left: 82px; top: 760px; width: 1276px; }
+  .mv-script {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); line-height: 1; transform: rotate(-4deg);
+    display: inline-block;
+  }
+  .mv-block h2 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 40px;
+    line-height: 1.18; color: #fff; margin-top: 20px; max-width: 470px;
+  }
+  .vision-block h2 { max-width: 640px; }
+  .mv-block p {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 16px;
+    line-height: 1.65; color: var(--crm-on-dark-2); margin-top: 24px;
+  }
+  .mission-block p { max-width: 470px; }
+  .vision-block p { max-width: 1276px; }
+
+  /* ── What we believe ── */
+  .believe { background: #fff; height: 968px; position: relative; overflow: hidden; }
+  .believe .script {
+    position: absolute; left: 82px; top: 168px; transform: rotate(-5deg);
+    transform-origin: left top;
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); line-height: 1;
+  }
+  .believe h2 {
+    position: absolute; left: 86px; top: 236px; width: 531px;
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 72px;
+    line-height: 84px; color: var(--crm-ink);
+  }
+  .believe .slider-arrows {
+    position: absolute; left: 1151px; top: 304px; display: flex; gap: 26px;
+  }
+  .slider-arrows button {
+    width: 88px; height: 88px; border-radius: 20px; border: none;
+    background: var(--crm-ink); cursor: pointer; display: flex;
+    align-items: center; justify-content: center; transition: opacity 140ms ease;
+  }
+  .slider-arrows button:hover { opacity: 0.85; }
+  .slider-arrows button:disabled { opacity: 0.35; cursor: default; }
+  .slider-arrows svg { width: 30px; height: 30px; color: #fff; }
+  .believe-viewport {
+    position: absolute; left: 82px; top: 446px; width: 1276px; height: 322px;
+    overflow: hidden;
+  }
+  .believe-track {
+    display: flex; gap: 34px; transition: transform 320ms ease;
+  }
+  .bcard {
+    flex: none; width: 632px; height: 322px; border-radius: 32px;
+    background: #fff; box-shadow: inset 0 0 0 1px #E8E8E8, 0 2px 12px rgba(0,0,0,0.04);
+    padding: 49px; display: flex; gap: 20px; align-items: flex-start;
+  }
+  .bcard .icon {
+    width: 98px; height: 98px; border-radius: 49px; flex: none;
+    background: var(--crm-gold-soft); display: flex; align-items: center; justify-content: center;
+  }
+  .bcard .icon svg { width: 46px; height: 46px; color: var(--crm-purple); }
+  .bcard .body { flex: 1; }
+  .bcard h3 {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 28px;
+    line-height: 40px; color: var(--crm-black);
+  }
+  .bcard p {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 18px;
+    line-height: 1.0; color: rgb(84,84,84); margin-top: 20px;
+  }
+  .bcard .verses {
+    display: flex; align-items: center; gap: 20px; margin-top: 22px;
+  }
+  .bcard .verses span {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 20px;
+    line-height: 22px; color: var(--crm-black);
+  }
+  .bcard .verses .divider { width: 1px; height: 24px; background: #CCCCCC; }
+
+  /* ── We Evangelize band ── */
+  .evangelize {
+    height: 847px; position: relative; overflow: hidden;
+    background: url(project/assets/evangelize.png) center top / cover no-repeat;
+  }
+  .evangelize span {
+    position: absolute; left: 147px; top: 119px; width: 1145px;
+    font-family: "Cherry Bomb One", var(--crm-font-sans); font-weight: 400;
+    font-size: 160px; line-height: 1.0; letter-spacing: -1.19px;
+    color: rgba(255,255,255,0.7); text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  }
+
+  /* ── How CRM Emerged (The Mandate) ── */
+  .mandate {
+    height: 815px; position: relative; padding: 0 72px;
+  }
+  .mandate .inner { position: relative; width: 1296px; margin: 0 auto; height: 100%; }
+  .mandate .photo {
+    position: absolute; left: 5px; top: 20px; width: 620px; height: 775px;
+    border-radius: 30px; object-fit: cover; filter: grayscale(100%);
+  }
+  .mandate .copy {
+    position: absolute; left: 717px; top: 76px; width: 494px;
+    display: flex; flex-direction: column; gap: 26px;
+  }
+  .mandate .script {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); line-height: 1; transform: rotate(-3deg);
+    transform-origin: left; display: inline-block;
+  }
+  .mandate h2 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 42px;
+    line-height: 1.1; color: var(--crm-ink);
+  }
+  .mandate p {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 16px;
+    line-height: 1.6; color: var(--crm-ink-3); white-space: pre-line;
+  }
+
+  /* ── Programs ── */
+  .programs { background: #fff; height: 822px; padding: 168px 80px 0; text-align: center; }
+  .programs .eyebrow {
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 15px;
+    letter-spacing: 2px; color: var(--crm-ink);
+  }
+  .programs h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 52px;
+    line-height: 72px; color: var(--crm-ink); margin-top: 4px;
+  }
+  .programs .sub { font-family: var(--crm-font-sans); font-size: 14.8px; color: var(--crm-ink); margin-top: 14px; }
+  .program-cards { display: flex; gap: 24px; justify-content: center; margin-top: 60px; }
+  .program-card {
+    width: 379px; height: 240px; border-radius: 12px; overflow: hidden;
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 19px;
+  }
+  .program-card.pc1 { background: url(project/assets/program-1.jpg) center / cover no-repeat; }
+  .program-card.pc2 { background: url(project/assets/program-2.jpg) center / cover no-repeat; }
+  .program-card.pc3 { background: url(project/assets/program-3.jpg) center / cover no-repeat; }
+  .program-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);
+  }
+  .program-card > * { position: relative; z-index: 1; color: #fff; text-align: left; }
+  .program-card .time { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18.8px; }
+  .program-card .name { font-family: var(--crm-font-sans); font-weight: 700; font-size: 29px; line-height: 1.2; margin-top: 6px; }
+  .program-card .day { font-family: var(--crm-font-sans); font-size: 16px; margin-top: 7px; }
+  .center-row { display: flex; align-items: center; gap: 16px; justify-content: center; margin-top: 60px; }
+
+  /* ── Scripture band ── */
+  .scripture {
+    height: 598px; position: relative;
+    background: url(project/assets/about-scripture.jpg) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .scripture .ref {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px;
+  }
+  .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px;
+    line-height: 84px; color: #fff;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: url(project/assets/footer-bg.png) center / cover no-repeat, var(--crm-black);
+    padding: 50px 75px 0; position: relative; color: #fff;
+  }
+  .footer-top { display: flex; padding: 48px 0; }
+  .footer-col-1 { width: 410px; display: flex; align-items: center; justify-content: center; }
+  .footer-direction { text-align: center; }
+  .footer-direction .loc {
+    width: 139px; height: 139px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center; margin: 0 auto;
+  }
+  .footer-direction .loc svg { width: 60px; height: 60px; color: #fff; }
+  .footer-direction .label { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 16px; }
+  .footer-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 60px; }
+  .footer-col-2 { width: 440px; }
+  .footer-col-2 h3 { font-family: var(--crm-font-sans); font-weight: 400; font-size: 24px; line-height: 34px; }
+  .footer-col-2 .hope { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 6px; }
+  .footer-col-2 .addr { font-family: var(--crm-font-sans); font-size: 18px; line-height: 30px; opacity: 0.8; margin-top: 32px; max-width: 369px; }
+  .footer-contact { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .footer-contact svg { width: 22px; height: 22px; color: #fff; }
+  .footer-contact span { font-family: var(--crm-font-sans); font-size: 20px; }
+  .footer-col-3 { flex: 1; }
+  .footer-col-3 h4 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 20px; margin-bottom: 32px; }
+  .flag-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 28px 8px; justify-content: start; font-size: 50px; line-height: 1; }
+
+  .footer-mid { display: flex; align-items: flex-start; padding: 48px 0 64px; gap: 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .fm-brand { width: 483px; }
+  .fm-brand .logo-row { display: flex; align-items: center; gap: 22px; }
+  .fm-brand .logo-row img { width: 93px; height: 93px; border-radius: 50%; }
+  .fm-brand .logo-row span { font-family: var(--crm-font-sans); font-size: 24px; line-height: 34px; width: 249px; }
+  .fm-brand .social { display: flex; gap: 16px; margin-top: 32px; }
+  .fm-brand .social a {
+    width: 36px; height: 36px; border-radius: 10px; background: #fff;
+    display: flex; align-items: center; justify-content: center; transition: opacity 140ms ease;
+  }
+  .fm-brand .social a:hover { opacity: 0.85; }
+  .fm-brand .social svg { width: 18px; height: 18px; color: var(--crm-black); }
+  .fm-links { width: 198px; }
+  .fm-links h5 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; letter-spacing: 1.08px; margin-bottom: 56px; }
+  .fm-links a { display: block; font-family: var(--crm-font-sans); font-size: 16px; color: #fff; text-decoration: none; margin-bottom: 16px; opacity: 0.85; transition: opacity 140ms ease; }
+  .fm-links a:hover { opacity: 1; }
+  .fm-connect { flex: 1; }
+  .fm-connect h3 { font-family: var(--crm-font-sans); font-weight: 500; font-size: 38.7px; letter-spacing: -1px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding: 40px 0 48px; text-align: center; }
+  .footer-bottom span { font-family: var(--crm-font-sans); font-size: 16px; }
+
+  /* ════════ TWEAK: Headline voice ════════ */
+  .page[data-voice="modern"] .hero-card .headline .l1,
+  .page[data-voice="modern"] .hero-card .headline .l2,
+  .page[data-voice="modern"] .believe h2,
+  .page[data-voice="modern"] .programs h2,
+  .page[data-voice="modern"] .scripture h2 {
+    font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em;
+  }
+  .page[data-voice="editorial"] .hero-card .headline .l1,
+  .page[data-voice="editorial"] .hero-card .headline .l2,
+  .page[data-voice="editorial"] .believe h2,
+  .page[data-voice="editorial"] .programs h2,
+  .page[data-voice="editorial"] .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; letter-spacing: 0;
+  }
+
+  /* ════════ TWEAK: Atmosphere ════════ */
+  .page[data-air="compact"] .intro      { height: 420px; }
+  .page[data-air="compact"] .mission    { height: 1020px; }
+  .page[data-air="compact"] .programs   { padding-top: 110px; }
+  .page[data-air="airy"] .intro         { height: 660px; }
+  .page[data-air="airy"] .programs      { padding-top: 220px; }
+
+  #tweak-root { font-family: var(--crm-font-sans); }
+
+  /* ── Hover lifts & logo link ── */
+  .brand { text-decoration: none; color: inherit; }
+  .program-card, .giving-card, .pastor-card, .stream-card { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .program-card:hover, .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+  .pastor-card:hover, .stream-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.14); }
+  .ministry-tab { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .ministry-tab:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .ministry-tab a.arrow { transition: background 200ms ease; }
+  .ministry-tab:hover a.arrow { background: rgba(80,15,80,0.65); }
+</style>
+</head>
+<body style="font-size: 16px">
+<div id="scaler">
+  <div class="page" data-screen-label="About Us" data-voice="mixed" data-air="balanced">
+
+    <!-- NAV -->
+    <header class="nav">
+      <a href="Home.html" class="brand">
+        <img src="project/assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark">Rebuilder's Ministry</span>
+      </a>
+      <nav class="nav-rail">
+        <a href="Home.html">Home</a>
+        <a href="About.html" class="active">About Us</a>
+        <a href="Program.html">Programs</a>
+        <a href="Sermon.html">Sermon</a>
+        <a href="Giving.html">Giving</a>
+      </nav>
+      <button class="btn-cta">Reachout to us</button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <img src="project/assets/about-hero.png" alt="Christ the Rebuilder congregation" />
+        <div class="grad"></div>
+        <div class="headline">
+          <div class="l1" style="font-weight: 600">Welcome to</div>
+          <div class="l2">Christ The Rebuilder</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO STATEMENT -->
+    <section class="intro">
+      <p class="stmt">At CRM, we are <img class="chip-a" src="project/assets/intro-1.jpg" alt="" /> teaching and revealing Jesus Christ and His unending grace to all creatures, <img class="chip-b" src="project/assets/intro-2.jpg" alt="" /> we have a mandate to reveal the believer's identity and bringing unbelievers to their true identity in Christ Jesus. <img class="chip-c" src="project/assets/intro-3.jpg" alt="" /> Because he is still in the business of rebuilding lives</p>
+      <a href="Contact.html" class="pill-dark">Request Prayer</a>
+    </section>
+
+    <!-- MISSION / VISION -->
+    <section class="mission">
+      <img class="book" src="project/assets/open-book.png" alt="Open Bible outdoors" />
+      <div class="mv-block mission-block">
+        <span class="mv-script">Our mission</span>
+        <h2>We trust in the strength of God</h2>
+        <p>Our mission is to spread the love and power of God everywhere, just like the waters cover the sea. We want to fill the world with people like you who are passionate and ready to share this message. It's all about revival—igniting a generation and lighting them up for God!</p>
+      </div>
+      <div class="mv-block vision-block">
+        <span class="mv-script">Our vision</span>
+        <h2>We spread the gospel of Jesus</h2>
+        <p>Our vision is to illuminate the world with the message of Jesus Christ, sharing His love and teachings with every corner of the earth. We aim to inspire hearts and minds, fostering a community where faith flourishes and hope reigns. Through outreach, education, and compassionate service, we strive to spread the gospel, inviting all to experience the transformative power of His grace.</p>
+      </div>
+    </section>
+
+    <!-- WHAT WE BELIEVE -->
+    <section class="believe">
+      <span class="script">What we believe</span>
+      <h2>Our statement<br />of Faith</h2>
+      <div class="slider-arrows">
+        <button id="bPrev" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <button id="bNext" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+      <div class="believe-viewport">
+        <div class="believe-track" id="believeTrack"></div>
+      </div>
+    </section>
+
+    <!-- WE EVANGELIZE -->
+    <section class="evangelize">
+      <span>We Evangelize...</span>
+    </section>
+
+    <!-- HOW CRM EMERGED -->
+    <section class="mandate" style="padding: 100px 72px 200px; height: 1015px">
+      <div class="inner">
+        <img class="photo" src="project/assets/mandate-photo.jpg" alt="CRM congregation, 1997" />
+        <div class="copy">
+          <span class="script">The Mandate</span>
+          <h2>How C.RM Emerged...</h2>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section class="programs" style="height: 822px; padding: 120px 80px 0px">
+      <div class="eyebrow">Programs</div>
+      <h2>Join our Services</h2>
+      <p class="sub">Join us at hope sanctuary to experience God.</p>
+      <div class="program-cards">
+        <div class="program-card pc1">
+          <div class="time">7:30 am</div>
+          <div class="name">SUNDAY SERVICE</div>
+          <div class="day">Every Sunday</div>
+        </div>
+        <div class="program-card pc2">
+          <div class="time">8:00 am</div>
+          <div class="name">OPERATION PUSH</div>
+          <div class="day">Every Thursday</div>
+        </div>
+        <div class="program-card pc3">
+          <div class="time">10:00 pm</div>
+          <div class="name">MONTHLY VIGIL</div>
+          <div class="day">Every Third Friday</div>
+        </div>
+      </div>
+      <div class="center-row">
+        <a href="Program.html" class="pill-dark">View All Programs</a>
+        <a href="#" class="link-arrow">Watch Us Online
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- SCRIPTURE BAND -->
+    <section class="scripture">
+      <span class="ref">Matthew 19:26</span>
+      <h2>"With God all things<br />are possible"</h2>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-col-1">
+          <div class="footer-direction">
+            <div class="loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="label">Direction</div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-2">
+          <h3>Christ The Rebuilder's Ministry</h3>
+          <div class="hope">(Hope Sanctuary)</div>
+          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+234-708652527237</span>
+          </div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+            <span>Info@Rebuilder.com</span>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-3">
+          <h4>Other Branches In</h4>
+          <div class="flag-grid">
+            <span>🇺🇸</span><span>🇬🇧</span><span>🇩🇪</span>
+            <span>🇦🇹</span><span>🇭🇷</span><span>🇧🇭</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="fm-brand">
+          <div class="logo-row">
+            <img src="project/assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder's Ministry</span>
+          </div>
+          <div class="social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
+          </div>
+        </div>
+        <div class="fm-links">
+          <h5>Pages</h5>
+          <a href="Home.html">Home</a>
+          <a href="About.html">About Us</a>
+          <a href="Program.html">Programs</a>
+          <a href="Sermon.html">Sermon</a>
+          <a href="Giving.html">Giving</a>
+        </div>
+        <div class="fm-links">
+          <h5>Quick</h5>
+          <a href="Contact.html">Contact Us</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
+        </div>
+        <div class="fm-connect">
+          <h3>Stay Connected</h3>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 | CRM Church - All Right Reserved</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  // ── Believe card slider ──
+  (function () {
+    var CARDS = [
+      { icon: 'book', title: 'God' },
+      { icon: 'cross', title: 'Jesus' },
+      { icon: 'heart', title: 'The Holy Spirit' },
+      { icon: 'heart', title: 'Salvation' },
+      { icon: 'heart', title: 'Sanctification' },
+      { icon: 'heart', title: 'Second Coming' }
+    ];
+    var ICONS = {
+      book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+      cross: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2h-4v6H4v4h6v10h4V12h6V8h-6z"></path></svg>',
+      heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-10-9.1C.3 8.8 1.6 5 5 5c2.1 0 3.4 1.2 4.3 2.5C10.2 6.2 11.5 5 13.6 5 17 5 18.3 8.8 16.6 11.9 14.1 16.4 12 21 12 21z" transform="translate(-0.6 0)"></path></svg>'
+    };
+    var PARA = 'We believe in one true, living, and eternal God, the Creator of all things, who is holy, sovereign, and full of love and justice. He is all-powerful, all-knowing, and worthy of all worship. God exists eternally in three persons: Father, Son, and Holy Spirit';
+    var track = document.getElementById('believeTrack');
+    track.innerHTML = CARDS.map(function (c) {
+      return '<div class="bcard">'
+        + '<div class="icon">' + ICONS[c.icon] + '</div>'
+        + '<div class="body">'
+        + '<h3>' + c.title + '</h3>'
+        + '<p>' + PARA + '</p>'
+        + '<div class="verses"><span>John 3:16</span><span class="divider"></span><span>Thessalonians 2:13</span></div>'
+        + '</div></div>';
+    }).join('');
+
+    var idx = 0;
+    var STEP = 632 + 34;
+    var maxIdx = CARDS.length - 2;
+    var prev = document.getElementById('bPrev');
+    var next = document.getElementById('bNext');
+    function render() {
+      track.style.transform = 'translateX(' + (-idx * STEP) + 'px)';
+      prev.disabled = idx <= 0;
+      next.disabled = idx >= maxIdx;
+    }
+    prev.addEventListener('click', function () { if (idx > 0) { idx--; render(); } });
+    next.addEventListener('click', function () { if (idx < maxIdx) { idx++; render(); } });
+    render();
+  })();
+
+  function fitScale() {
+    var scaler = document.getElementById('scaler');
+    var page = scaler.querySelector('.page');
+    var vw = document.documentElement.clientWidth;
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('load', fitScale);
+  fitScale();
+  window.fitScale = fitScale;
+</script>
+
+<script>
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
+  });
+
+  (function() {
+    var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
+    var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    var SEL = 'h1,h2,h3,.script,.ref,.sermon-card,.program-card,.believe-col,.giving-card,.pastor-card,.stream-card,.ministry-tab,.contact-chip,.form-card,.ym-card,.ym-ministry-card,.ym-img-left,.ym-img-right,.pill-row,.center-row,.footer-direction,.footer-col-2,.footer-col-3';
+    window.addEventListener('load', function() {
+      var els = Array.from(document.querySelectorAll(SEL));
+      var vp = window.innerHeight;
+      els.forEach(function(el) { if (el.getBoundingClientRect().top > vp * 0.85) el.classList.add('scroll-pop'); });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var peers = Array.from(el.parentElement.children).filter(function(c){return c.classList.contains('scroll-pop');});
+          var idx = peers.indexOf(el);
+          setTimeout(function(){ el.classList.add('in'); }, Math.max(0, idx) * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el){ if (el.classList.contains('scroll-pop')) io.observe(el); });
+    });
+  })();
+</script>
+
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="project/tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = { "palette": ["#FDB52A","#500F50","#3A0B3A"], "voice": "modern", "air": "airy" };
+  const PALETTES = [
+    { value: ["#FDB52A","#500F50","#3A0B3A"], label: "Heritage" },
+    { value: ["#F76C5E","#3A1142","#280B2E"], label: "Coral & Plum" },
+    { value: ["#E8A317","#5C1A2E","#40121F"], label: "Saffron & Wine" },
+    { value: ["#F4B400","#1F3A5F","#142840"], label: "Sky & Slate" },
+  ];
+  function CRMTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const pal = t.palette || PALETTES[0].value;
+      root.style.setProperty('--crm-gold', pal[0]);
+      root.style.setProperty('--crm-purple', pal[1]);
+      root.style.setProperty('--crm-purple-deep', pal[2] || pal[1]);
+      const page = document.querySelector('.page');
+      if (page) { page.setAttribute('data-voice', t.voice); page.setAttribute('data-air', t.air); }
+      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
+    }, [t.palette, t.voice, t.air]);
+    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color mood" />
+        <div style={note}>Re-skins the gold signature and the purple seal across every section.</div>
+        <TweakColor label="Palette" value={t.palette} options={PALETTES.map(p => p.value)} onChange={(v) => setTweak('palette', v)} />
+        <TweakSection label="Headline voice" />
+        <div style={note}>Mixed keeps the designed Inter / Georgia split. Modern is all bold sans; Editorial is all serif.</div>
+        <TweakRadio label="Voice" value={t.voice} options={["modern","mixed","editorial"]} onChange={(v) => setTweak('voice', v)} />
+        <TweakSection label="Atmosphere" />
+        <div style={note}>How much room the page breathes — from urgent and dense to cathedral-quiet.</div>
+        <TweakRadio label="Spacing" value={t.air} options={["compact","balanced","airy"]} onChange={(v) => setTweak('air', v)} />
+      </TweaksPanel>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
+</script>
+</body>
+</html>

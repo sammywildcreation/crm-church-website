@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Church — Giving</title>
+<style>
+  @font-face{font-family:"Georgia";src:url("project/fonts/Georgia.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Geneva";src:url("project/fonts/Geneva.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+  :root{
+    --crm-purple:#500F50; --crm-purple-deep:#3A0B3A;
+    --crm-purple-tint:rgba(228,110,228,0.20); --crm-purple-soft:rgba(80,15,80,0.06);
+    --crm-gold:#FDB52A; --crm-gold-soft:#FFF0D2; --crm-red:#F50100;
+    --crm-black:#0A0A0A; --crm-ink:#282828; --crm-ink-2:#333333;
+    --crm-ink-3:#777777; --crm-ink-4:#9B9B9B; --crm-white:#FFFFFF;
+    --crm-bg:#F7F7F7; --crm-bg-alt:#F7FCFF; --crm-line:#EEEEEE; --crm-line-2:#D2D2D2;
+    --crm-surface-dark:#0A0A0A; --crm-surface-dark-2:#1F1F1F;
+    --crm-on-dark-1:#FFFFFF; --crm-on-dark-2:rgba(255,255,255,0.70); --crm-on-dark-3:rgba(255,255,255,0.30);
+    --crm-fg-1:var(--crm-black); --crm-fg-2:var(--crm-ink); --crm-fg-3:var(--crm-ink-3);
+    --crm-accent:var(--crm-purple); --crm-accent-warm:var(--crm-gold);
+    --crm-font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-display:"Inter","Helvetica Neue",Arial,sans-serif;
+    --crm-font-script:"Caveat","Lucida Handwriting",cursive;
+    --crm-font-serif:Georgia,"Times New Roman",serif;
+    --crm-font-ui:"DM Sans","Inter",sans-serif;
+    --crm-text-xs:12px; --crm-text-sm:14px; --crm-text-base:16px; --crm-text-md:18px;
+    --crm-text-lg:20px; --crm-text-xl:24px; --crm-text-2xl:30px; --crm-text-3xl:40px;
+    --crm-text-4xl:56px; --crm-text-5xl:72px; --crm-text-display:100px;
+    --crm-radius-xs:6px; --crm-radius-sm:8px; --crm-radius-md:12px; --crm-radius-lg:16px;
+    --crm-radius-xl:24px; --crm-radius-2xl:40px; --crm-radius-pill:1920px;
+    --crm-space-1:4px; --crm-space-2:8px; --crm-space-3:12px; --crm-space-4:16px;
+    --crm-space-5:20px; --crm-space-6:24px; --crm-space-8:32px; --crm-space-10:40px;
+    --crm-space-12:56px; --crm-space-16:80px; --crm-space-20:120px; --crm-space-24:150px;
+    --crm-shadow-sm:0 1px 2px rgba(0,0,0,0.04); --crm-shadow-md:0 8px 24px rgba(0,0,0,0.06);
+    --crm-shadow-lg:0 24px 60px rgba(0,0,0,0.10); --crm-shadow-poster:0 18px 40px rgba(0,0,0,0.18);
+    --crm-container:1280px; --crm-page-gutter:80px; --crm-nav-height:72px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #1a1a1a; }
+  body { font-family: var(--crm-font-sans); -webkit-font-smoothing: antialiased; }
+  img { display: block; }
+
+  #scaler { transform-origin: top center; }
+  .page { width: 1440px; background: #fff; margin: 0 auto; overflow: hidden; position: relative; }
+
+  /* ── Nav ── */
+  .nav {
+    position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
+  }
+  .brand { display: flex; align-items: center; gap: 7px; text-decoration: none; color: inherit; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; }
+  .brand .wordmark { font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px; line-height: 16px; color: var(--crm-ink-2); width: 78px; }
+  .nav-rail { display: flex; align-items: center; gap: 20px; background: rgba(155,155,155,0.10); border-radius: 8px; padding: 7px 4px; }
+  .nav-rail a { font-family: var(--crm-font-sans); font-size: 14px; line-height: 20px; color: var(--crm-ink-2); text-decoration: none; padding: 0 4px; transition: opacity 140ms ease; }
+  .nav-rail a:hover { opacity: 0.7; }
+  .nav-rail a.active { font-weight: 700; color: var(--crm-purple); background: rgba(228,110,228,0.20); border-radius: 6px; padding: 9px 8px; }
+  .btn-cta { background-color: var(--crm-purple); color: #fff; font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px; border: none; border-radius: 16px; padding: 11px 28px; cursor: pointer; transition: background-color 140ms ease; }
+  .btn-cta:hover { background-color: var(--crm-purple-deep); }
+
+  /* ── Hero ── */
+  .giving-hero {
+    height: 673px; position: relative; margin-top: 72px;
+    background: linear-gradient(0.805deg, rgb(20,20,20) 1.46%, rgba(20,20,20,0) 80%),
+                url(project/assets/giving-hero.jpg) 50% 8.657% / 100% 160% no-repeat;
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 80px;
+  }
+  .giving-hero h1 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 80px;
+    line-height: 1; letter-spacing: 0.03em; color: #fff;
+    text-align: center; max-width: 1283px; padding: 0 79px;
+  }
+
+  /* ── Ways to Give section ── */
+  .ways-section { padding: 80px 96px 0; }
+  .ways-heading { font-family: var(--crm-font-sans); font-weight: 700; font-size: 30px; line-height: 72px; color: var(--crm-ink); text-align: center; letter-spacing: 0.05em; }
+  .ways-sub { font-family: var(--crm-font-sans); font-size: 15px; line-height: 24px; color: #656565; text-align: center; margin-top: 0; margin-bottom: 52px; }
+
+  /* ── Bank card grid ── */
+  .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px; }
+  .bank-col-title { font-family: var(--crm-font-sans); font-weight: 500; font-size: 28px; line-height: 36px; color: var(--crm-ink); margin-bottom: 24px; }
+
+  /* ── Bank card ── */
+  .bank-card { border-radius: 12px; padding: 24px; position: relative; }
+  .bank-card.cream  { background: #FFEDE6; }
+  .bank-card.mint   { background: #E6FFF8; }
+  .bank-card.pink   { background: #FFF0F1; }
+  .bank-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .bank-card-header img { width: 64px; height: 64px; border-radius: 6px; object-fit: cover; flex: none; }
+  .bank-card-header .bank-name { font-family: var(--crm-font-sans); font-weight: 400; font-size: 34px; line-height: 40px; color: var(--crm-ink); }
+  .bank-card-header .bank-name strong { font-weight: 700; }
+
+  /* ── Account inner ── */
+  .account-inner { background: #fff; border-radius: 8px; padding: 24px; }
+  .acct-label { font-family: var(--crm-font-sans); font-weight: 400; font-size: 15px; line-height: 24px; color: #656565; }
+  .acct-num-row { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; }
+  .acct-num { font-family: var(--crm-font-sans); font-weight: 400; font-size: 43px; line-height: 48px; color: #000; }
+  .acct-num.sm { font-size: 30px; }
+  .copy-btn {
+    background: none; border: none; padding: 0; cursor: pointer;
+    color: #AAAAAA; display: flex; align-items: center; flex: none;
+    transition: color 120ms ease;
+  }
+  .copy-btn:hover { color: var(--crm-purple); }
+  .copy-btn svg { width: 20px; height: 20px; display: block; }
+  .acct-holder { font-family: var(--crm-font-sans); font-weight: 400; font-size: 15px; line-height: 24px; color: #656565; margin-top: 4px; }
+
+  /* ── Multi-account grid (Globus) ── */
+  .multi-acct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 28px; }
+  .swift-info { font-family: var(--crm-font-sans); font-weight: 400; font-size: 15px; line-height: 24px; color: #656565; margin-top: 24px; grid-column: 1 / -1; }
+  .swift-info strong { font-weight: 600; color: var(--crm-ink); }
+
+  /* ── Welfare Support ── */
+  .welfare-section { padding: 80px 96px 0; }
+  .welfare-heading { font-family: var(--crm-font-sans); font-weight: 700; font-size: 30px; line-height: 72px; color: var(--crm-ink); }
+  .welfare-body { font-family: var(--crm-font-sans); font-weight: 400; font-size: 18px; line-height: 30px; color: #606060; margin-bottom: 48px; max-width: 1248px; }
+  .welfare-card-wrap { max-width: 612px; padding-bottom: 96px; }
+
+  /* ── Scripture band ── */
+  .scripture {
+    height: 598px; position: relative;
+    background: url(project/assets/about-scripture.jpg) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .scripture .ref { font-family: var(--crm-font-script); font-weight: 700; font-size: 48px; color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px; }
+  .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px; line-height: 84px; color: #fff; }
+
+  /* ── Footer ── */
+  .footer { background: url(project/assets/footer-bg.png) center / cover no-repeat, var(--crm-black); padding: 50px 75px 0; color: #fff; }
+  .footer-top { display: flex; padding: 48px 0; }
+  .footer-col-1 { width: 410px; display: flex; align-items: center; justify-content: center; }
+  .footer-direction { text-align: center; }
+  .footer-direction .loc { width: 139px; height: 139px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+  .footer-direction .loc svg { width: 60px; height: 60px; color: #fff; }
+  .footer-direction .label { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 16px; }
+  .footer-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 60px; }
+  .footer-col-2 { width: 440px; }
+  .footer-col-2 h3 { font-family: var(--crm-font-sans); font-weight: 400; font-size: 24px; line-height: 34px; }
+  .footer-col-2 .hope { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 6px; }
+  .footer-col-2 .addr { font-family: var(--crm-font-sans); font-size: 18px; line-height: 30px; opacity: 0.8; margin-top: 32px; max-width: 369px; }
+  .footer-contact { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .footer-contact svg { width: 22px; height: 22px; color: #fff; }
+  .footer-contact span { font-family: var(--crm-font-sans); font-size: 20px; }
+  .footer-col-3 { flex: 1; }
+  .footer-col-3 h4 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 20px; margin-bottom: 32px; }
+  .flag-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 28px 8px; justify-content: start; font-size: 50px; line-height: 1; }
+  .footer-mid { display: flex; align-items: flex-start; padding: 48px 0 64px; border-top: 1px solid rgba(255,255,255,0.12); }
+  .fm-brand { width: 483px; }
+  .fm-brand .logo-row { display: flex; align-items: center; gap: 22px; }
+  .fm-brand .logo-row img { width: 93px; height: 93px; border-radius: 50%; }
+  .fm-brand .logo-row span { font-family: var(--crm-font-sans); font-size: 24px; line-height: 34px; width: 249px; }
+  .fm-brand .social { display: flex; gap: 16px; margin-top: 32px; }
+  .fm-brand .social a { width: 36px; height: 36px; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; transition: opacity 140ms ease; }
+  .fm-brand .social a:hover { opacity: 0.85; }
+  .fm-brand .social svg { width: 18px; height: 18px; color: var(--crm-black); }
+  .fm-links { width: 198px; }
+  .fm-links h5 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; letter-spacing: 1.08px; margin-bottom: 56px; }
+  .fm-links a { display: block; font-family: var(--crm-font-sans); font-size: 16px; color: #fff; text-decoration: none; margin-bottom: 16px; opacity: 0.85; transition: opacity 140ms ease; }
+  .fm-links a:hover { opacity: 1; }
+  .fm-connect { flex: 1; }
+  .fm-connect h3 { font-family: var(--crm-font-sans); font-weight: 500; font-size: 38.7px; letter-spacing: -1px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding: 40px 0 48px; text-align: center; }
+  .footer-bottom span { font-family: var(--crm-font-sans); font-size: 16px; }
+
+  /* ── Copy toast ── */
+  .copy-toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(12px);
+    background: var(--crm-ink); color: #fff;
+    font-family: var(--crm-font-sans); font-size: 14px; font-weight: 500;
+    padding: 10px 20px; border-radius: 8px; pointer-events: none;
+    opacity: 0; transition: opacity 160ms ease, transform 160ms ease; z-index: 9999;
+  }
+  .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── TWEAK: voice ── */
+  .page[data-voice="modern"] .scripture h2 { font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em; }
+  .page[data-voice="editorial"] .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; }
+
+  #tweak-root { font-family: var(--crm-font-sans); }
+
+  .giving-card { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+</style>
+</head>
+<body style="font-size: 16px">
+<div id="scaler">
+  <div class="page" data-screen-label="Giving" data-voice="editorial">
+
+    <!-- NAV -->
+    <header class="nav">
+      <a href="Home.html" class="brand">
+        <img src="project/assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark">Rebuilder's Ministry</span>
+      </a>
+      <nav class="nav-rail">
+        <a href="Home.html">Home</a>
+        <a href="About.html">About Us</a>
+        <a href="Program.html">Programs</a>
+        <a href="Sermon.html">Sermon</a>
+        <a href="Giving.html" class="active">Giving</a>
+      </nav>
+      <button class="btn-cta">Reachout to us</button>
+    </header>
+
+    <!-- HERO -->
+    <section class="giving-hero">
+      <h1>We see giving as a meaningful expression of gratitude.</h1>
+    </section>
+
+    <!-- WAYS TO GIVE -->
+    <section class="ways-section">
+      <div class="ways-heading">WAYS TO GIVE</div>
+      <div class="ways-sub">Please make sure a clear description are written on transfer narration</div>
+
+      <!-- Row 1: Tithe & Offering + General Giving (GTBank) -->
+      <div class="bank-grid">
+        <div>
+          <div class="bank-col-title">Tithe &amp; Offering</div>
+          <div class="bank-card cream">
+            <div class="bank-card-header">
+              <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+              <span class="bank-name">Guaranty Trust Bank</span>
+            </div>
+            <div class="account-inner">
+              <div class="acct-label">Naira Account</div>
+              <div class="acct-num-row">
+                <span class="acct-num">0130464351</span>
+                <button class="copy-btn" data-copy="0130464351" aria-label="Copy account number">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <div class="acct-holder">Christ The Rebuilder's Ministry</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="bank-col-title">General Giving</div>
+          <div class="bank-card cream">
+            <div class="bank-card-header">
+              <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+              <span class="bank-name">Guaranty Trust Bank</span>
+            </div>
+            <div class="account-inner">
+              <div class="acct-label">Naira Account</div>
+              <div class="acct-num-row">
+                <span class="acct-num">0130464351</span>
+                <button class="copy-btn" data-copy="0130464351" aria-label="Copy account number">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <div class="acct-holder">Christ The Rebuilder's Ministry</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Church Fuelling (Opay) + General Giving (Globus) -->
+      <div class="bank-grid" style="align-items: start;">
+        <div>
+          <div class="bank-col-title">Church Fuelling</div>
+          <div class="bank-card mint">
+            <div class="bank-card-header">
+              <img src="project/assets/giving-opay.png" alt="Opay" style="border-radius:50%;"/>
+              <span class="bank-name">Opay</span>
+            </div>
+            <div class="account-inner">
+              <div class="acct-label">Naira Account</div>
+              <div class="acct-num-row">
+                <span class="acct-num">7034399482</span>
+                <button class="copy-btn" data-copy="7034399482" aria-label="Copy account number">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <div class="acct-holder">Kayode Kolade Bello</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="bank-col-title">General Giving</div>
+          <div class="bank-card pink">
+            <div class="bank-card-header">
+              <img src="project/assets/giving-globus.png" alt="Globus Bank" style="border-radius:10px;" />
+              <span class="bank-name">Globus bank for <strong>Currencies</strong></span>
+            </div>
+            <div class="account-inner">
+              <div class="multi-acct-grid">
+                <div>
+                  <div class="acct-label">USD Account</div>
+                  <div class="acct-num-row">
+                    <span class="acct-num sm">5000103935</span>
+                    <button class="copy-btn" data-copy="5000103935" aria-label="Copy USD account">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <div class="acct-label">Euro Account</div>
+                  <div class="acct-num-row">
+                    <span class="acct-num sm">6000017116</span>
+                    <button class="copy-btn" data-copy="6000017116" aria-label="Copy Euro account">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <div class="acct-label">Pounds Account</div>
+                  <div class="acct-num-row">
+                    <span class="acct-num sm">7000019478</span>
+                    <button class="copy-btn" data-copy="7000019478" aria-label="Copy Pounds account">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <div class="acct-label">Naira Account</div>
+                  <div class="acct-num-row">
+                    <span class="acct-num sm">005608874</span>
+                    <button class="copy-btn" data-copy="005608874" aria-label="Copy Naira account">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="swift-info" style="line-height: 1.6; font-weight: 500">
+                  <span style="color:#3e3b3b">Bank SWIFT Code:</span> <strong>GLOUNGLA</strong><br />
+                  Bank Name: <strong>GLOBUS BANK LIMITED</strong><br />
+                  Branch Address: <span style="color:#373737">28/32, Ilupeju Industrial Avenue, Ilupeju, Lagos State, Nigeria</span><br />
+                  Branch Sort Code: <strong>103150103</strong><br />
+                  Branch Code: <strong>010</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WELFARE SUPPORT -->
+    <section class="welfare-section">
+      <div class="welfare-heading">WELFARE SUPPORT</div>
+      <div class="welfare-body">Welfare initiatives have made a significant impact on the lives of widows by providing them with market women grinding machines for business, food supplies and also providing an intensive medical checkups for them. Additionally, scholarships have been awarded to students, helping them pursue their education. This support not only meets immediate needs but also empowers families for a brighter future.</div>
+      <div class="welfare-card-wrap">
+        <div class="bank-card cream">
+          <div class="bank-card-header">
+            <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+            <span class="bank-name">Guaranty Trust Bank</span>
+          </div>
+          <div class="account-inner">
+            <div class="acct-label">Naira Account</div>
+            <div class="acct-num-row">
+              <span class="acct-num">0130464351</span>
+              <button class="copy-btn" data-copy="0130464351" aria-label="Copy account number">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+            <div class="acct-holder">Christ The Rebuilder's Ministry</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRIPTURE BAND -->
+    <section class="scripture">
+      <span class="ref">Matthew 19:26</span>
+      <h2>"With God all things<br />are possible"</h2>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-col-1">
+          <div class="footer-direction">
+            <div class="loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="label">Direction</div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-2">
+          <h3>Christ The Rebuilder's Ministry</h3>
+          <div class="hope">(Hope Sanctuary)</div>
+          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+234-708652527237</span>
+          </div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+            <span>Info@Rebuilder.com</span>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-3">
+          <h4>Other Branches In</h4>
+          <div class="flag-grid">
+            <span>🇺🇸</span><span>🇬🇧</span><span>🇩🇪</span>
+            <span>🇦🇹</span><span>🇭🇷</span><span>🇧🇭</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="fm-brand">
+          <div class="logo-row">
+            <img src="project/assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder's Ministry</span>
+          </div>
+          <div class="social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
+          </div>
+        </div>
+        <div class="fm-links">
+          <h5>Pages</h5>
+          <a href="Home.html">Home</a>
+          <a href="About.html">About Us</a>
+          <a href="Program.html">Programs</a>
+          <a href="Sermon.html">Sermon</a>
+          <a href="Giving.html">Giving</a>
+        </div>
+        <div class="fm-links">
+          <h5>Quick</h5>
+          <a href="Contact.html">Contact Us</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
+        </div>
+        <div class="fm-connect">
+          <h3>Stay Connected</h3>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 | CRM Church - All Right Reserved</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copyToast">Copied!</div>
+
+<script>
+  (function () {
+    var toast = document.getElementById('copyToast');
+    var toastTimer;
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+      var text = btn.getAttribute('data-copy');
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(function () {
+        clearTimeout(toastTimer);
+        toast.classList.add('show');
+        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+      }).catch(function () {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        clearTimeout(toastTimer);
+        toast.classList.add('show');
+        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+      });
+    });
+  })();
+
+  function fitScale() {
+    var scaler = document.getElementById('scaler');
+    var page = scaler.querySelector('.page');
+    var vw = document.documentElement.clientWidth;
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('load', fitScale);
+  fitScale();
+  window.fitScale = fitScale;
+</script>
+
+<!-- ════════ TWEAKS ════════ -->
+<script>
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
+  });
+
+  (function() {
+    var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
+    var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    var SEL = 'h1,h2,h3,.script,.ref,.sermon-card,.program-card,.believe-col,.giving-card,.pastor-card,.stream-card,.ministry-tab,.contact-chip,.form-card,.ym-card,.ym-ministry-card,.ym-img-left,.ym-img-right,.pill-row,.center-row,.footer-direction,.footer-col-2,.footer-col-3';
+    window.addEventListener('load', function() {
+      var els = Array.from(document.querySelectorAll(SEL));
+      var vp = window.innerHeight;
+      els.forEach(function(el) { if (el.getBoundingClientRect().top > vp * 0.85) el.classList.add('scroll-pop'); });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var peers = Array.from(el.parentElement.children).filter(function(c){return c.classList.contains('scroll-pop');});
+          var idx = peers.indexOf(el);
+          setTimeout(function(){ el.classList.add('in'); }, Math.max(0, idx) * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el){ if (el.classList.contains('scroll-pop')) io.observe(el); });
+    });
+  })();
+</script>
+
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="project/tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": [
+      "#FDB52A",
+      "#500F50",
+      "#3A0B3A"
+    ],
+    "voice": "editorial"
+  }/*EDITMODE-END*/;
+
+  const PALETTES = [
+    { value: ["#FDB52A","#500F50","#3A0B3A"], label: "Heritage" },
+    { value: ["#F76C5E","#3A1142","#280B2E"], label: "Coral & Plum" },
+    { value: ["#E8A317","#5C1A2E","#40121F"], label: "Saffron & Wine" },
+    { value: ["#F4B400","#1F3A5F","#142840"], label: "Sky & Slate" },
+  ];
+
+  function CRMTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const pal = t.palette || PALETTES[0].value;
+      root.style.setProperty('--crm-gold',        pal[0]);
+      root.style.setProperty('--crm-purple',       pal[1]);
+      root.style.setProperty('--crm-purple-deep',  pal[2] || pal[1]);
+      const page = document.querySelector('.page');
+      if (page) page.setAttribute('data-voice', t.voice);
+      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
+    }, [t.palette, t.voice]);
+
+    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color mood" />
+        <div style={note}>Re-skins gold + purple across every section.</div>
+        <TweakColor label="Palette" value={t.palette}
+          options={PALETTES.map(p => p.value)}
+          onChange={v => setTweak('palette', v)} />
+        <TweakSection label="Headline voice" />
+        <div style={note}>Editorial uses Georgia for the scripture quote; Modern uses bold Inter.</div>
+        <TweakRadio label="Voice" value={t.voice}
+          options={["modern","mixed","editorial"]}
+          onChange={v => setTweak('voice', v)} />
+      </TweaksPanel>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
+</script>
+</body>
+</html>
