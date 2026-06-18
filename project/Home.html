@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Church — Home</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #1a1a1a; }
+  body {
+    font-family: var(--crm-font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; }
+
+  /* ── Fixed 1440 design, scaled to fit viewport width ── */
+  #scaler { transform-origin: top center; }
+  .page {
+    width: 1440px;
+    background: var(--crm-bg);
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .container { width: 1280px; margin: 0 auto; }
+
+  /* ── Nav ── */
+  .nav {
+    position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 80px;
+    background: rgba(255,255,255,0.02);
+  }
+  .brand { display: flex; align-items: center; gap: 7px; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; }
+  .brand .wordmark {
+    font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px;
+    line-height: 16px; color: var(--crm-ink-2); width: 78px;
+  }
+  .nav-rail {
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(155,155,155,0.10);
+    border-radius: 8px; padding: 7px 4px;
+  }
+  .nav-rail a {
+    font-family: var(--crm-font-sans); font-size: 14px; line-height: 20px;
+    color: var(--crm-ink-2); text-decoration: none; padding: 0 4px;
+    transition: opacity 140ms ease;
+  }
+  .nav-rail a:hover { opacity: 0.7; }
+  .nav-rail a.active {
+    font-weight: 700; color: var(--crm-purple);
+    background: rgba(228,110,228,0.20);
+    border-radius: 6px; padding: 9px 8px;
+  }
+  .btn-cta {
+    background-color: var(--crm-purple); color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    border: none; border-radius: 16px; padding: 11px 28px; cursor: pointer;
+    transition: background-color 140ms ease;
+  }
+  .btn-cta:hover { background-color: var(--crm-purple-deep); }
+
+  /* ── Hero ── */
+  .hero {
+    height: 844px;
+    background: url(assets/hero-collage.png) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding-top: 222px;
+  }
+  .hero .script {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
+    color: var(--crm-gold); transform: rotate(-3deg); line-height: 1;
+  }
+  .hero h1 {
+    font-family: var(--crm-font-sans); font-weight: 800; font-size: 100px;
+    line-height: 1.0; color: #000; margin-top: 28px; letter-spacing: -0.01em;
+  }
+  .hero .sub {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 30px;
+    color: var(--crm-ink); margin-top: 42px;
+  }
+
+  /* ── Congregation band ── */
+  .band-photo {
+    height: 780px; margin-top: -22px;
+    border-radius: 32px 32px 0 0; overflow: hidden;
+    background: url(assets/hero-band-combined.jpg) center / cover no-repeat;
+    position: relative; z-index: 2;
+  }
+
+  /* ── Intro statement ── */
+  .intro {
+    background: url(assets/paper-texture.png) center / cover no-repeat, #fff;
+    padding: 106px 208px; text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .intro p {
+    font-family: var(--crm-font-serif); font-weight: 400; font-size: 39.7px;
+    line-height: 65px; letter-spacing: -0.52px; color: var(--crm-ink);
+    max-width: 1024px;
+  }
+  .pill-row { display: flex; align-items: center; gap: 16px; margin-top: 30px; }
+  .pill-dark {
+    background: var(--crm-ink); color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    border-radius: 1920px; padding: 9px 32px; text-decoration: none;
+    transition: opacity 140ms ease;
+  }
+  .pill-dark:hover { opacity: 0.85; }
+  .link-arrow {
+    display: flex; align-items: center; gap: 4px;
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 16px;
+    color: var(--crm-ink); text-decoration: none;
+  }
+  .link-arrow svg { width: 16px; height: 16px; }
+  .link-arrow.on-light { color: var(--crm-ink); }
+
+  /* ── What we believe (dark) ── */
+  .believe {
+    background: var(--crm-black); color: #fff;
+    border-radius: 0 0 32px 32px;
+    padding: 120px 80px 130px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .believe .script { font-family: var(--crm-font-script); font-weight: 700; font-size: 48px; color: var(--crm-gold); transform: rotate(-4deg); }
+  .believe h2 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 56px;
+    line-height: 1.16; margin-top: 28px; max-width: 760px;
+  }
+  .believe .lede {
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 16px;
+    line-height: 1.7; color: var(--crm-on-dark-2); max-width: 740px; margin-top: 26px;
+  }
+  .believe-photos {
+    display: flex; gap: 28px; align-items: center; justify-content: center;
+    margin-top: 64px;
+  }
+  .believe-photos {
+    position: relative; width: 1268px; height: 618px; margin: 77px auto 0;
+  }
+  .believe-photos img { position: absolute; display: block; width: 404px; height: auto; }
+  .believe-photos .bc1 { left: 0;     top: 90px; }
+  .believe-photos .bc2 { left: 432px; top: 0; }
+  .believe-photos .bc3 { left: 864px; top: 90px; }
+
+  /* ── Sermon block ── */
+  .sermon-wrap {
+    background: url(assets/paper-texture.png) center / cover no-repeat,
+                linear-gradient(#FFA32F 0%, #E6E6E6 80%);
+    padding: 230px 80px; position: relative;
+  }
+  .sermon-card {
+    width: 1280px; height: 650px; border-radius: 40px; overflow: hidden;
+    background:
+      linear-gradient(90deg, rgba(8,6,12,0.90) 0%, rgba(8,6,12,0.70) 30%, rgba(8,6,12,0.42) 60%, rgba(8,6,12,0.40) 100%),
+      url(assets/sermon-bg.png) center / cover no-repeat;
+    position: relative;
+  }
+  .sermon-card .inner { position: absolute; left: 80px; top: 89px; width: 600px; }
+  .sermon-card .eyebrow {
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 24px;
+    letter-spacing: 2px; color: #fff;
+  }
+  .sermon-card h2 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 56px;
+    line-height: 67px; color: #fff; margin-top: 14px;
+  }
+  .player {
+    width: 600px; height: 152px; background: var(--crm-surface-dark-2);
+    border-radius: 12px; margin-top: 25px;
+    display: flex; align-items: center; gap: 29px; padding: 0 28px;
+  }
+  .player .logo { width: 93px; height: 93px; border-radius: 50%; flex: none; }
+  .player .meta { flex: 1; }
+  .player .title { font-family: var(--crm-font-ui); font-weight: 700; font-size: 16px; color: #fff; }
+  .player .submeta {
+    display: flex; align-items: center; gap: 8px; margin-top: 8px;
+    font-family: var(--crm-font-ui); font-size: 14px; color: rgb(179,179,179);
+  }
+  .player .submeta .dot { font-weight: 700; }
+  .player .controls { display: flex; align-items: center; gap: 17px; margin-top: 18px; }
+  .player .controls .track { display: flex; align-items: center; gap: 7px; flex: 1; }
+  .player .controls .bar { height: 4px; flex: 1; border-radius: 2px; background: rgba(255,255,255,0.3); }
+  .player .controls .bar > span { display: block; height: 100%; width: 32%; border-radius: 2px; background: #fff; }
+  .player .controls svg { color: rgba(255,255,255,0.9); }
+  .player .time { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; color: #fff; opacity: .7; }
+  .player .play { width: 32px; height: 32px; color: #fff; flex: none; cursor: pointer; }
+  .player .dl { width: 24px; height: 24px; color: #fff; flex: none; cursor: pointer; }
+  .pill-white {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #fff; color: #030303; border-radius: 1920px; padding: 9px 32px;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    text-decoration: none; margin-top: 34px; transition: opacity 140ms ease;
+  }
+  .pill-white:hover { opacity: 0.88; }
+
+  /* ── Programs ── */
+  .programs { background: #fff; padding: 168px 80px 150px; text-align: center; }
+  .programs .eyebrow {
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 15px;
+    letter-spacing: 2px; color: var(--crm-ink);
+  }
+  .programs h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 52px;
+    line-height: 72px; color: var(--crm-ink); margin-top: 4px;
+  }
+  .programs .sub { font-family: var(--crm-font-sans); font-size: 14.8px; color: var(--crm-ink); margin-top: 14px; }
+  .program-cards { display: flex; gap: 24px; justify-content: center; margin-top: 60px; }
+  .program-card {
+    width: 379px; height: 240px; border-radius: 12px; overflow: hidden;
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+    background: url(assets/program-1.jpg) center / cover no-repeat;
+    padding: 19px;
+  }
+  .program-card.pc1 { background-image: url(assets/program-1.jpg); }
+  .program-card.pc2 { background-image: url(assets/program-2.jpg); }
+  .program-card.pc3 { background-image: url(assets/program-3.jpg); }
+  .program-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);
+  }
+  .program-card > * { position: relative; z-index: 1; color: #fff; text-align: left; }
+  .program-card .time { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18.8px; }
+  .program-card .name { font-family: var(--crm-font-sans); font-weight: 700; font-size: 29px; line-height: 1.2; margin-top: 6px; }
+  .program-card .day { font-family: var(--crm-font-sans); font-size: 16px; margin-top: 7px; }
+  .center-row { display: flex; align-items: center; gap: 16px; justify-content: center; margin-top: 60px; }
+
+  /* ── Pastors (dark) ── */
+  .pastors { background: #000; height: 700px; position: relative; overflow: hidden; }
+  .pastors .portrait {
+    position: absolute; left: 114px; top: 26px; width: 575px; height: 648px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pastors .portrait img { width: 392px; height: 522px; border-radius: 10px; object-fit: cover; }
+  .pastors .copy { position: absolute; left: 753px; top: 111px; width: 553px; }
+  .pastors .copy h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 34px;
+    line-height: 51px; color: #fff; max-width: 492px;
+  }
+  .pastors .copy p {
+    font-family: var(--crm-font-sans); font-size: 16px; line-height: 36px;
+    color: #fff; margin-top: 26px;
+  }
+  .pastors .copy .script {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 34px;
+    color: var(--crm-gold); margin-top: 22px; display: inline-block; transform: rotate(-1deg);
+  }
+
+  /* ── Bello Kayode podcast band ── */
+  .podcast {
+    height: 469px; border-radius: 0 0 50px 50px; overflow: hidden;
+    background: url(assets/podcast-bg.jpg) center / cover no-repeat;
+    position: relative;
+  }
+  .podcast .script {
+    position: absolute; left: 165px; top: 123px;
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 26px;
+    color: var(--crm-gold); transform: rotate(-1deg);
+  }
+  .podcast .row { position: absolute; left: 165px; top: 145px; width: 1110px; display: flex; align-items: center; gap: 94px; }
+  .podcast .row .left { width: 585px; }
+  .podcast .row .left h2 {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 52px;
+    letter-spacing: -3px; color: #fff;
+  }
+  .podcast .row .left p {
+    font-family: var(--crm-font-sans); font-size: 14px; line-height: 25.6px;
+    color: #fff; margin-top: 20px; white-space: pre-line;
+  }
+  .podcast-card {
+    width: 431px; height: 152px; background: var(--crm-surface-dark-2);
+    border-radius: 12px; display: flex; align-items: center; gap: 27px; padding: 16px 12px;
+  }
+  .podcast-card .cover {
+    width: 120px; height: 120px; border-radius: 8px; object-fit: cover; flex: none;
+    box-shadow: 0 9px 9px rgba(0,0,0,0.1), 0 0 29px rgba(0,0,0,0.1);
+  }
+  .podcast-card .pc-title { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; color: #fff; }
+  .podcast-card .socials { display: flex; gap: 12px; margin-top: 14px; }
+  .podcast-card .socials svg { width: 18px; height: 18px; color: #fff; }
+  .podcast .btns { position: absolute; left: 455px; top: 350px; display: flex; gap: 24px; }
+  .btn-outline-white {
+    width: 254px; height: 59px; border: 1px solid #fff; border-radius: 16px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 25px 0 25px;
+    text-decoration: none;
+  }
+  .btn-outline-white span { font-family: var(--crm-font-ui); font-weight: 700; font-size: 16px; color: #fff; }
+  .btn-outline-white .chip {
+    width: 36px; height: 36px; border-radius: 10px; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-outline-white .chip svg { width: 18px; height: 18px; color: var(--crm-black); }
+
+  /* ── Our streams ── */
+  .streams { background: #fff; padding: 98px 86px 0; text-align: center; }
+  .streams .script {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); transform: rotate(-5deg); display: inline-block;
+  }
+  .streams h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 52px;
+    line-height: 1.0; color: var(--crm-ink); margin-top: 18px;
+  }
+  .stream-photos { display: flex; gap: 21px; margin-top: 57px; }
+  .stream-photos .sp { width: 623.7px; height: 490px; border-radius: 4px; overflow: hidden; }
+  .stream-photos .sp img { width: 100%; height: 100%; object-fit: cover; }
+  .streams .watch-btns { display: flex; gap: 28px; justify-content: center; margin-top: 57px; flex-wrap: nowrap; }
+  .btn-outline-dark {
+    width: 340px; height: 79px; border: 1px solid #000; border-radius: 21px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 39px;
+    text-decoration: none;
+  }
+  .btn-outline-dark span { font-family: var(--crm-font-ui); font-weight: 700; font-size: 20.4px; color: #000; }
+  .btn-outline-dark .chip {
+    width: 47px; height: 47px; border-radius: 13px; background: var(--crm-bg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-outline-dark .chip svg { width: 24px; height: 24px; }
+
+  /* ── Ministries ── */
+  .ministries { background: #fff; padding: 122px 123px 130px; }
+  .ministries .panel {
+    border-radius: 4px; padding: 32px;
+    background: linear-gradient(rgba(255,223,224,0.1) 48%, rgba(239,217,227,0.6) 100%), rgb(245,243,238);
+    position: relative; overflow: hidden;
+  }
+  .ministries .panel::before {
+    content: ""; position: absolute; inset: 0; opacity: 0.25; mix-blend-mode: difference;
+    background: url(assets/church-line-illustration.png) center / contain no-repeat;
+  }
+  .ministries .panel > * { position: relative; z-index: 1; }
+  .ministries .panel-title { font-family: var(--crm-font-sans); font-weight: 700; font-size: 30px; color: var(--crm-ink); }
+  .ministry-tab {
+    position: relative; display: flex; align-items: center;
+    padding: 24px 0; min-height: 96px;
+    border-bottom: 1px solid rgba(21,58,67,0.5);
+  }
+  .ministry-tab:first-of-type { margin-top: 56px; }
+  .ministry-tab .num { font-family: var(--crm-font-sans); font-weight: 700; font-size: 24px; color: var(--crm-ink-3); width: 58px; }
+  .ministry-tab .mtitle { font-family: var(--crm-font-sans); font-weight: 700; font-size: 40px; letter-spacing: -0.4px; color: var(--crm-ink); }
+  .ministry-tab .soon { margin-left: auto; font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; letter-spacing: -0.4px; color: var(--crm-ink-3); }
+  .ministry-tab .arrow {
+    margin-left: auto; width: 62px; height: 62px; border-radius: 14px;
+    background: rgba(10,10,10,0.35); display: flex; align-items: center; justify-content: center;
+  }
+  .ministry-tab .arrow svg { width: 26px; height: 26px; color: #fff; }
+
+  /* ── Scripture band ── */
+  .scripture {
+    height: 598px; position: relative;
+    background: url(assets/forest-quote.jpg) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .scripture .ref {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px;
+    margin-left: 120px;
+  }
+  .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px;
+    line-height: 84px; color: #fff;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: url(assets/footer-bg.png) center / cover no-repeat, var(--crm-black);
+    padding: 50px 75px 0; position: relative; color: #fff;
+  }
+  .footer-top { display: flex; padding: 48px 0; }
+  .footer-col-1 { width: 410px; display: flex; justify-content: center; }
+  .footer-direction { width: 139px; text-align: center; }
+  .footer-direction .loc {
+    width: 139px; height: 139px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center; margin: 0 auto;
+  }
+  .footer-direction .loc svg { width: 60px; height: 60px; color: #fff; }
+  .footer-direction .label { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 16px; }
+  .footer-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 60px; }
+  .footer-col-2 { width: 440px; }
+  .footer-col-2 h3 { font-family: var(--crm-font-sans); font-weight: 400; font-size: 24px; line-height: 34px; }
+  .footer-col-2 .hope { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 6px; }
+  .footer-col-2 .addr { font-family: var(--crm-font-sans); font-size: 18px; line-height: 30px; opacity: 0.8; margin-top: 32px; max-width: 369px; }
+  .footer-contact { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .footer-contact svg { width: 22px; height: 22px; color: #fff; }
+  .footer-contact span { font-family: var(--crm-font-sans); font-size: 20px; }
+  .footer-col-3 { flex: 1; }
+  .footer-col-3 h4 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 20px; margin-bottom: 32px; }
+  .flag-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 28px 8px; justify-content: start; font-size: 50px; line-height: 1; }
+
+  .footer-mid { display: flex; align-items: flex-start; padding: 48px 0 64px; gap: 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .fm-brand { width: 483px; }
+  .fm-brand .logo-row { display: flex; align-items: center; gap: 22px; }
+  .fm-brand .logo-row img { width: 93px; height: 93px; border-radius: 50%; }
+  .fm-brand .logo-row span { font-family: var(--crm-font-sans); font-size: 24px; line-height: 34px; width: 249px; }
+  .fm-brand .social { display: flex; gap: 16px; margin-top: 32px; }
+  .fm-brand .social a {
+    width: 36px; height: 36px; border-radius: 10px; background: #fff;
+    display: flex; align-items: center; justify-content: center; transition: opacity 140ms ease;
+  }
+  .fm-brand .social a:hover { opacity: 0.85; }
+  .fm-brand .social svg { width: 18px; height: 18px; color: var(--crm-black); }
+  .fm-links { width: 198px; }
+  .fm-links h5 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; letter-spacing: 1.08px; margin-bottom: 56px; }
+  .fm-links a { display: block; font-family: var(--crm-font-sans); font-size: 16px; color: #fff; text-decoration: none; margin-bottom: 16px; opacity: 0.85; transition: opacity 140ms ease; }
+  .fm-links a:hover { opacity: 1; }
+  .fm-connect { flex: 1; }
+  .fm-connect h3 { font-family: var(--crm-font-sans); font-weight: 500; font-size: 38.7px; letter-spacing: -1px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding: 40px 0 48px; text-align: center; }
+  .footer-bottom span { font-family: var(--crm-font-sans); font-size: 16px; }
+
+  /* ════════ TWEAK: Headline voice ════════
+     Default (mixed) keeps the designed Inter-display / Georgia-editorial split.
+     Modern → everything in the bold Inter display voice.
+     Editorial → everything in the Georgia scripture voice. */
+  .page[data-voice="modern"] .hero h1,
+  .page[data-voice="modern"] .believe h2,
+  .page[data-voice="modern"] .programs h2,
+  .page[data-voice="modern"] .pastors h2,
+  .page[data-voice="modern"] .streams h2,
+  .page[data-voice="modern"] .scripture h2 {
+    font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em;
+  }
+  .page[data-voice="editorial"] .hero h1,
+  .page[data-voice="editorial"] .believe h2,
+  .page[data-voice="editorial"] .programs h2,
+  .page[data-voice="editorial"] .pastors h2,
+  .page[data-voice="editorial"] .streams h2,
+  .page[data-voice="editorial"] .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; letter-spacing: 0;
+  }
+
+  /* ════════ TWEAK: Atmosphere (vertical rhythm) ════════
+     Compact = urgent, dense.  Airy = the cathedral-quiet, generous original-plus. */
+  .page[data-air="compact"] .intro       { padding-top: 64px;  padding-bottom: 64px; }
+  .page[data-air="compact"] .believe     { padding-top: 80px;  padding-bottom: 88px; }
+  .page[data-air="compact"] .programs    { padding-top: 110px; padding-bottom: 100px; }
+  .page[data-air="compact"] .streams     { padding-top: 64px; }
+  .page[data-air="compact"] .ministries  { padding-top: 80px;  padding-bottom: 90px; }
+  .page[data-air="compact"] .believe-photos,
+  .page[data-air="compact"] .program-cards,
+  .page[data-air="compact"] .stream-photos { margin-top: 40px; }
+
+  .page[data-air="airy"] .intro       { padding-top: 150px; padding-bottom: 150px; }
+  .page[data-air="airy"] .believe     { padding-top: 170px; padding-bottom: 180px; }
+  .page[data-air="airy"] .programs    { padding-top: 220px; padding-bottom: 200px; }
+  .page[data-air="airy"] .streams     { padding-top: 140px; }
+  .page[data-air="airy"] .ministries  { padding-top: 170px; padding-bottom: 170px; }
+  .page[data-air="airy"] .believe-photos,
+  .page[data-air="airy"] .program-cards,
+  .page[data-air="airy"] .stream-photos { margin-top: 90px; }
+
+  /* keep the tweak panel crisp & unscaled */
+  #tweak-root { font-family: var(--crm-font-sans); }
+
+  /* ── Hover lifts & logo link ── */
+  .brand { text-decoration: none; color: inherit; }
+  .program-card, .giving-card, .pastor-card, .stream-card { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .program-card:hover, .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+  .pastor-card:hover, .stream-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.14); }
+  .ministry-tab { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .ministry-tab:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .ministry-tab a.arrow { transition: background 200ms ease; }
+  .ministry-tab:hover a.arrow { background: rgba(80,15,80,0.65); }
+</style>
+</head>
+<body style="font-size: 16px">
+<template id="__bundler_thumbnail" data-bg-color="#500F50">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#500F50"/>
+    <circle cx="600" cy="330" r="150" fill="none" stroke="#FDB52A" stroke-width="14"/>
+    <path d="M600 235 L600 425 M520 330 L680 330" stroke="#FDB52A" stroke-width="14" stroke-linecap="round"/>
+    <text x="600" y="600" font-family="Georgia, serif" font-size="90" font-weight="700" fill="#ffffff" text-anchor="middle">CRM</text>
+  </svg>
+</template>
+<div id="scaler">
+  <div class="page" data-screen-label="Home" data-voice="mixed" data-air="balanced">
+
+    <!-- NAV -->
+    <header class="nav">
+      <a href="Home.html" class="brand">
+        <img src="assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark">Rebuilder’s Ministry</span>
+      </a>
+      <nav class="nav-rail">
+        <a href="Home.html" class="active">Home</a>
+        <a href="About.html">About Us</a>
+        <a href="Program.html">Programs</a>
+        <a href="Sermon.html">Sermon</a>
+        <a href="Giving.html">Giving</a>
+      </nav>
+      <button class="btn-cta">Reachout to us</button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <span class="script">Welcome to our Church</span>
+      <h1>A Place Where<br />Destinies are Rebuild</h1>
+      <p class="sub">Restoring Hope, Rebuilding Destiny...</p>
+    </section>
+
+    <!-- CONGREGATION BAND -->
+    <section class="band-photo" style="height: 780px; margin: -90px 0px 0px; width: 1440px; background-position: center center; background-size: cover; position: relative; z-index: 2; border-radius: 32px 32px 0 0"></section>
+
+    <!-- INTRO STATEMENT -->
+    <section class="intro">
+      <p>At Christ the Rebuilder’s Ministry, we’re all about lifting up Jesus and growing together. Our goal is to see Him and ourselves through His eyes. He’s the one who builds our lives, and that’s pretty awesome!</p>
+      <div class="pill-row">
+        <a href="About.html" class="pill-dark">About Us</a>
+        <a href="#" class="link-arrow on-light">Watch Us Online
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- WHAT WE BELIEVE -->
+    <section class="believe">
+      <span class="script">What we believe</span>
+      <h2>To Establish the Kingdom of God Here on Earth</h2>
+      <p class="lede">Christ the Rebuilder's ministry focuses on restoring hope and healing to those in need. Through compassionate outreach and preaching of the word, this ministry aims to uplift individuals facing challenges, offering them a chance to rebuild their lives in christ.</p>
+      <div class="believe-photos">
+        <img class="bc1" src="assets/believe-c1.png" alt="Congregation raising hands" />
+        <img class="bc2" src="assets/believe-c2.png" alt="Worship at Hope Sanctuary" />
+        <img class="bc3" src="assets/believe-c3.png" alt="Members listening to the word" />
+      </div>
+    </section>
+
+    <!-- SERMON BLOCK -->
+    <section class="sermon-wrap" style="margin: -30px 0px 0px; padding: 173px 80px 139px">
+      <div class="sermon-card" style="background-size: auto; text-align: left">
+        <div class="inner" style="width: 601px">
+          <span class="eyebrow">sermons</span>
+          <h2>Listen to God’s Word<br />for You.</h2>
+          <div class="player">
+            <img class="logo" src="assets/logo-crm.png" alt="" />
+            <div class="meta">
+              <div class="title">Title of sermon will be shown here</div>
+              <div class="submeta"><span>May 5</span><span class="dot">·</span><span>Apostle (Dr) K.K Bello</span></div>
+              <div class="controls">
+                <div class="track">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                  <div class="bar"><span></span></div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                </div>
+                <span class="time">21:49</span>
+                <svg class="play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+                <svg class="dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </div>
+            </div>
+          </div>
+          <a href="Sermon.html" class="pill-white">View all Sermon</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section class="programs">
+      <div class="eyebrow">Programs</div>
+      <h2>Join our Services</h2>
+      <p class="sub">Join us at hope sanctuary to experience God.</p>
+      <div class="program-cards">
+        <div class="program-card pc1">
+          <div class="time">7:30 am</div>
+          <div class="name">SUNDAY SERVICE</div>
+          <div class="day">Every Sunday</div>
+        </div>
+        <div class="program-card pc2">
+          <div class="time">8:00 am</div>
+          <div class="name">MOMENT OF LIFTING</div>
+          <div class="day">Every Thursday</div>
+        </div>
+        <div class="program-card pc3">
+          <div class="time">10:00 pm</div>
+          <div class="name">MONTHLY VIGIL</div>
+          <div class="day">Every Third Friday</div>
+        </div>
+      </div>
+      <div class="center-row">
+        <a href="Program.html" class="pill-dark">View All Programs</a>
+        <a href="#" class="link-arrow on-light">Watch Us Online
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- PASTORS -->
+    <section class="pastors">
+      <div class="portrait"><img src="assets/pastor.png" alt="Apostle K.K Bello" /></div>
+      <div class="copy">
+        <h2>Apostle (Dr) K.K Bello &amp;&nbsp; Pastor Mrs Temitope Bello</h2>
+        <p>Apostle Dr. Kayode Bello is a dedicated leader at the Christ the Rebuilder’s Ministry, a fast growing vibrant church with expressions in Lagos, Nigeria and many other countries. They are called to reveal Christ, Apostle k.k Bello and Pastor Mrs Temitope Bello teaches the word of God with simplicity and precision. His depth in the word of God and passion to reach the world with truth has endeared many to this ministry. Together, they exemplify teamwork in their mission, inspiring many with their unwavering faith and commitment to serving God.</p>
+        <span class="script">You will love it here!!</span>
+      </div>
+    </section>
+
+    <!-- BELLO KAYODE PODCAST -->
+    <section class="podcast">
+      <span class="script">Learn everyday on the move</span>
+      <div class="row">
+        <div class="left">
+          <h2>Bello Kayode Ministry Int.</h2>
+          <p>Fill your heart with life-transforming messages on Bello kayode ministry Podcast.
+Available on Facebook, Instagram, and TikTok.</p>
+        </div>
+        <div class="podcast-card">
+          <img class="cover" src="assets/podcast-cover.jpg" alt="" style="object-fit: cover; width: 103px; padding: 0px; margin: 0px -1px 0px 14px; height: 113px; border-width: 0px; border-style: solid" />
+          <div>
+            <div class="pc-title">Bello Kayode Ministries</div>
+            <div class="socials">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn-outline-white">
+          <span>View Podcast on FB</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></span>
+        </a>
+        <a href="#" class="btn-outline-white">
+          <span>View Podcast on IG</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- OUR STREAMS -->
+    <section class="streams">
+      <span class="script">Our streams</span>
+      <h2>Join us and experience<br />our live services</h2>
+      <div class="stream-photos">
+        <div class="sp"><img src="assets/stream-1.png" alt="" /></div>
+        <div class="sp"><img src="assets/stream-2.png" alt="" /></div>
+      </div>
+      <div class="watch-btns">
+        <a href="#" class="btn-outline-dark">
+          <span>Watch us on Facebook</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="#3822db"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></span>
+        </a>
+        <a href="#" class="btn-outline-dark">
+          <span>Watch us on Youtube</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="#ff1717"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></span>
+        </a>
+        <a href="#" class="btn-outline-dark">
+          <span>Watch us on TikTok</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="#000"><path d="M16.6 5.82a4.28 4.28 0 0 1-1.01-2.82h-3.3v12.86a2.59 2.59 0 0 1-2.59 2.5 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 3.41-2.45V9.95a5.86 5.86 0 0 0-.82-.06A5.89 5.89 0 0 0 4 15.77a5.89 5.89 0 0 0 5.89 5.89 5.89 5.89 0 0 0 5.89-5.89V9.4a7.55 7.55 0 0 0 4.41 1.41V7.51a4.28 4.28 0 0 1-3.59-1.69z"></path></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- MINISTRIES -->
+    <section class="ministries">
+      <div class="panel" style="padding: 32px">
+        <div class="panel-title">Ministries</div>
+        <div class="ministry-tab">
+          <span class="num">01</span>
+          <span class="mtitle">Youth Ministry</span>
+          <a href="Youth-Ministry.html" class="arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="ministry-tab">
+          <span class="num">02</span>
+          <span class="mtitle">CRM Lights</span>
+          <span class="soon">Coming Soon</span>
+        </div>
+        <div class="ministry-tab">
+          <span class="num">03</span>
+          <span class="mtitle">Discipleship</span>
+          <span class="soon">Coming Soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRIPTURE BAND -->
+    <section class="scripture">
+      <span class="ref">Matthew 19:26</span>
+      <h2>“With God all things<br />are possible”</h2>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-col-1" style="width: 401px">
+          <div class="footer-direction" style="width: 391px; text-align: center; line-height: 3.9; margin: 0px 0px 0px -4px; height: 245px; padding: 0px 233px 0px 0px">
+            <div class="loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="label">Direction</div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-2">
+          <h3>Christ The Rebuilder’s Ministry</h3>
+          <div class="hope">(Hope Sanctuary)</div>
+          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+234-708652527237</span>
+          </div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+            <span>Info@Rebuilder.com</span>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-3">
+          <h4>Other Branches In</h4>
+          <div class="flag-grid">
+            <span>🇺🇸</span><span>🇬🇧</span><span>🇩🇪</span>
+            <span>🇦🇹</span><span>🇭🇷</span><span>🇧🇭</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="fm-brand">
+          <div class="logo-row">
+            <img src="assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder’s Ministry</span>
+          </div>
+          <div class="social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
+          </div>
+        </div>
+        <div class="fm-links">
+          <h5>Pages</h5>
+          <a href="Home.html">Home</a>
+          <a href="About.html">About Us</a>
+          <a href="Program.html">Programs</a>
+          <a href="Sermon.html">Sermon</a>
+          <a href="Giving.html">Giving</a>
+        </div>
+        <div class="fm-links">
+          <h5>Quick</h5>
+          <a href="Contact.html">Contact Us</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
+        </div>
+        <div class="fm-connect">
+          <h3>Stay Connected</h3>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 | CRM Church - All Right Reserved</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  // Scale the fixed 1440 design to fit the viewport width.
+  function fitScale() {
+    var scaler = document.getElementById('scaler');
+    var page = scaler.querySelector('.page');
+    var vw = document.documentElement.clientWidth;
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('load', fitScale);
+  fitScale();
+  window.fitScale = fitScale;
+</script>
+
+<!-- ════════ TWEAKS ════════ -->
+<script>
+  /* ── btn-cta → Contact ── */
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
+  });
+
+  /* ── Scroll-pop animations ── */
+  (function() {
+    var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
+    var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    var SEL = 'h1,h2,h3,.script,.ref,.sermon-card,.program-card,.believe-col,.giving-card,.pastor-card,.stream-card,.ministry-tab,.contact-chip,.form-card,.ym-card,.ym-ministry-card,.ym-img-left,.ym-img-right,.pill-row,.center-row,.footer-direction,.footer-col-2,.footer-col-3';
+    window.addEventListener('load', function() {
+      var els = Array.from(document.querySelectorAll(SEL));
+      var vp = window.innerHeight;
+      els.forEach(function(el) { if (el.getBoundingClientRect().top > vp * 0.85) el.classList.add('scroll-pop'); });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var peers = Array.from(el.parentElement.children).filter(function(c){return c.classList.contains('scroll-pop');});
+          var idx = peers.indexOf(el);
+          setTimeout(function(){ el.classList.add('in'); }, Math.max(0, idx) * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el){ if (el.classList.contains('scroll-pop')) io.observe(el); });
+    });
+  })();
+</script>
+
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": ["#FDB52A", "#500F50", "#3A0B3A"],
+    "voice": "mixed",
+    "air": "balanced"
+  }/*EDITMODE-END*/;
+
+  // [accent/script gold, primary purple, primary-deep hover] + label
+  const PALETTES = [
+    { value: ["#FDB52A", "#500F50", "#3A0B3A"], label: "Heritage" },
+    { value: ["#F76C5E", "#3A1142", "#280B2E"], label: "Coral & Plum" },
+    { value: ["#E8A317", "#5C1A2E", "#40121F"], label: "Saffron & Wine" },
+    { value: ["#F4B400", "#1F3A5F", "#142840"], label: "Sky & Slate" },
+  ];
+
+  function CRMTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const pal = t.palette || PALETTES[0].value;
+      root.style.setProperty('--crm-gold', pal[0]);
+      root.style.setProperty('--crm-purple', pal[1]);
+      root.style.setProperty('--crm-purple-deep', pal[2] || pal[1]);
+
+      const page = document.querySelector('.page');
+      if (page) {
+        page.setAttribute('data-voice', t.voice);
+        page.setAttribute('data-air', t.air);
+      }
+      // section heights changed → re-fit the scaled stage
+      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
+    }, [t.palette, t.voice, t.air]);
+
+    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color mood" />
+        <div style={note}>Re-skins the gold signature and the purple seal across every section.</div>
+        <TweakColor label="Palette" value={t.palette}
+          options={PALETTES.map(p => p.value)}
+          onChange={(v) => setTweak('palette', v)} />
+
+        <TweakSection label="Headline voice" />
+        <div style={note}>Mixed keeps the designed Inter / Georgia split. Modern is all bold sans; Editorial is all serif.</div>
+        <TweakRadio label="Voice" value={t.voice}
+          options={["modern", "mixed", "editorial"]}
+          onChange={(v) => setTweak('voice', v)} />
+
+        <TweakSection label="Atmosphere" />
+        <div style={note}>How much room the page breathes — from urgent and dense to cathedral-quiet.</div>
+        <TweakRadio label="Spacing" value={t.air}
+          options={["compact", "balanced", "airy"]}
+          onChange={(v) => setTweak('air', v)} />
+      </TweaksPanel>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
+</script>
+</body>
+</html>

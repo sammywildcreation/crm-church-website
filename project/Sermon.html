@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Church — Sermon</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #1a1a1a; }
+  body {
+    font-family: var(--crm-font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; }
+
+  #scaler { transform-origin: top center; }
+  .page {
+    width: 1440px;
+    background: #fff;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 80px;
+  }
+  .brand { display: flex; align-items: center; gap: 7px; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; }
+  .brand .wordmark {
+    font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px;
+    line-height: 16px; color: var(--crm-ink-2); width: 78px;
+  }
+  .nav-rail {
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(155,155,155,0.10);
+    border-radius: 8px; padding: 7px 4px;
+  }
+  .nav-rail a {
+    font-family: var(--crm-font-sans); font-size: 14px; line-height: 20px;
+    color: var(--crm-ink-2); text-decoration: none; padding: 0 4px;
+    transition: opacity 140ms ease;
+  }
+  .nav-rail a:hover { opacity: 0.7; }
+  .nav-rail a.active {
+    font-weight: 700; color: var(--crm-purple);
+    background: rgba(228,110,228,0.20);
+    border-radius: 6px; padding: 9px 8px;
+  }
+  .btn-cta {
+    background-color: var(--crm-purple); color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 16px;
+    border: none; border-radius: 16px; padding: 11px 28px; cursor: pointer;
+    transition: background-color 140ms ease;
+  }
+  .btn-cta:hover { background-color: var(--crm-purple-deep); }
+
+  /* ── Sermon main ── */
+  .sermon-main { position: relative; height: 812px; }
+
+  .seal {
+    position: absolute; left: 230px; top: 153px;
+    width: 350px; height: 233px;
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+  .seal img { width: 233px; height: 233px; object-fit: contain; }
+
+  .mic-watermark {
+    position: absolute; left: 218px; top: 490px;
+    width: 349px; height: 276px; opacity: 0.1; pointer-events: none;
+  }
+  .mic-watermark img { width: 100%; height: 100%; object-fit: contain; }
+
+  .sermon-list-wrap { position: absolute; left: 631px; top: 153px; width: 694px; }
+  .sl-title {
+    font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px;
+    line-height: 22px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--crm-ink);
+  }
+  .sl-sub {
+    font-family: var(--crm-font-sans); font-weight: 400; font-style: italic;
+    font-size: 16px; line-height: 21px; color: var(--crm-ink); margin-top: 11px;
+  }
+
+  .sermon-list {
+    margin-top: 38px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(80,15,80,0.35) transparent;
+  }
+  .sermon-list::-webkit-scrollbar { width: 8px; }
+  .sermon-list::-webkit-scrollbar-track { background: transparent; }
+  .sermon-list::-webkit-scrollbar-thumb {
+    background: rgba(80,15,80,0.30); border-radius: 8px;
+  }
+  .sermon-list::-webkit-scrollbar-thumb:hover { background: rgba(80,15,80,0.55); }
+  .srow {
+    display: flex; align-items: center; gap: 21px;
+    height: 47px; cursor: pointer;
+    border-radius: 6px; padding: 0 6px;
+    transition: background-color 120ms ease;
+  }
+  .srow:hover { background: rgba(80,15,80,0.05); }
+  .srow .play-toggle {
+    flex: none; width: 20px; height: 20px; border: none; background: none;
+    padding: 0; cursor: pointer; color: var(--crm-ink);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .srow .play-toggle svg { width: 16px; height: 16px; display: block; }
+  .srow .num {
+    flex: none; width: 22px; text-align: left;
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 18px;
+    line-height: 34px; color: var(--crm-ink);
+  }
+  .srow .stitle {
+    flex: 1; min-width: 0;
+    font-family: var(--crm-font-sans); font-weight: 400; font-size: 18px;
+    line-height: 34px; color: var(--crm-ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .srow .dl {
+    flex: none; width: 18px; height: 18px; border: none; background: none;
+    padding: 0; cursor: pointer; color: var(--crm-ink);
+    display: flex; align-items: center; justify-content: center;
+    transition: color 120ms ease;
+  }
+  .srow .dl:hover { color: var(--crm-purple); }
+  .srow .dl svg { width: 15px; height: 15px; display: block; }
+
+  .srow.active { background: rgba(80,15,80,0.06); }
+  .srow.active .stitle,
+  .srow.active .num { color: var(--crm-purple); font-weight: 600; }
+  .srow.active .play-toggle { color: var(--crm-purple); }
+
+  /* ── Player bar ── */
+  .player {
+    position: relative; z-index: 10;
+    margin-top: -28px;
+    width: 1440px; height: 90px;
+    background: #000;
+    border-top: 4px solid var(--crm-player-accent, #D428D4);
+    border-bottom: 1px solid var(--crm-player-accent, #D428D4);
+    box-shadow: 0 -14px 34px rgba(0,0,0,0.22);
+    display: flex; align-items: center;
+    padding: 0 128px; gap: 42px;
+    color: #fff;
+  }
+  .player .now {
+    flex: none; width: 200px;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 14px;
+    line-height: 21px; color: #fff;
+  }
+  .player .controls { flex: none; display: flex; align-items: center; gap: 23px; }
+  .player .controls button {
+    border: none; background: none; padding: 0; cursor: pointer; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 120ms ease;
+  }
+  .player .controls button:hover { opacity: 0.7; }
+  .player .controls .skip svg { width: 18px; height: 18px; display: block; }
+  .player .controls .play svg { width: 22px; height: 26px; display: block; }
+  .player .controls .loop svg { width: 20px; height: 20px; display: block; }
+  .player .controls .loop.on { color: var(--crm-player-accent, #D428D4); opacity: 1; }
+  .player .time {
+    flex: none; width: 40px;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 14px;
+    line-height: 34px; color: #fff; font-variant-numeric: tabular-nums;
+  }
+  .player .track {
+    flex: 1; height: 30px; background: #fff; position: relative; cursor: pointer;
+    overflow: hidden;
+  }
+  .player .track .fill {
+    position: absolute; left: 0; top: 0; height: 100%; width: 25px;
+    background: var(--crm-player-fill, #1DAD1A);
+  }
+  .player .vol {
+    flex: none; border: none; background: none; padding: 0; cursor: pointer; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 120ms ease;
+  }
+  .player .vol:hover { opacity: 0.7; }
+  .player .vol svg { width: 22px; height: 22px; display: block; }
+  .player .dl-link {
+    flex: none; display: flex; align-items: center; gap: 6px;
+    border: none; background: none; padding: 0; cursor: pointer; color: #fff;
+    font-family: var(--crm-font-sans); font-weight: 500; font-size: 12px;
+    transition: opacity 120ms ease;
+  }
+  .player .dl-link:hover { opacity: 0.7; }
+  .player .dl-link svg { width: 13px; height: 13px; display: block; }
+
+  /* ── Scripture band ── */
+  .scripture {
+    width: 1440px; height: 598px;
+    background: url(assets/about-scripture.jpg) center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .scripture .ref {
+    font-family: var(--crm-font-script); font-weight: 700; font-size: 48px;
+    color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px;
+  }
+  .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px;
+    line-height: 84px; color: #fff;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    width: 1440px;
+    background: url(assets/footer-bg.png) center / cover no-repeat, var(--crm-black);
+    padding: 50px 75px 0; color: #fff;
+  }
+  .footer-top { display: flex; padding: 48px 0; }
+  .footer-col-1 { width: 410px; display: flex; align-items: center; justify-content: center; }
+  .footer-direction { text-align: center; }
+  .footer-direction .loc {
+    width: 139px; height: 139px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center; margin: 0 auto;
+  }
+  .footer-direction .loc svg { width: 60px; height: 60px; color: #fff; }
+  .footer-direction .label { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 16px; }
+  .footer-divider { width: 2px; background: rgba(255,255,255,0.2); margin: 0 60px; }
+  .footer-col-2 { width: 440px; }
+  .footer-col-2 h3 { font-family: var(--crm-font-sans); font-weight: 400; font-size: 24px; line-height: 34px; }
+  .footer-col-2 .hope { font-family: var(--crm-font-sans); font-weight: 500; font-size: 20px; margin-top: 6px; }
+  .footer-col-2 .addr { font-family: var(--crm-font-sans); font-size: 18px; line-height: 30px; opacity: 0.8; margin-top: 32px; max-width: 369px; }
+  .footer-contact { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .footer-contact svg { width: 22px; height: 22px; color: #fff; }
+  .footer-contact span { font-family: var(--crm-font-sans); font-size: 20px; }
+  .footer-col-3 { flex: 1; }
+  .footer-col-3 h4 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 20px; margin-bottom: 32px; }
+  .flag-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 28px 8px; justify-content: start; font-size: 50px; line-height: 1; }
+
+  .footer-mid { display: flex; align-items: flex-start; padding: 48px 0 64px; gap: 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .fm-brand { width: 483px; }
+  .fm-brand .logo-row { display: flex; align-items: center; gap: 22px; }
+  .fm-brand .logo-row img { width: 93px; height: 93px; border-radius: 50%; }
+  .fm-brand .logo-row span { font-family: var(--crm-font-sans); font-size: 24px; line-height: 34px; width: 249px; }
+  .fm-brand .social { display: flex; gap: 16px; margin-top: 32px; }
+  .fm-brand .social a {
+    width: 36px; height: 36px; border-radius: 10px; background: #fff;
+    display: flex; align-items: center; justify-content: center; transition: opacity 140ms ease;
+  }
+  .fm-brand .social a:hover { opacity: 0.85; }
+  .fm-brand .social svg { width: 18px; height: 18px; color: var(--crm-black); }
+  .fm-links { width: 198px; }
+  .fm-links h5 { font-family: var(--crm-font-sans); font-weight: 700; font-size: 18px; letter-spacing: 1.08px; margin-bottom: 56px; }
+  .fm-links a { display: block; font-family: var(--crm-font-sans); font-size: 16px; color: #fff; text-decoration: none; margin-bottom: 16px; opacity: 0.85; transition: opacity 140ms ease; }
+  .fm-links a:hover { opacity: 1; }
+  .fm-connect { flex: 1; }
+  .fm-connect h3 { font-family: var(--crm-font-sans); font-weight: 500; font-size: 38.7px; letter-spacing: -1px; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding: 40px 0 48px; text-align: center; }
+  .footer-bottom span { font-family: var(--crm-font-sans); font-size: 16px; }
+
+  /* ════════ TWEAK: Headline voice ════════ */
+  .page[data-voice="modern"] .scripture h2 {
+    font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em;
+  }
+  .page[data-voice="editorial"] .scripture h2 {
+    font-family: var(--crm-font-serif); font-weight: 700; letter-spacing: 0;
+  }
+
+  /* ════════ TWEAK: List density ════════ */
+  .page[data-density="compact"] .srow { height: 38px; }
+  .page[data-density="compact"] .sermon-list { margin-top: 30px; }
+  .page[data-density="airy"] .srow { height: 56px; }
+  .page[data-density="airy"] .sermon-list { margin-top: 44px; }
+
+  #tweak-root { font-family: var(--crm-font-sans); }
+
+  /* ── Hover lifts & logo link ── */
+  .brand { text-decoration: none; color: inherit; }
+  .program-card, .giving-card, .pastor-card, .stream-card { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .program-card:hover, .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+  .pastor-card:hover, .stream-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.14); }
+  .ministry-tab { transition: transform 200ms ease, box-shadow 200ms ease; }
+  .ministry-tab:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .ministry-tab a.arrow { transition: background 200ms ease; }
+  .ministry-tab:hover a.arrow { background: rgba(80,15,80,0.65); }
+</style>
+</head>
+<body style="font-size: 16px">
+<div id="scaler">
+  <div class="page" data-screen-label="Sermon" data-voice="editorial" data-density="balanced">
+
+    <!-- NAV -->
+    <header class="nav">
+      <a href="Home.html" class="brand">
+        <img src="assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark">Rebuilder’s Ministry</span>
+      </a>
+      <nav class="nav-rail">
+        <a href="Home.html">Home</a>
+        <a href="About.html">About Us</a>
+        <a href="Program.html">Programs</a>
+        <a href="Sermon.html" class="active">Sermon</a>
+        <a href="Giving.html">Giving</a>
+      </nav>
+      <button class="btn-cta">Reachout to us</button>
+    </header>
+
+    <!-- SERMON MAIN -->
+    <section class="sermon-main">
+      <div class="seal"><img src="assets/logo-crm.png" alt="Christ The Rebuilder’s Ministry seal" /></div>
+      <div class="mic-watermark"><img src="assets/sermon-mic.png" alt="" /></div>
+
+      <div class="sermon-list-wrap">
+        <div class="sl-title">CRM Sermons</div>
+        <div class="sl-sub">by our Pastors<br />Release date: Random</div>
+        <div class="sermon-list" id="sermonList"></div>
+      </div>
+    </section>
+
+    <!-- PLAYER BAR -->
+    <div class="player" id="player" style="height: 90px; gap: 43px">
+      <div class="now" id="nowTitle">The Power of His Resurrection</div>
+      <div class="controls">
+        <button class="skip" id="prevBtn" aria-label="Previous sermon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6V5zm3 7 11 7V5L9 12z"></path></svg>
+        </button>
+        <button class="play" id="playBtn" aria-label="Play">
+          <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4z"></path></svg>
+        </button>
+        <button class="skip" id="nextBtn" aria-label="Next sermon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2V5zM4 5l11 7L4 19V5z"></path></svg>
+        </button>
+        <button class="loop" id="loopBtn" aria-label="Toggle repeat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>
+        </button>
+      </div>
+      <div class="time" id="timeLabel">00:00</div>
+      <div class="track" id="track"><div class="fill" id="fill"></div></div>
+      <button class="vol" id="volBtn" aria-label="Mute">
+        <svg id="volIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+      </button>
+      <button class="dl-link" id="playerDl" aria-label="Download sermon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Download</span>
+      </button>
+    </div>
+
+    <!-- SCRIPTURE BAND -->
+    <section class="scripture">
+      <span class="ref">Matthew 19:26</span>
+      <h2>“With God all things<br />are possible”</h2>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-col-1">
+          <div class="footer-direction">
+            <div class="loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="label">Direction</div>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-2">
+          <h3>Christ The Rebuilder’s Ministry</h3>
+          <div class="hope">(Hope Sanctuary)</div>
+          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+234-708652527237</span>
+          </div>
+          <div class="footer-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+            <span>Info@Rebuilder.com</span>
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-col-3">
+          <h4>Other Branches In</h4>
+          <div class="flag-grid">
+            <span>🇺🇸</span><span>🇬🇧</span><span>🇩🇪</span>
+            <span>🇦🇹</span><span>🇭🇷</span><span>🇧🇭</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mid">
+        <div class="fm-brand">
+          <div class="logo-row">
+            <img src="assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder’s Ministry</span>
+          </div>
+          <div class="social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"></path></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
+          </div>
+        </div>
+        <div class="fm-links">
+          <h5>Pages</h5>
+          <a href="Home.html">Home</a>
+          <a href="About.html">About Us</a>
+          <a href="Program.html">Programs</a>
+          <a href="Sermon.html">Sermon</a>
+          <a href="Giving.html">Giving</a>
+        </div>
+        <div class="fm-links">
+          <h5>Quick</h5>
+          <a href="Contact.html">Contact Us</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
+        </div>
+        <div class="fm-connect">
+          <h3>Stay Connected</h3>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 | CRM Church - All Right Reserved</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════════════════════
+  //  SERMON DATA — PLACEHOLDER
+  //  These are dummy entries shown in the design. When the backend is
+  //  built, replace this array with the real catalog. Each item should
+  //  carry { title, src, durationSec, downloadUrl }. The player below
+  //  reads `src` for real audio; while it is empty it simulates
+  //  playback so the UI can be demoed.
+  // ════════════════════════════════════════════════════════════════
+  var SERMONS = [
+    { title: 'Inaugural Service',                            durationSec: 2841, src: '', downloadUrl: '' },
+    { title: 'Knowing God',                                  durationSec: 3122, src: '', downloadUrl: '' },
+    { title: 'Spiritual Growth',                             durationSec: 2675, src: '', downloadUrl: '' },
+    { title: 'Strongholds and Mindset',                      durationSec: 2998, src: '', downloadUrl: '' },
+    { title: 'The Power of His Resurrection',                durationSec: 332,  src: '', downloadUrl: '' },
+    { title: 'The Mystery of Prevailing prayer (Part 1)',    durationSec: 3540, src: '', downloadUrl: '' },
+    { title: 'The Mystery of Prevailing prayer (Part 2)',    durationSec: 3375, src: '', downloadUrl: '' },
+    { title: 'April Miracle service Koinonia',               durationSec: 4210, src: '', downloadUrl: '' },
+    { title: 'The mysteries of the kingdom',                 durationSec: 2904, src: '', downloadUrl: '' },
+    { title: 'The mysteries of the kingdom part 2',          durationSec: 3060, src: '', downloadUrl: '' },
+    { title: 'THE MYSTERY OF PREVAILING PRAYER 3',           durationSec: 3288, src: '', downloadUrl: '' },
+    { title: 'May Miracle Service',                          durationSec: 4480, src: '', downloadUrl: '' },
+    { title: 'Mystery of Divine Intervention',               durationSec: 3015, src: '', downloadUrl: '' }
+  ];
+
+  var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4z"></path></svg>';
+  var ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4h4v16H7V4zm6 0h4v16h-4V4z"></path></svg>';
+  var ICON_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
+  var ICON_VOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>';
+  var ICON_MUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+
+  function fmt(sec) {
+    sec = Math.max(0, Math.floor(sec));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  (function () {
+    var listEl = document.getElementById('sermonList');
+    var nowTitle = document.getElementById('nowTitle');
+    var playBtn = document.getElementById('playBtn');
+    var playIcon = document.getElementById('playIcon');
+    var prevBtn = document.getElementById('prevBtn');
+    var nextBtn = document.getElementById('nextBtn');
+    var loopBtn = document.getElementById('loopBtn');
+    var timeLabel = document.getElementById('timeLabel');
+    var track = document.getElementById('track');
+    var fill = document.getElementById('fill');
+    var volBtn = document.getElementById('volBtn');
+    var volIcon = document.getElementById('volIcon');
+    var playerDl = document.getElementById('playerDl');
+
+    var current = 4;     // "The Power of His Resurrection" — matches the design
+    var playing = false;
+    var position = 0;    // seconds into current track
+    var looping = false;
+    var muted = false;
+    var timer = null;
+
+    // Build list
+    listEl.innerHTML = SERMONS.map(function (s, i) {
+      return '<div class="srow" data-i="' + i + '">'
+        + '<button class="play-toggle" aria-label="Play ' + s.title + '">' + ICON_PLAY + '</button>'
+        + '<span class="num">' + (i + 1) + '</span>'
+        + '<span class="stitle">' + s.title + '</span>'
+        + '<button class="dl" aria-label="Download ' + s.title + '">' + ICON_DL + '</button>'
+        + '</div>';
+    }).join('');
+    var rows = [].slice.call(listEl.querySelectorAll('.srow'));
+
+    function duration() { return SERMONS[current].durationSec || 1; }
+
+    function renderRows() {
+      rows.forEach(function (row, i) {
+        var active = (i === current);
+        row.classList.toggle('active', active);
+        var pt = row.querySelector('.play-toggle');
+        pt.innerHTML = (active && playing) ? ICON_PAUSE : ICON_PLAY;
+      });
+    }
+
+    function renderPlayer() {
+      nowTitle.textContent = SERMONS[current].title;
+      playIcon.outerHTML = playing
+        ? '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4h4v16H7V4zm6 0h4v16h-4V4z"></path></svg>'
+        : '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4z"></path></svg>';
+      playIcon = document.getElementById('playIcon');
+      playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+      timeLabel.textContent = fmt(position);
+      var pct = Math.min(1, position / duration());
+      // keep a small visible nub at 0 like the design, grow with progress
+      fill.style.width = Math.max(25, pct * track.clientWidth) + 'px';
+    }
+
+    function tick() {
+      position += 2; // simulated playback; bar visibly moves in a demo
+      if (position >= duration()) {
+        if (looping) { position = 0; }
+        else { position = 0; playing = false; stopTimer(); renderRows(); }
+      }
+      renderPlayer();
+    }
+
+    function startTimer() { stopTimer(); timer = setInterval(tick, 200); }
+    function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+    function play() { playing = true; startTimer(); renderRows(); renderPlayer(); }
+    function pause() { playing = false; stopTimer(); renderRows(); renderPlayer(); }
+
+    function load(i, autoplay) {
+      current = ((i % SERMONS.length) + SERMONS.length) % SERMONS.length;
+      position = 0;
+      // NOTE: when backend audio exists, set audio.src = SERMONS[current].src here.
+      renderRows(); renderPlayer();
+      if (autoplay) play(); else pause();
+    }
+
+    // Row interactions
+    rows.forEach(function (row) {
+      var i = parseInt(row.getAttribute('data-i'), 10);
+      row.querySelector('.play-toggle').addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (i === current) { playing ? pause() : play(); }
+        else { load(i, true); }
+      });
+      row.addEventListener('click', function () {
+        if (i === current) { playing ? pause() : play(); }
+        else { load(i, true); }
+      });
+      row.querySelector('.dl').addEventListener('click', function (e) {
+        e.stopPropagation();
+        // Placeholder — wire to SERMONS[i].downloadUrl when backend is ready.
+      });
+    });
+
+    // Player controls
+    playBtn.addEventListener('click', function () { playing ? pause() : play(); });
+    prevBtn.addEventListener('click', function () { load(current - 1, playing); });
+    nextBtn.addEventListener('click', function () { load(current + 1, playing); });
+    loopBtn.addEventListener('click', function () {
+      looping = !looping; loopBtn.classList.toggle('on', looping);
+    });
+    volBtn.addEventListener('click', function () {
+      muted = !muted; volIcon.outerHTML = (muted ? ICON_MUTE.replace('<svg', '<svg id="volIcon"') : ICON_VOL.replace('<svg', '<svg id="volIcon"'));
+      volIcon = document.getElementById('volIcon');
+    });
+    playerDl.addEventListener('click', function () {
+      // Placeholder — wire to SERMONS[current].downloadUrl when backend is ready.
+    });
+
+    // Seek by clicking the progress track
+    track.addEventListener('click', function (e) {
+      var rect = track.getBoundingClientRect();
+      var pct = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+      position = pct * duration();
+      renderPlayer();
+    });
+
+    renderRows();
+    renderPlayer();
+  })();
+
+  // ── Scale the fixed 1440 design to fit the viewport width ──
+  function fitScale() {
+    var scaler = document.getElementById('scaler');
+    var page = scaler.querySelector('.page');
+    var vw = document.documentElement.clientWidth;
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('load', fitScale);
+  fitScale();
+  window.fitScale = fitScale;
+</script>
+
+<!-- ════════ TWEAKS ════════ -->
+<script>
+  /* ── btn-cta → Contact ── */
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
+  });
+
+  /* ── Scroll-pop animations ── */
+  (function() {
+    var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
+    var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    var SEL = 'h1,h2,h3,.script,.ref,.sermon-card,.program-card,.believe-col,.giving-card,.pastor-card,.stream-card,.ministry-tab,.contact-chip,.form-card,.ym-card,.ym-ministry-card,.ym-img-left,.ym-img-right,.pill-row,.center-row,.footer-direction,.footer-col-2,.footer-col-3';
+    window.addEventListener('load', function() {
+      var els = Array.from(document.querySelectorAll(SEL));
+      var vp = window.innerHeight;
+      els.forEach(function(el) { if (el.getBoundingClientRect().top > vp * 0.85) el.classList.add('scroll-pop'); });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var peers = Array.from(el.parentElement.children).filter(function(c){return c.classList.contains('scroll-pop');});
+          var idx = peers.indexOf(el);
+          setTimeout(function(){ el.classList.add('in'); }, Math.max(0, idx) * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      els.forEach(function(el){ if (el.classList.contains('scroll-pop')) io.observe(el); });
+    });
+  })();
+</script>
+
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": [
+      "#FDB52A",
+      "#500F50",
+      "#3A0B3A"
+    ],
+    "voice": "editorial",
+    "density": "balanced",
+    "playerStyle": "magenta"
+  }/*EDITMODE-END*/;
+
+  const PALETTES = [
+    { value: ["#FDB52A", "#500F50", "#3A0B3A"], label: "Heritage" },
+    { value: ["#F76C5E", "#3A1142", "#280B2E"], label: "Coral & Plum" },
+    { value: ["#E8A317", "#5C1A2E", "#40121F"], label: "Saffron & Wine" },
+    { value: ["#F4B400", "#1F3A5F", "#142840"], label: "Sky & Slate" },
+  ];
+
+  const PLAYER_STYLES = {
+    magenta: { accent: "#D428D4", fill: "#1DAD1A" },
+    purple:  { accent: "#500F50", fill: "#FDB52A" },
+    minimal: { accent: "#333333", fill: "#500F50" },
+  };
+
+  function CRMTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const pal = t.palette || PALETTES[0].value;
+      root.style.setProperty('--crm-gold', pal[0]);
+      root.style.setProperty('--crm-purple', pal[1]);
+      root.style.setProperty('--crm-purple-deep', pal[2] || pal[1]);
+
+      const ps = PLAYER_STYLES[t.playerStyle] || PLAYER_STYLES.magenta;
+      root.style.setProperty('--crm-player-accent', ps.accent);
+      root.style.setProperty('--crm-player-fill', ps.fill);
+
+      const page = document.querySelector('.page');
+      if (page) {
+        page.setAttribute('data-voice', t.voice);
+        page.setAttribute('data-density', t.density);
+      }
+      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
+    }, [t.palette, t.voice, t.density, t.playerStyle]);
+
+    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color mood" />
+        <div style={note}>Re-skins the gold signature and the purple seal across every section.</div>
+        <TweakColor label="Palette" value={t.palette}
+          options={PALETTES.map(p => p.value)}
+          onChange={(v) => setTweak('palette', v)} />
+
+        <TweakSection label="Player style" />
+        <div style={note}>Border accent + progress fill of the audio bar.</div>
+        <TweakRadio label="Style" value={t.playerStyle}
+          options={["magenta", "purple", "minimal"]}
+          onChange={(v) => setTweak('playerStyle', v)} />
+
+        <TweakSection label="List density" />
+        <div style={note}>Row spacing in the sermon archive.</div>
+        <TweakRadio label="Spacing" value={t.density}
+          options={["compact", "balanced", "airy"]}
+          onChange={(v) => setTweak('density', v)} />
+
+        <TweakSection label="Headline voice" />
+        <div style={note}>Editorial sets the scripture in serif; Modern is bold sans.</div>
+        <TweakRadio label="Voice" value={t.voice}
+          options={["modern", "mixed", "editorial"]}
+          onChange={(v) => setTweak('voice', v)} />
+      </TweaksPanel>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
+</script>
+</body>
+</html>
