@@ -562,6 +562,7 @@ img { display: block; }
 /* keep the tweak panel crisp & unscaled */
 #tweak-root { font-family: var(--crm-font-sans); }
 </style>
+<link rel="stylesheet" href="project/mobile.css" />
 </head>
 <body>
 <div id="scaler">
@@ -854,10 +855,17 @@ Available on Facebook, Instagram, and TikTok.</p>
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
-    var scale = Math.min(1, vw / 1440);
-    scaler.style.transform = 'scale(' + scale + ')';
-    scaler.style.transformOrigin = 'top center';
-    document.body.style.height = (page.offsetHeight * scale) + 'px';
+    if (vw <= 768) {
+      scaler.style.transform = 'none';
+      page.style.width = '100%';
+      document.body.style.height = 'auto';
+    } else {
+      page.style.width = '';
+      var scale = Math.min(1, vw / 1440);
+      scaler.style.transform = 'scale(' + scale + ')';
+      scaler.style.transformOrigin = 'top center';
+      document.body.style.height = (page.offsetHeight * scale) + 'px';
+    }
   }
   window.addEventListener('resize', fitScale);
   window.addEventListener('load', fitScale);
