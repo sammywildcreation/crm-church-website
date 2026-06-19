@@ -626,8 +626,8 @@ img { display: block; }
           <div class="player">
             <img class="logo" src="project/assets/logo-crm.png" alt="" />
             <div class="meta">
-              <div class="title">Title of sermon will be shown here</div>
-              <div class="submeta"><span>May 5</span><span class="dot">&#xB7;</span><span>Apostle (Dr) K.K Bello</span></div>
+              <div class="title" id="home-sermon-title">Title of sermon will be shown here</div>
+              <div class="submeta"><span id="home-sermon-date">May 5</span><span class="dot">&#xB7;</span><span>Apostle (Dr) K.K Bello</span></div>
               <div class="controls">
                 <div class="track">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
@@ -876,6 +876,25 @@ Available on Facebook, Instagram, and TikTok.</p>
   document.addEventListener('click', function(e) {
     if (e.target.closest('.btn-cta')) { window.location.href = 'project/Contact.html'; }
   });
+
+  /* Latest sermon from Sanity */
+  (function() {
+    var q = encodeURIComponent('*[_type == "sermon"] | order(date desc) [0] { title, date, "audioUrl": audioFile.asset->url }');
+    fetch('https://uuvjpoxk.api.sanity.io/v2024-01-01/data/query/production?query=' + q)
+      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        var s = r.result;
+        if (!s) return;
+        var titleEl = document.getElementById('home-sermon-title');
+        var dateEl = document.getElementById('home-sermon-date');
+        if (titleEl && s.title) titleEl.textContent = s.title;
+        if (dateEl && s.date) {
+          var d = new Date(s.date);
+          dateEl.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      })
+      .catch(function() {});
+  })();
 
   /* Scroll-pop animations */
   (function() {
