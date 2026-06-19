@@ -38,11 +38,11 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #1a1a1a; }
+  html, body { background: #1a1a1a; overflow-x: hidden; }
   body { font-family: var(--crm-font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
   img { display: block; }
 
-  #scaler { transform-origin: top center; }
+  #scaler { transform-origin: top center; width: 1440px; margin: 0 auto; }
   .page { width: 1440px; background: #fff; margin: 0 auto; overflow: hidden; position: relative; }
 
   /* ── Nav ── */
@@ -413,7 +413,7 @@
       document.body.style.height = 'auto';
     } else {
       page.style.width = '';
-      var scale = Math.min(1, vw / 1440);
+      var scale = vw / 1440;
       scaler.style.transform = 'scale(' + scale + ')';
       document.body.style.height = (page.offsetHeight * scale) + 'px';
     }

@@ -103,7 +103,7 @@
    ============================================================ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { background: #1a1a1a; }
+html, body { background: #1a1a1a; overflow-x: hidden; }
 body {
   font-family: var(--crm-font-sans);
   -webkit-font-smoothing: antialiased;
@@ -112,7 +112,7 @@ body {
 img { display: block; }
 
 /* ── Fixed 1440 design, scaled to fit viewport width ── */
-#scaler { transform-origin: top center; }
+#scaler { transform-origin: top center; width: 1440px; margin: 0 auto; }
 .page {
   width: 1440px;
   background: var(--crm-bg);
@@ -861,7 +861,7 @@ Available on Facebook, Instagram, and TikTok.</p>
       document.body.style.height = 'auto';
     } else {
       page.style.width = '';
-      var scale = Math.min(1, vw / 1440);
+      var scale = vw / 1440;
       scaler.style.transform = 'scale(' + scale + ')';
       scaler.style.transformOrigin = 'top center';
       document.body.style.height = (page.offsetHeight * scale) + 'px';
