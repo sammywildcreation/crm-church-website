@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "rm -rf public/project && cp -r project public/project",
+    "predev": "rm -rf public/project && cp -r project public/project",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start"

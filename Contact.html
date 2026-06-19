@@ -602,7 +602,7 @@
     btn.textContent = 'Sending…';
     errorEl.style.display = 'none';
 
-    fetch('https://crm-church-website.vercel.app/api/contact', {
+    fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: name, email: email, phone: phone, subject: subject, message: message })
