@@ -12,6 +12,7 @@
   "dependencies": {
     "@sanity/client": "^6.28.0",
     "@sanity/vision": "^3.65.0",
+    "framer-motion": "^12.40.0",
     "next": "^15.1.0",
     "next-sanity": "^9.8.0",
     "react": "^19.0.0",
