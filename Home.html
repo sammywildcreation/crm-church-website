@@ -877,21 +877,85 @@ Available on Facebook, Instagram, and TikTok.</p>
     if (e.target.closest('.btn-cta')) { window.location.href = 'project/Contact.html'; }
   });
 
-  /* Latest sermon from Sanity */
+  /* Latest sermon player */
   (function() {
+    var audio = new Audio();
+    var playing = false;
+    var audioUrl = '';
+
+    var titleEl  = document.getElementById('home-sermon-title');
+    var dateEl   = document.getElementById('home-sermon-date');
+    var timeEl   = document.querySelector('.player .time');
+    var barFill  = document.querySelector('.player .bar > span');
+    var playBtn  = document.querySelector('.player .play');
+    var dlBtn    = document.querySelector('.player .dl');
+    var trackEl  = document.querySelector('.player .bar');
+    var rewindEl = document.querySelector('.player .track svg:first-child');
+    var fwdEl    = document.querySelector('.player .track svg:last-child');
+
+    function fmt(s) {
+      s = Math.floor(s || 0);
+      var m = Math.floor(s / 60), sec = s % 60;
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function updateUI() {
+      var dur = audio.duration || 0;
+      var cur = audio.currentTime || 0;
+      if (timeEl) timeEl.textContent = fmt(cur) + (dur ? ' / ' + fmt(dur) : '');
+      if (barFill && dur) barFill.style.width = (cur / dur * 100) + '%';
+      if (playBtn) {
+        var isPlaying = playing && !audio.paused;
+        playBtn.innerHTML = isPlaying
+          ? '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>'
+          : '<path d="M8 5v14l11-7z"/>';
+      }
+    }
+
+    audio.addEventListener('timeupdate', updateUI);
+    audio.addEventListener('loadedmetadata', updateUI);
+    audio.addEventListener('ended', function() { playing = false; updateUI(); });
+
+    if (playBtn) playBtn.addEventListener('click', function() {
+      if (!audioUrl) return;
+      if (playing && !audio.paused) {
+        audio.pause(); playing = false; updateUI();
+      } else {
+        audio.play().then(function() { playing = true; updateUI(); }).catch(function(){});
+      }
+    });
+
+    if (dlBtn) dlBtn.addEventListener('click', function() {
+      if (!audioUrl) return;
+      var a = document.createElement('a');
+      a.href = audioUrl; a.download = (titleEl ? titleEl.textContent : 'sermon') + '.mp3';
+      a.target = '_blank'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
+
+    if (rewindEl) rewindEl.style.cursor = 'pointer';
+    if (rewindEl) rewindEl.addEventListener('click', function() { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+    if (fwdEl) fwdEl.style.cursor = 'pointer';
+    if (fwdEl) fwdEl.addEventListener('click', function() { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15); });
+
+    if (trackEl) trackEl.style.cursor = 'pointer';
+    if (trackEl) trackEl.addEventListener('click', function(e) {
+      if (!audio.duration) return;
+      var rect = trackEl.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    });
+
     var q = encodeURIComponent('*[_type == "sermon"] | order(date desc) [0] { title, date, "audioUrl": audioFile.asset->url }');
     fetch('https://uuvjpoxk.api.sanity.io/v2024-01-01/data/query/production?query=' + q)
       .then(function(r) { return r.json(); })
       .then(function(r) {
         var s = r.result;
         if (!s) return;
-        var titleEl = document.getElementById('home-sermon-title');
-        var dateEl = document.getElementById('home-sermon-date');
         if (titleEl && s.title) titleEl.textContent = s.title;
         if (dateEl && s.date) {
           var d = new Date(s.date);
           dateEl.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         }
+        if (s.audioUrl) { audioUrl = s.audioUrl; audio.src = audioUrl; audio.load(); }
       })
       .catch(function() {});
   })();
