@@ -166,6 +166,7 @@ img { display: block; }
   background: url(project/assets/hero-collage.png) center / cover no-repeat;
   display: flex; flex-direction: column; align-items: center;
   text-align: center; padding-top: 222px;
+  position: relative; z-index: 1;
 }
 .hero .script {
   font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
@@ -1046,5 +1047,36 @@ Available on Facebook, Instagram, and TikTok.</p>
   ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
 </script>
 <script src="project/site-animations.js"></script>
+<script>
+  /* Sticky hero: counteract scroll so band-photo slides over it */
+  (function () {
+    var hero   = document.querySelector('.hero');
+    var scaler = document.getElementById('scaler');
+    if (!hero || !scaler) return;
+
+    function getScale() {
+      var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
+      return m ? parseFloat(m[1]) : 1;
+    }
+
+    function update() {
+      var scale  = getScale();
+      var sy     = window.scrollY;
+      /* hero height in screen pixels */
+      var heroH  = hero.offsetHeight * scale;
+      if (sy <= heroH) {
+        /* push hero down by scrollY compensated for the scale, keeping it visually fixed */
+        hero.style.transform = 'translateY(' + (sy / scale) + 'px)';
+      } else {
+        /* once the band-photo has fully covered it, let hero sit at its natural end */
+        hero.style.transform = 'translateY(' + hero.offsetHeight + 'px)';
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
 </body>
 </html>
