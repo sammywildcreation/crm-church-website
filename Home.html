@@ -129,6 +129,31 @@ img { display: block; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 80px;
   background: rgba(255,255,255,0.02);
+  /* transition only colour/shadow — never transform — so the pin can't wobble */
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+/* Frosted backdrop once scrolled, so links stay legible over photos.
+   Fallback (no scroll-timeline) toggles this class via JS. */
+.nav--solid {
+  background-color: rgba(255,255,255,0.88);
+  box-shadow: 0 2px 18px rgba(0,0,0,0.08);
+}
+/* Compositor-smooth nav pin: translate the nav down in step with the
+   scroll so it holds the top of the viewport. Affects the nav only. */
+@supports (animation-timeline: scroll()) {
+  .nav {
+    animation: nav-pin linear both, nav-bg linear both;
+    animation-timeline: scroll(root block), scroll(root block);
+    animation-range: normal, 0px 140px; /* pin spans whole scroll; bg fades early */
+  }
+  @keyframes nav-pin {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(0, var(--nav-travel, 0px), 0); }
+  }
+  @keyframes nav-bg {
+    from { background-color: rgba(255,255,255,0.02); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    to   { background-color: rgba(255,255,255,0.88); box-shadow: 0 2px 18px rgba(0,0,0,0.08); }
+  }
 }
 .brand { display: flex; align-items: center; gap: 7px; text-decoration: none; color: inherit; }
 .brand img { width: 56px; height: 56px; border-radius: 50%; }
@@ -1116,6 +1141,51 @@ Available on Facebook, Instagram, and TikTok.</p>
       window.addEventListener('scroll', apply, { passive: true });
       window.addEventListener('resize', function () { measure(); apply(); });
       window.addEventListener('load', function () { measure(); apply(); });
+      apply();
+    }
+  })();
+
+  /* Nav pin: keep the nav glued to the top of the viewport. Same compositor
+     scroll-driven approach as the hero, but unbounded (it follows the whole
+     page) and translating down. Nav-only; nothing else is affected. */
+  (function () {
+    var nav    = document.querySelector('.nav');
+    var scaler = document.getElementById('scaler');
+    if (!nav || !scaler) return;
+
+    function getScale() {
+      var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
+      return m ? parseFloat(m[1]) : 1;
+    }
+    function maxScroll() {
+      return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    }
+
+    var supportsScrollTL =
+      !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
+
+    if (supportsScrollTL) {
+      /* travel (local px) = full scroll distance / scale, so the nav-pin
+         keyframe (0 -> travel over the whole timeline) yields scrollY/scale. */
+      function sync() {
+        nav.style.setProperty('--nav-travel', (maxScroll() / getScale()) + 'px');
+      }
+      sync();
+      window.addEventListener('resize', sync);
+      window.addEventListener('load', sync);
+    } else {
+      var last = -1;
+      function apply() {
+        var scale = getScale();
+        var y = window.scrollY;
+        var t = Math.round((y / scale) * 100) / 100;
+        if (t !== last) { last = t; nav.style.transform = 'translate3d(0,' + t + 'px,0)'; }
+        if (y > 80) nav.classList.add('nav--solid');
+        else nav.classList.remove('nav--solid');
+      }
+      window.addEventListener('scroll', apply, { passive: true });
+      window.addEventListener('resize', apply);
+      window.addEventListener('load', apply);
       apply();
     }
   })();
