@@ -125,34 +125,23 @@ img { display: block; }
 
 /* ── Nav ── */
 .nav {
-  position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+  position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 80px;
   background: rgba(255,255,255,0.02);
-  /* transition only colour/shadow — never transform — so the pin can't wobble */
-  transition: background-color 160ms ease, box-shadow 160ms ease;
 }
-/* Frosted backdrop once scrolled, so links stay legible over photos.
-   Fallback (no scroll-timeline) toggles this class via JS. */
-.nav--solid {
-  background-color: rgba(255,255,255,0.88);
-  box-shadow: 0 2px 18px rgba(0,0,0,0.08);
-}
-/* Compositor-smooth nav pin: translate the nav down in step with the
-   scroll so it holds the top of the viewport. Affects the nav only. */
+/* Nav sits at the back and is pinned like the hero: it holds the top while
+   the band-photo (and the sections below) scroll up and cover it. Clamps
+   like the hero so it releases and slides off behind the content. Nav-only. */
 @supports (animation-timeline: scroll()) {
   .nav {
-    animation: nav-pin linear both, nav-bg linear both;
-    animation-timeline: scroll(root block), scroll(root block);
-    animation-range: normal, 0px 140px; /* pin spans whole scroll; bg fades early */
+    animation: nav-pin linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0px 750px; /* JS overrides with heroHeight * scale */
   }
   @keyframes nav-pin {
     from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(0, var(--nav-travel, 0px), 0); }
-  }
-  @keyframes nav-bg {
-    from { background-color: rgba(255,255,255,0.02); box-shadow: 0 0 0 rgba(0,0,0,0); }
-    to   { background-color: rgba(255,255,255,0.88); box-shadow: 0 2px 18px rgba(0,0,0,0.08); }
+    to   { transform: translate3d(0, var(--nav-travel, 844px), 0); }
   }
 }
 .brand { display: flex; align-items: center; gap: 7px; text-decoration: none; color: inherit; }
@@ -232,7 +221,7 @@ img { display: block; }
   height: 780px; margin-top: -90px;
   border-radius: 32px 32px 0 0; overflow: hidden;
   background: url(project/assets/hero-band-combined.jpg) center / cover no-repeat;
-  position: relative; z-index: 2;
+  position: relative; z-index: 3;
   width: 1440px;
 }
 
@@ -1145,30 +1134,29 @@ Available on Facebook, Instagram, and TikTok.</p>
     }
   })();
 
-  /* Nav pin: keep the nav glued to the top of the viewport. Same compositor
-     scroll-driven approach as the hero, but unbounded (it follows the whole
-     page) and translating down. Nav-only; nothing else is affected. */
+  /* Nav pin: pin the nav at the top exactly like the hero (same clamp), so
+     it sits at the back and the band-photo scrolls up and covers it, then it
+     releases and slides off behind the content. Nav-only; nothing else
+     is affected. */
   (function () {
     var nav    = document.querySelector('.nav');
+    var hero   = document.querySelector('.hero');
     var scaler = document.getElementById('scaler');
-    if (!nav || !scaler) return;
+    if (!nav || !hero || !scaler) return;
 
     function getScale() {
       var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
       return m ? parseFloat(m[1]) : 1;
-    }
-    function maxScroll() {
-      return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     }
 
     var supportsScrollTL =
       !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
 
     if (supportsScrollTL) {
-      /* travel (local px) = full scroll distance / scale, so the nav-pin
-         keyframe (0 -> travel over the whole timeline) yields scrollY/scale. */
       function sync() {
-        nav.style.setProperty('--nav-travel', (maxScroll() / getScale()) + 'px');
+        var h = hero.offsetHeight;
+        nav.style.setProperty('--nav-travel', h + 'px');
+        nav.style.setProperty('animation-range', '0px ' + Math.round(h * getScale()) + 'px');
       }
       sync();
       window.addEventListener('resize', sync);
@@ -1177,11 +1165,13 @@ Available on Facebook, Instagram, and TikTok.</p>
       var last = -1;
       function apply() {
         var scale = getScale();
-        var y = window.scrollY;
-        var t = Math.round((y / scale) * 100) / 100;
-        if (t !== last) { last = t; nav.style.transform = 'translate3d(0,' + t + 'px,0)'; }
-        if (y > 80) nav.classList.add('nav--solid');
-        else nav.classList.remove('nav--solid');
+        var heroH = hero.offsetHeight;
+        var offset = window.scrollY / scale;
+        if (offset > heroH) offset = heroH; else if (offset < 0) offset = 0;
+        offset = Math.round(offset * 100) / 100;
+        if (offset === last) return;
+        last = offset;
+        nav.style.transform = 'translate3d(0,' + offset + 'px,0)';
       }
       window.addEventListener('scroll', apply, { passive: true });
       window.addEventListener('resize', apply);
