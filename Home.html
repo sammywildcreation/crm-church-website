@@ -172,7 +172,7 @@ img { display: block; }
   display: flex; flex-direction: column; align-items: center;
   text-align: center; padding-top: 222px;
   will-change: transform;
-  transition: transform 0.05s linear;
+  backface-visibility: hidden;
 }
 .hero .script {
   font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
@@ -1056,42 +1056,44 @@ Available on Facebook, Instagram, and TikTok.</p>
 </script>
 <script src="project/site-animations.js"></script>
 <script>
-  /* Sticky hero: counteract scroll so band-photo slides over it */
+  /* Sticky hero: counteract scroll so the band-photo slides over it.
+     Transform is written directly in the (frame-throttled) passive scroll
+     handler with cached measurements — no rAF latency, no transition wobble. */
   (function () {
     var hero   = document.querySelector('.hero');
     var scaler = document.getElementById('scaler');
     if (!hero || !scaler) return;
 
-    var rafId = null;
-    var heroH = 0;
-    var scale = 1;
+    var heroH = 0;   /* hero height in local (unscaled) px */
+    var scale = 1;   /* current #scaler scale factor */
+    var last  = -1;  /* last applied offset, to skip redundant writes */
 
-    /* Cache measurements — avoids forced layout inside scroll handler */
+    /* Cache measurements so the scroll handler never forces layout */
     function measure() {
       heroH = hero.offsetHeight;
       var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
       scale = m ? parseFloat(m[1]) : 1;
     }
 
-    function update() {
-      rafId = null;
-      var offset = Math.min(window.scrollY / scale, heroH);
-      hero.style.transform = 'translateY(' + offset + 'px)';
+    function apply() {
+      /* scrollY is real px; divide by scale to get local px so the hero
+         appears to hold its on-screen position. Clamp so it stops once the
+         band-photo has fully covered it. */
+      var offset = window.scrollY / scale;
+      if (offset > heroH) offset = heroH;
+      else if (offset < 0) offset = 0;
+      offset = Math.round(offset * 100) / 100;
+      if (offset === last) return;
+      last = offset;
+      hero.style.transform = 'translate3d(0,' + offset + 'px,0)';
     }
-
-    function onScroll() {
-      if (rafId) return;
-      rafId = requestAnimationFrame(update);
-    }
-
-    function onResize() { measure(); onScroll(); }
 
     measure();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize);
-    /* Re-measure once fitScale() has finished (runs on load) */
-    window.addEventListener('load', function () { measure(); update(); });
-    update();
+    window.addEventListener('scroll', apply, { passive: true });
+    window.addEventListener('resize', function () { measure(); apply(); });
+    /* Re-measure after fitScale() has run on load, then apply */
+    window.addEventListener('load', function () { measure(); apply(); });
+    apply();
   })();
 </script>
 </body>
