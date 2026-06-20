@@ -174,6 +174,21 @@ img { display: block; }
   will-change: transform;
   backface-visibility: hidden;
 }
+/* Compositor-smooth hero pin: drives the counter-scroll transform on the
+   compositor thread (no main-thread shake). Only the hero is affected;
+   the rest of the layout is untouched. JS sets the exact range/travel,
+   and browsers without scroll-timeline support fall back to a JS handler. */
+@supports (animation-timeline: scroll()) {
+  .hero {
+    animation: hero-pin linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0px 750px; /* JS overrides with exact heroHeight * scale */
+  }
+  @keyframes hero-pin {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(0, var(--hero-travel, 844px), 0); }
+  }
+}
 .hero .script {
   font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
   color: var(--crm-gold); transform: rotate(-3deg); line-height: 1;
@@ -1056,44 +1071,53 @@ Available on Facebook, Instagram, and TikTok.</p>
 </script>
 <script src="project/site-animations.js"></script>
 <script>
-  /* Sticky hero: counteract scroll so the band-photo slides over it.
-     Transform is written directly in the (frame-throttled) passive scroll
-     handler with cached measurements — no rAF latency, no transition wobble. */
+  /* Hero pin: keep the hero visually still while the band-photo scrolls
+     over it. Preferred path uses a CSS scroll-driven animation (compositor
+     thread = zero shake); JS only feeds it the exact travel/range. Older
+     browsers fall back to a main-thread counter-translate. */
   (function () {
     var hero   = document.querySelector('.hero');
     var scaler = document.getElementById('scaler');
     if (!hero || !scaler) return;
 
-    var heroH = 0;   /* hero height in local (unscaled) px */
-    var scale = 1;   /* current #scaler scale factor */
-    var last  = -1;  /* last applied offset, to skip redundant writes */
-
-    /* Cache measurements so the scroll handler never forces layout */
-    function measure() {
-      heroH = hero.offsetHeight;
+    function getScale() {
       var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
-      scale = m ? parseFloat(m[1]) : 1;
+      return m ? parseFloat(m[1]) : 1;
     }
 
-    function apply() {
-      /* scrollY is real px; divide by scale to get local px so the hero
-         appears to hold its on-screen position. Clamp so it stops once the
-         band-photo has fully covered it. */
-      var offset = window.scrollY / scale;
-      if (offset > heroH) offset = heroH;
-      else if (offset < 0) offset = 0;
-      offset = Math.round(offset * 100) / 100;
-      if (offset === last) return;
-      last = offset;
-      hero.style.transform = 'translate3d(0,' + offset + 'px,0)';
-    }
+    var supportsScrollTL =
+      !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
 
-    measure();
-    window.addEventListener('scroll', apply, { passive: true });
-    window.addEventListener('resize', function () { measure(); apply(); });
-    /* Re-measure after fitScale() has run on load, then apply */
-    window.addEventListener('load', function () { measure(); apply(); });
-    apply();
+    if (supportsScrollTL) {
+      /* Compositor-driven — feed exact values, no scroll listener needed.
+         travel = hero height (local px); range = hero height * scale (real px),
+         i.e. the scroll distance over which the band-photo fully covers it. */
+      function sync() {
+        var h = hero.offsetHeight;
+        hero.style.setProperty('--hero-travel', h + 'px');
+        hero.style.setProperty('animation-range', '0px ' + Math.round(h * getScale()) + 'px');
+      }
+      sync();
+      window.addEventListener('resize', sync);
+      window.addEventListener('load', sync);
+    } else {
+      /* Fallback: counter-translate on scroll (slight main-thread lag). */
+      var heroH = 0, scale = 1, last = -1;
+      function measure() { heroH = hero.offsetHeight; scale = getScale(); }
+      function apply() {
+        var offset = window.scrollY / scale;
+        if (offset > heroH) offset = heroH; else if (offset < 0) offset = 0;
+        offset = Math.round(offset * 100) / 100;
+        if (offset === last) return;
+        last = offset;
+        hero.style.transform = 'translate3d(0,' + offset + 'px,0)';
+      }
+      measure();
+      window.addEventListener('scroll', apply, { passive: true });
+      window.addEventListener('resize', function () { measure(); apply(); });
+      window.addEventListener('load', function () { measure(); apply(); });
+      apply();
+    }
   })();
 </script>
 </body>
