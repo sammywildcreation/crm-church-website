@@ -172,6 +172,7 @@ img { display: block; }
   display: flex; flex-direction: column; align-items: center;
   text-align: center; padding-top: 222px;
   will-change: transform;
+  transition: transform 0.05s linear;
 }
 .hero .script {
   font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
@@ -182,8 +183,8 @@ img { display: block; }
   line-height: 1.0; color: #000; margin-top: 28px; letter-spacing: -0.01em;
 }
 .hero .sub {
-  font-family: var(--crm-font-sans); font-weight: 700; font-size: 30px;
-  color: var(--crm-ink); margin-top: 42px;
+  font-family: var(--crm-font-sans); font-weight: 500; font-size: 30px;
+  font-style: italic; color: var(--crm-ink); margin-top: 42px;
 }
 
 /* ── Congregation band ── */
@@ -1062,18 +1063,19 @@ Available on Facebook, Instagram, and TikTok.</p>
     if (!hero || !scaler) return;
 
     var rafId = null;
+    var heroH = 0;
+    var scale = 1;
 
-    function getScale() {
+    /* Cache measurements — avoids forced layout inside scroll handler */
+    function measure() {
+      heroH = hero.offsetHeight;
       var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
-      return m ? parseFloat(m[1]) : 1;
+      scale = m ? parseFloat(m[1]) : 1;
     }
 
     function update() {
       rafId = null;
-      var scale = getScale();
-      var sy    = window.scrollY;
-      var limit = hero.offsetHeight; /* CSS px — clip container clips anything beyond */
-      var offset = Math.min(sy / scale, limit);
+      var offset = Math.min(window.scrollY / scale, heroH);
       hero.style.transform = 'translateY(' + offset + 'px)';
     }
 
@@ -1082,8 +1084,13 @@ Available on Facebook, Instagram, and TikTok.</p>
       rafId = requestAnimationFrame(update);
     }
 
+    function onResize() { measure(); onScroll(); }
+
+    measure();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', onResize);
+    /* Re-measure once fitScale() has finished (runs on load) */
+    window.addEventListener('load', function () { measure(); update(); });
     update();
   })();
 </script>
