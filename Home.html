@@ -161,12 +161,17 @@ img { display: block; }
 .btn-cta:hover { background-color: var(--crm-purple-deep); }
 
 /* ── Hero ── */
+.hero-clip {
+  height: 844px;
+  overflow: hidden;
+  position: relative; z-index: 1;
+}
 .hero {
   height: 844px;
   background: url(project/assets/hero-collage.png) center / cover no-repeat;
   display: flex; flex-direction: column; align-items: center;
   text-align: center; padding-top: 222px;
-  position: relative; z-index: 1;
+  will-change: transform;
 }
 .hero .script {
   font-family: var(--crm-font-script); font-weight: 700; font-size: 58px;
@@ -586,11 +591,13 @@ img { display: block; }
     </header>
 
     <!-- HERO -->
-    <section class="hero">
-      <span class="script">Welcome to our Church</span>
-      <h1>A Place Where<br />Destinies are Rebuild</h1>
-      <p class="sub">Restoring Hope, Rebuilding Destiny&#8230;</p>
-    </section>
+    <div class="hero-clip">
+      <section class="hero">
+        <span class="script">Welcome to our Church</span>
+        <h1>A Place Where<br />Destinies are Rebuild</h1>
+        <p class="sub">Restoring Hope, Rebuilding Destiny&#8230;</p>
+      </section>
+    </div>
 
     <!-- CONGREGATION BAND -->
     <section class="band-photo"></section>
@@ -1054,27 +1061,29 @@ Available on Facebook, Instagram, and TikTok.</p>
     var scaler = document.getElementById('scaler');
     if (!hero || !scaler) return;
 
+    var rafId = null;
+
     function getScale() {
       var m = (scaler.style.transform || '').match(/scale\(([\d.]+)\)/);
       return m ? parseFloat(m[1]) : 1;
     }
 
     function update() {
-      var scale  = getScale();
-      var sy     = window.scrollY;
-      /* hero height in screen pixels */
-      var heroH  = hero.offsetHeight * scale;
-      if (sy <= heroH) {
-        /* push hero down by scrollY compensated for the scale, keeping it visually fixed */
-        hero.style.transform = 'translateY(' + (sy / scale) + 'px)';
-      } else {
-        /* once the band-photo has fully covered it, let hero sit at its natural end */
-        hero.style.transform = 'translateY(' + hero.offsetHeight + 'px)';
-      }
+      rafId = null;
+      var scale = getScale();
+      var sy    = window.scrollY;
+      var limit = hero.offsetHeight; /* CSS px — clip container clips anything beyond */
+      var offset = Math.min(sy / scale, limit);
+      hero.style.transform = 'translateY(' + offset + 'px)';
     }
 
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     update();
   })();
 </script>
