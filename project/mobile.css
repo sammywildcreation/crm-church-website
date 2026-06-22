@@ -1,8 +1,64 @@
 /* ═══════════════════════════════════════════════════
-   CRM Church — Mobile Responsive Overrides
-   Kicks in at ≤ 768px; extra squeeze at ≤ 480px
+   CRM Church — Mobile & Tablet Responsive Overrides
+   Tablet  : ≤ 1024px  (scaling disabled, layout adapts)
+   Mobile  : ≤  768px  (hamburger nav, single-column)
+   X-small : ≤  480px  (extra font squeeze)
 ═══════════════════════════════════════════════════ */
 
+/* ── Desktop default: hide mobile-only elements ── */
+.ham-btn  { display: none; }
+.mob-menu { display: none; }
+
+/* ═══════════════════════════════════════════════════
+   TABLET + MOBILE  (≤ 1024px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+
+  /* Disable compositor scroll-pin animations (hero + nav) */
+  .nav, .hero { animation: none !important; }
+
+  /* Scaler / page: fill viewport */
+  #scaler { width: 100% !important; }
+  .page   { width: 100% !important; overflow-x: hidden !important; }
+
+  /* Hero-clip: remove overflow-hidden that clips content */
+  .hero-clip { overflow: visible !important; height: auto !important; }
+
+  /* Band-photo scroll-cover effect: hide on tablet/mobile */
+  .band-photo { display: none !important; }
+
+  /* Nav: fixed at top, white bg */
+  .nav {
+    position: fixed !important;
+    background: rgba(255,255,255,0.97) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.09) !important;
+    z-index: 200 !important;
+    padding: 0 40px !important;
+  }
+  /* Hero needs top-padding to clear fixed nav */
+  .hero { padding-top: 100px !important; transform: none !important; }
+
+  /* Tablet: 2-col program cards */
+  .program-cards { flex-wrap: wrap !important; justify-content: center !important; gap: 16px !important; }
+  .program-card  { width: calc(50% - 8px) !important; max-width: 340px !important; }
+
+  /* Tablet: 2-col yearly/event tabs */
+  .yearly-box { flex-wrap: wrap !important; }
+  .ytab       { width: calc(50% - 8px) !important; }
+
+  /* Tablet: intro section */
+  .intro { padding: 80px 48px !important; }
+
+  /* Tablet: footer */
+  .footer { padding: 56px 40px 0 !important; }
+  .footer-top { flex-wrap: wrap !important; gap: 32px !important; }
+}
+
+/* ═══════════════════════════════════════════════════
+   MOBILE ONLY  (≤ 768px)
+═══════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
   /* ── Base ── */
@@ -12,271 +68,231 @@
   .nav { padding: 0 20px !important; }
   .nav-rail { display: none !important; }
   .brand .wordmark { display: none !important; }
-  .btn-cta { font-size: 13px !important; padding: 9px 16px !important; border-radius: 12px !important; }
+  .btn-cta { display: none !important; }
 
-  /* ═══════════════════════════════
-     HOME PAGE
-  ═══════════════════════════════ */
-
-  .hero {
-    height: auto !important;
-    padding-top: 110px !important;
-    padding-bottom: 60px !important;
+  /* ── Hamburger button ── */
+  .ham-btn {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
   }
+  .ham-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #1a1a2e;
+    border-radius: 2px;
+    transition: transform 220ms ease, opacity 220ms ease;
+    pointer-events: none;
+  }
+  .ham-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .ham-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .ham-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── Mobile overlay menu ── */
+  .mob-menu {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 199;
+    padding: 88px 32px 48px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+    overflow-y: auto;
+  }
+  .mob-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mob-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-top: 8px;
+  }
+  .mob-nav a {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a2e;
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: block;
+  }
+  .mob-nav a:last-child { border-bottom: none; }
+  .mob-nav a.active { color: #7b2d8b; }
+  .mob-cta {
+    background-color: #7b2d8b;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  /* HOME */
+  .hero { height: auto !important; padding-top: 110px !important; padding-bottom: 60px !important; }
   .hero h1 { font-size: 42px !important; line-height: 1.1 !important; margin-top: 16px !important; }
   .hero .script { font-size: 34px !important; }
   .hero .sub { font-size: 18px !important; }
   .hero .btns { flex-direction: column !important; gap: 12px !important; align-items: center !important; }
   .believe-photos { display: none !important; }
-
-  /* Congregation/intro band */
   .intro { padding: 60px 24px !important; height: auto !important; }
   .intro h2 { font-size: 26px !important; line-height: 1.4 !important; }
-
-  /* Sermon card section */
+  .intro p  { font-size: 22px !important; line-height: 1.5 !important; }
   .sermon-wrap { padding: 60px 16px !important; }
-  .sermon-card {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 300px !important;
-    border-radius: 20px !important;
-    padding: 32px 20px 24px !important;
-  }
-  .sermon-card .inner {
-    position: static !important;
-    width: 100% !important;
-    padding: 0 !important;
-  }
+  .sermon-card { width: 100% !important; height: auto !important; min-height: 300px !important; border-radius: 20px !important; padding: 32px 20px 24px !important; }
+  .sermon-card .inner { position: static !important; width: 100% !important; padding: 0 !important; }
   .sermon-card .inner .pc-title { font-size: 16px !important; }
   .sermon-card .inner h2 { font-size: 28px !important; line-height: 1.2 !important; }
   .sermon-card .player { width: 100% !important; }
-
-  /* Programs */
-  .programs { padding: 70px 24px 70px !important; }
+  .programs { padding: 70px 24px !important; }
   .programs h2 { font-size: 34px !important; line-height: 1.2 !important; }
   .program-cards { flex-direction: column !important; align-items: center !important; gap: 16px !important; }
-  .program-card { width: 100% !important; max-width: 400px !important; }
-  .center-row { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
-
-  /* Pastors */
-  .pastors {
-    height: auto !important;
-    overflow: visible !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    padding: 60px 24px !important;
-  }
-  .pastors .portrait {
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
-    justify-content: center !important;
-  }
-  .pastors .portrait img {
-    width: 260px !important;
-    height: 340px !important;
-    margin: 0 auto !important;
-  }
-  .pastors .copy {
-    position: static !important;
-    width: 100% !important;
-    margin-top: 32px !important;
-    text-align: center !important;
-  }
+  .program-card  { width: 100% !important; max-width: 400px !important; }
+  .center-row    { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+  .pastors { height: auto !important; overflow: visible !important; display: flex !important; flex-direction: column !important; align-items: center !important; padding: 60px 24px !important; }
+  .pastors .portrait { position: static !important; width: 100% !important; height: auto !important; justify-content: center !important; }
+  .pastors .portrait img { width: 260px !important; height: 340px !important; margin: 0 auto !important; }
+  .pastors .copy { position: static !important; width: 100% !important; margin-top: 32px !important; text-align: center !important; }
   .pastors .copy h2 { font-size: 22px !important; line-height: 1.4 !important; }
   .pastors .copy .sub { font-size: 14px !important; }
   .pastors .copy .script { font-size: 26px !important; }
-
-  /* Podcast */
-  .podcast {
-    height: auto !important;
-    border-radius: 0 !important;
-    padding: 60px 24px !important;
-    overflow: visible !important;
-  }
-  .podcast .row {
-    position: static !important;
-    width: 100% !important;
-    flex-direction: column !important;
-    gap: 32px !important;
-  }
+  .podcast { height: auto !important; border-radius: 0 !important; padding: 60px 24px !important; overflow: visible !important; }
+  .podcast .row { position: static !important; width: 100% !important; flex-direction: column !important; gap: 32px !important; }
   .podcast .row .left { width: 100% !important; }
   .podcast .row .left h2 { font-size: 34px !important; }
   .podcast .row .left .sub { font-size: 13px !important; }
   .podcast-card { width: 100% !important; }
-
-  /* Live streams */
   .streams { padding: 60px 24px !important; }
   .streams h2 { font-size: 34px !important; }
-  .watch-btns { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+  .watch-btns   { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
   .stream-photos { flex-direction: column !important; align-items: center !important; gap: 16px !important; }
-  .stream-card { width: 100% !important; max-width: 400px !important; }
-
-  /* Ministries */
+  .stream-card  { width: 100% !important; max-width: 400px !important; }
   .ministries { padding: 60px 24px !important; }
   .ministry-tab { min-width: 140px !important; }
-
-  /* Pill / center rows */
   .pill-row { flex-direction: column !important; align-items: center !important; gap: 10px !important; }
 
-  /* ═══════════════════════════════
-     ABOUT PAGE
-  ═══════════════════════════════ */
-
-  /* About hero card */
+  /* ABOUT */
   .hero-card { width: 100% !important; height: 280px !important; border-radius: 20px !important; }
-  .headline { font-size: 40px !important; letter-spacing: -1px !important; line-height: 1.1 !important; }
-
-  /* Mission / Vision dark section */
-  .mission {
-    height: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 60px 24px !important;
-    gap: 40px !important;
-  }
+  .headline  { font-size: 40px !important; letter-spacing: -1px !important; line-height: 1.1 !important; }
+  .mission { height: auto !important; display: flex !important; flex-direction: column !important; padding: 60px 24px !important; gap: 40px !important; }
   .mv-block { position: static !important; width: 100% !important; }
   .mission-block { position: static !important; width: 100% !important; left: auto !important; top: auto !important; }
-  .vision-block { position: static !important; width: 100% !important; left: auto !important; top: auto !important; }
-  .mv-block h2 { font-size: 28px !important; line-height: 1.3 !important; }
-  .mv-script { font-size: 34px !important; }
-  .book { width: 100% !important; height: 240px !important; }
-
-  /* Believe slider (about) */
+  .vision-block  { position: static !important; width: 100% !important; left: auto !important; top: auto !important; }
+  .mv-block h2  { font-size: 28px !important; line-height: 1.3 !important; }
+  .mv-script    { font-size: 34px !important; }
+  .book         { width: 100% !important; height: 240px !important; }
   .believe { height: auto !important; overflow: visible !important; padding: 60px 24px !important; }
   .believe h1 { position: static !important; font-size: 40px !important; line-height: 1.2 !important; margin-top: 16px !important; }
   .slider-arrows { position: static !important; margin-top: 20px !important; left: auto !important; top: auto !important; }
   .believe-viewport { position: static !important; width: 100% !important; height: auto !important; overflow: visible !important; left: auto !important; top: auto !important; }
   .believe-track { position: static !important; flex-direction: column !important; transform: none !important; width: 100% !important; gap: 16px !important; transition: none !important; }
   .bcard { width: 100% !important; height: auto !important; padding: 28px 20px !important; border-radius: 20px !important; flex: none !important; }
-
-  /* Evangelize band */
   .evangelize { padding: 60px 24px !important; min-height: 0 !important; height: auto !important; }
   .evangelize h2 { font-size: 56px !important; letter-spacing: -2px !important; }
-
-  /* Mandate photo section */
   .mandate { height: auto !important; padding: 60px 24px !important; }
   .mandate .stmt { font-size: 22px !important; line-height: 1.4 !important; }
-
-  /* About programs */
   .programs.about-programs { padding: 60px 24px !important; }
   .giving-card { width: 100% !important; }
 
-  /* ═══════════════════════════════
-     PROGRAM PAGE
-  ═══════════════════════════════ */
-
-  /* Split hero */
-  .hero { display: flex !important; }
-  .half { width: 100% !important; height: 200px !important; }
+  /* PROGRAM */
+  .half      { width: 100% !important; height: 200px !important; }
   .half.left { display: none !important; }
-
-  .events { padding: 60px 24px !important; }
+  .events       { padding: 60px 24px !important; }
   .events-inner { flex-direction: column !important; gap: 16px !important; }
-  .event { flex-direction: column !important; }
-  .poster { width: 100% !important; height: 220px !important; border-radius: 16px !important; }
-  .event-list { padding: 0 !important; }
-
-  .yearly { padding: 60px 24px !important; }
+  .event        { flex-direction: column !important; }
+  .poster       { width: 100% !important; height: 220px !important; border-radius: 16px !important; }
+  .event-list   { padding: 0 !important; }
+  .yearly     { padding: 60px 24px !important; }
   .yearly-box { flex-direction: column !important; gap: 12px !important; }
-  .ytab { width: 100% !important; }
+  .ytab       { width: 100% !important; }
 
-  /* ═══════════════════════════════
-     SERMON PAGE
-  ═══════════════════════════════ */
-
-  .sermon-main {
-    flex-direction: column !important;
-    height: auto !important;
-    min-height: 0 !important;
-  }
-  .sermon-list-wrap {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 50vh !important;
-    overflow-y: auto !important;
-  }
-  .srow { padding: 12px 16px !important; }
-  .stitle { font-size: 14px !important; }
+  /* SERMON */
+  .sermon-main { flex-direction: column !important; height: auto !important; min-height: 0 !important; }
+  .sermon-list-wrap { width: 100% !important; height: auto !important; max-height: 50vh !important; overflow-y: auto !important; }
+  .srow          { padding: 12px 16px !important; }
+  .stitle        { font-size: 14px !important; }
   .mic-watermark { display: none !important; }
 
-  /* ═══════════════════════════════
-     GIVING PAGE
-  ═══════════════════════════════ */
-
-  .giving-hero { height: auto !important; min-height: 300px !important; padding-bottom: 48px !important; }
+  /* GIVING */
+  .giving-hero    { height: auto !important; min-height: 300px !important; padding-bottom: 48px !important; }
   .giving-hero h1 { font-size: 28px !important; padding: 0 24px !important; }
-  .ways-section { padding: 48px 20px 0 !important; }
-  .bank-grid { grid-template-columns: 1fr !important; }
-  .acct-num { font-size: 28px !important; }
-  .acct-num.sm { font-size: 22px !important; }
+  .ways-section   { padding: 48px 20px 0 !important; }
+  .bank-grid      { grid-template-columns: 1fr !important; }
+  .acct-num       { font-size: 28px !important; }
+  .acct-num.sm    { font-size: 22px !important; }
   .multi-acct-grid { grid-template-columns: 1fr !important; }
   .welfare-section { padding: 48px 20px 0 !important; }
   .welfare-card-wrap { max-width: 100% !important; padding-bottom: 48px !important; }
 
-  /* ═══════════════════════════════
-     CONTACT PAGE
-  ═══════════════════════════════ */
-
-  .contact-hero { padding: 48px 24px 40px !important; min-height: auto !important; }
-  .contact-hero h1 { font-size: 30px !important; }
-  .church-deco { width: 180px !important; height: 180px !important; opacity: 0.06 !important; }
-  .contact-chips { flex-direction: column !important; gap: 12px !important; width: 100% !important; }
-  .contact-chip { min-width: 0 !important; width: 100% !important; }
-  .chip-value { font-size: 14px !important; white-space: normal !important; }
+  /* CONTACT */
+  .contact-hero     { padding: 48px 24px 40px !important; min-height: auto !important; }
+  .contact-hero h1  { font-size: 30px !important; }
+  .church-deco      { width: 180px !important; height: 180px !important; opacity: 0.06 !important; }
+  .contact-chips    { flex-direction: column !important; gap: 12px !important; width: 100% !important; }
+  .contact-chip     { min-width: 0 !important; width: 100% !important; }
+  .chip-value       { font-size: 14px !important; white-space: normal !important; }
   .contact-form-section { padding: 48px 20px !important; }
-  .form-row { grid-template-columns: 1fr !important; }
+  .form-row         { grid-template-columns: 1fr !important; }
 
-  /* ═══════════════════════════════
-     YOUTH MINISTRY PAGE
-  ═══════════════════════════════ */
-
-  .ym-hero { height: 380px !important; }
+  /* YOUTH MINISTRY */
+  .ym-hero    { height: 380px !important; }
   .ym-hero h1 { font-size: 40px !important; padding: 0 24px 60px !important; }
   .ym-content { padding: 48px 20px !important; }
   .ym-content-grid { grid-template-columns: 1fr !important; }
   .ym-welcome { font-size: 32px !important; letter-spacing: -1px !important; line-height: 1.2 !important; }
-  .ym-images { grid-template-columns: 1fr !important; margin-top: 32px !important; }
+  .ym-images  { grid-template-columns: 1fr !important; margin-top: 32px !important; }
   .ym-img-left, .ym-img-right { height: 240px !important; }
-  .ym-other { padding: 48px 20px 64px !important; }
+  .ym-other   { padding: 48px 20px 64px !important; }
   .ym-other-heading { font-size: 30px !important; letter-spacing: -1px !important; }
   .ym-ministry-grid { flex-direction: column !important; align-items: center !important; }
   .ym-ministry-card { width: 100% !important; max-width: 420px !important; height: 300px !important; }
-  .ym-card { padding: 28px 28px !important; border-radius: 24px !important; }
+  .ym-card    { padding: 28px !important; border-radius: 24px !important; }
 
-  /* ═══════════════════════════════
-     SHARED — SCRIPTURE & FOOTER
-  ═══════════════════════════════ */
-
-  .scripture { height: auto !important; padding: 64px 24px !important; }
-  .scripture h2 { font-size: 30px !important; line-height: 1.3 !important; }
+  /* SHARED — SCRIPTURE & FOOTER */
+  .scripture      { height: auto !important; padding: 64px 24px !important; }
+  .scripture h2   { font-size: 30px !important; line-height: 1.3 !important; }
   .scripture .ref { font-size: 30px !important; }
-
   .footer { padding: 40px 20px 0 !important; }
-  .footer-top { flex-direction: column !important; gap: 40px !important; border-bottom: none !important; }
+  .footer-top { flex-direction: column !important; gap: 40px !important; }
   .footer-divider, .footer-divider-v { display: none !important; }
   .footer-col-1, .footer-col-2, .footer-col-3 { width: 100% !important; flex: none !important; }
-  .footer-col-2 h3 { font-size: 18px !important; }
+  .footer-col-2 h3    { font-size: 18px !important; }
   .footer-col-2 .addr { margin-top: 16px !important; font-size: 16px !important; }
   .footer-top { border-bottom: 1px solid rgba(255,255,255,0.12) !important; padding-bottom: 40px !important; }
   .footer-mid { flex-direction: column !important; gap: 32px !important; }
-  .fm-brand { width: 100% !important; }
-  .fm-links { width: 100% !important; }
+  .fm-brand   { width: 100% !important; }
+  .fm-links   { width: 100% !important; }
   .fm-links h5 { margin-bottom: 20px !important; }
   .fm-connect h3 { font-size: 26px !important; }
   .footer-section-divider { display: none !important; }
 }
 
-/* ── Extra small screens ── */
+/* ── Extra small (≤ 480px) ── */
 @media (max-width: 480px) {
-  .hero h1 { font-size: 34px !important; }
-  .headline { font-size: 32px !important; }
-  .giving-hero h1 { font-size: 22px !important; }
+  .hero h1         { font-size: 34px !important; }
+  .headline        { font-size: 32px !important; }
+  .giving-hero h1  { font-size: 22px !important; }
   .contact-hero h1 { font-size: 24px !important; }
-  .ym-hero h1 { font-size: 32px !important; }
-  .scripture h2 { font-size: 24px !important; }
-  .btn-cta { font-size: 12px !important; padding: 8px 12px !important; }
-  .chip-value { font-size: 13px !important; }
-  .acct-num { font-size: 24px !important; }
+  .ym-hero h1      { font-size: 32px !important; }
+  .scripture h2    { font-size: 24px !important; }
+  .btn-cta         { font-size: 12px !important; padding: 8px 12px !important; }
+  .chip-value      { font-size: 13px !important; }
+  .acct-num        { font-size: 24px !important; }
 }

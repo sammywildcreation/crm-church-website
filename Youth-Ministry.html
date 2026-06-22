@@ -256,7 +256,20 @@
         <a href="Giving.html">Giving</a>
       </nav>
       <button class="btn-cta">Reachout to us</button>
+      <button class="ham-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+    <div class="mob-menu" role="dialog" aria-modal="true">
+      <nav class="mob-nav">
+        <a href="Home.html">Home</a>
+        <a href="About.html">About Us</a>
+        <a href="Program.html">Programs</a>
+        <a href="Sermon.html">Sermon</a>
+        <a href="Giving.html">Giving</a>
+      </nav>
+      <button class="mob-cta" onclick="window.location.href='Contact.html'">Reachout to us</button>
+    </div>
 
     <!-- HERO -->
     <section class="ym-hero">
@@ -407,7 +420,7 @@
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
-    if (vw <= 768) {
+    if (vw <= 1024) {
       scaler.style.transform = 'none';
       page.style.width = '100%';
       document.body.style.height = 'auto';
@@ -504,5 +517,26 @@
   ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
 </script>
 <script src="project/site-animations.js"></script>
+  <script>
+  (function(){
+    var btn = document.querySelector('.ham-btn');
+    var menu = document.querySelector('.mob-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', function(){
+      var open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    menu.querySelectorAll('a, .mob-cta').forEach(function(el){
+      el.addEventListener('click', function(){
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
