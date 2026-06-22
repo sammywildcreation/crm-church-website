@@ -24,8 +24,15 @@
   /* Hero-clip: remove overflow-hidden that clips content */
   .hero-clip { overflow: visible !important; height: auto !important; }
 
-  /* Band-photo scroll-cover effect: hide on tablet/mobile */
-  .band-photo { display: none !important; }
+  /* Band-photo: show as a normal static full-width photo (no scroll-cover effect) */
+  .band-photo {
+    position: static !important;
+    z-index: auto !important;
+    width: 100% !important;
+    height: 280px !important;
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
 
   /* Nav: fixed at top, white bg */
   .nav {
@@ -67,7 +74,14 @@
   /* ── Nav ── */
   .nav { padding: 0 20px !important; }
   .nav-rail { display: none !important; }
-  .brand .wordmark { display: none !important; }
+  .brand { text-decoration: none !important; }
+  .brand .wordmark {
+    display: block !important;
+    font-size: 12px !important;
+    line-height: 14px !important;
+    width: auto !important;
+    max-width: 90px !important;
+  }
   .btn-cta { display: none !important; }
 
   /* ── Hamburger button ── */
@@ -189,8 +203,9 @@
   .pill-row { flex-direction: column !important; align-items: center !important; gap: 10px !important; }
 
   /* ABOUT */
-  .hero-card { width: 100% !important; height: 280px !important; border-radius: 20px !important; }
-  .headline  { font-size: 40px !important; letter-spacing: -1px !important; line-height: 1.1 !important; }
+  .hero { padding: 0 !important; }
+  .hero-card  { width: 100% !important; height: 320px !important; border-radius: 0 !important; }
+  .headline   { font-size: 32px !important; letter-spacing: -0.5px !important; line-height: 1.2 !important; padding: 0 24px !important; bottom: 32px !important; }
   .mission { height: auto !important; display: flex !important; flex-direction: column !important; padding: 60px 24px !important; gap: 40px !important; }
   .mv-block { position: static !important; width: 100% !important; }
   .mission-block { position: static !important; width: 100% !important; left: auto !important; top: auto !important; }
@@ -212,27 +227,40 @@
   .giving-card { width: 100% !important; }
 
   /* PROGRAM */
-  .half      { width: 100% !important; height: 200px !important; }
-  .half.left { display: none !important; }
-  .events       { padding: 60px 24px !important; }
-  .events-inner { flex-direction: column !important; gap: 16px !important; }
-  .event        { flex-direction: column !important; }
-  .poster       { width: 100% !important; height: 220px !important; border-radius: 16px !important; }
-  .event-list   { padding: 0 !important; }
-  .yearly     { padding: 60px 24px !important; }
-  .yearly-box { flex-direction: column !important; gap: 12px !important; }
-  .ytab       { width: 100% !important; }
+  .hero-card  { width: 100% !important; height: 260px !important; border-radius: 0 !important; }
+  .half       { width: 100% !important; height: 260px !important; }
+  .half.left  { display: none !important; }
+  .hero-card .headline { font-size: 36px !important; padding: 0 24px !important; bottom: 40px !important; }
+  .events       { padding: 40px 20px 0 !important; }
+  .events-inner { width: 100% !important; }
+  .event-list   { margin-top: 32px !important; border-top: none !important; }
+  .event        { flex-direction: column !important; gap: 12px !important; padding: 32px 0 !important; }
+  .event .copy  { width: 100% !important; }
+  .event .title { font-size: 20px !important; line-height: 1.3 !important; }
+  .event .when  { font-size: 14px !important; margin-top: 6px !important; }
+  .event .where { font-size: 13px !important; margin-top: 6px !important; }
+  .poster       { width: 100% !important; height: 240px !important; border-radius: 12px !important; }
+  .poster img   { border-radius: 12px !important; }
+  .yearly       { padding: 40px 20px 48px !important; }
+  .yearly-box   { flex-direction: column !important; gap: 0 !important; padding: 28px 20px 12px !important; }
+  .yearly-box .ttl { font-size: 20px !important; margin-bottom: 24px !important; }
+  .ytab         { width: 100% !important; font-size: 18px !important; line-height: 1.4 !important; gap: 6px !important; padding: 16px 0 !important; }
 
   /* SERMON */
-  .sermon-main { flex-direction: column !important; height: auto !important; min-height: 0 !important; }
-  .sermon-list-wrap { width: 100% !important; height: auto !important; max-height: 50vh !important; overflow-y: auto !important; }
-  .srow          { padding: 12px 16px !important; }
-  .stitle        { font-size: 14px !important; }
-  .mic-watermark { display: none !important; }
+  .sermon-main      { flex-direction: column !important; height: auto !important; min-height: 0 !important; }
+  .sermon-list-wrap { width: 100% !important; height: auto !important; max-height: none !important; overflow-y: visible !important; }
+  .seal             { width: 120px !important; height: 120px !important; margin: 0 auto !important; }
+  .sl-title         { font-size: 28px !important; text-align: center !important; }
+  .sl-sub           { font-size: 13px !important; text-align: center !important; }
+  .srow             { padding: 12px 16px !important; }
+  .stitle           { font-size: 14px !important; }
+  .mic-watermark    { display: none !important; }
+  .player           { width: 100% !important; border-radius: 0 !important; padding: 12px 16px !important; }
+  .player .track    { flex: 1 !important; }
 
   /* GIVING */
-  .giving-hero    { height: auto !important; min-height: 300px !important; padding-bottom: 48px !important; }
-  .giving-hero h1 { font-size: 28px !important; padding: 0 24px !important; }
+  .giving-hero    { height: 260px !important; min-height: 0 !important; padding-bottom: 0 !important; display: flex !important; align-items: flex-end !important; }
+  .giving-hero h1 { font-size: 26px !important; padding: 0 24px 32px !important; line-height: 1.3 !important; }
   .ways-section   { padding: 48px 20px 0 !important; }
   .bank-grid      { grid-template-columns: 1fr !important; }
   .acct-num       { font-size: 28px !important; }
