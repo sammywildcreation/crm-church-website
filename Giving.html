@@ -4,45 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CRM Church — Giving</title>
+<link rel="stylesheet" href="colors_and_type.css" />
 <style>
-  @font-face{font-family:"Georgia";src:url("project/fonts/Georgia.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
-  @font-face{font-family:"Geneva";src:url("project/fonts/Geneva.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
-  :root{
-    --crm-purple:#500F50; --crm-purple-deep:#3A0B3A;
-    --crm-purple-tint:rgba(228,110,228,0.20); --crm-purple-soft:rgba(80,15,80,0.06);
-    --crm-gold:#FDB52A; --crm-gold-soft:#FFF0D2; --crm-red:#F50100;
-    --crm-black:#0A0A0A; --crm-ink:#282828; --crm-ink-2:#333333;
-    --crm-ink-3:#777777; --crm-ink-4:#9B9B9B; --crm-white:#FFFFFF;
-    --crm-bg:#F7F7F7; --crm-bg-alt:#F7FCFF; --crm-line:#EEEEEE; --crm-line-2:#D2D2D2;
-    --crm-surface-dark:#0A0A0A; --crm-surface-dark-2:#1F1F1F;
-    --crm-on-dark-1:#FFFFFF; --crm-on-dark-2:rgba(255,255,255,0.70); --crm-on-dark-3:rgba(255,255,255,0.30);
-    --crm-fg-1:var(--crm-black); --crm-fg-2:var(--crm-ink); --crm-fg-3:var(--crm-ink-3);
-    --crm-accent:var(--crm-purple); --crm-accent-warm:var(--crm-gold);
-    --crm-font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
-    --crm-font-display:"Inter","Helvetica Neue",Arial,sans-serif;
-    --crm-font-script:"Caveat","Lucida Handwriting",cursive;
-    --crm-font-serif:Georgia,"Times New Roman",serif;
-    --crm-font-ui:"DM Sans","Inter",sans-serif;
-    --crm-text-xs:12px; --crm-text-sm:14px; --crm-text-base:16px; --crm-text-md:18px;
-    --crm-text-lg:20px; --crm-text-xl:24px; --crm-text-2xl:30px; --crm-text-3xl:40px;
-    --crm-text-4xl:56px; --crm-text-5xl:72px; --crm-text-display:100px;
-    --crm-radius-xs:6px; --crm-radius-sm:8px; --crm-radius-md:12px; --crm-radius-lg:16px;
-    --crm-radius-xl:24px; --crm-radius-2xl:40px; --crm-radius-pill:1920px;
-    --crm-space-1:4px; --crm-space-2:8px; --crm-space-3:12px; --crm-space-4:16px;
-    --crm-space-5:20px; --crm-space-6:24px; --crm-space-8:32px; --crm-space-10:40px;
-    --crm-space-12:56px; --crm-space-16:80px; --crm-space-20:120px; --crm-space-24:150px;
-    --crm-shadow-sm:0 1px 2px rgba(0,0,0,0.04); --crm-shadow-md:0 8px 24px rgba(0,0,0,0.06);
-    --crm-shadow-lg:0 24px 60px rgba(0,0,0,0.10); --crm-shadow-poster:0 18px 40px rgba(0,0,0,0.18);
-    --crm-container:1280px; --crm-page-gutter:80px; --crm-nav-height:72px;
-  }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #1a1a1a; overflow-x: hidden; }
+  html, body { background: #1a1a1a; }
   body { font-family: var(--crm-font-sans); -webkit-font-smoothing: antialiased; }
   img { display: block; }
 
-  #scaler { transform-origin: top center; width: 1440px; margin: 0 auto; }
+  #scaler { transform-origin: top center; }
   .page { width: 1440px; background: #fff; margin: 0 auto; overflow: hidden; position: relative; }
 
   /* ── Nav ── */
@@ -50,7 +19,7 @@
     position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
     display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
   }
-  .brand { display: flex; align-items: center; gap: 7px; text-decoration: none; color: inherit; }
+  .brand { display: flex; align-items: center; gap: 7px; }
   .brand img { width: 56px; height: 56px; border-radius: 50%; }
   .brand .wordmark { font-family: var(--crm-font-ui); font-weight: 700; font-size: 14px; line-height: 16px; color: var(--crm-ink-2); width: 78px; }
   .nav-rail { display: flex; align-items: center; gap: 20px; background: rgba(155,155,155,0.10); border-radius: 8px; padding: 7px 4px; }
@@ -64,7 +33,7 @@
   .giving-hero {
     height: 673px; position: relative; margin-top: 72px;
     background: linear-gradient(0.805deg, rgb(20,20,20) 1.46%, rgba(20,20,20,0) 80%),
-                url(project/assets/giving-hero.jpg) 50% 8.657% / 100% 160% no-repeat;
+                url(assets/giving-hero.jpg) 50% 8.657% / 100% 160% no-repeat;
     display: flex; align-items: flex-end; justify-content: center; padding-bottom: 80px;
   }
   .giving-hero h1 {
@@ -121,14 +90,14 @@
   /* ── Scripture band ── */
   .scripture {
     height: 598px; position: relative;
-    background: url(project/assets/about-scripture.jpg) center / cover no-repeat;
+    background: url(assets/about-scripture.jpg) center / cover no-repeat;
     display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   }
   .scripture .ref { font-family: var(--crm-font-script); font-weight: 700; font-size: 48px; color: var(--crm-gold); transform: rotate(-5deg); margin-bottom: 8px; }
   .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; font-size: 72px; line-height: 84px; color: #fff; }
 
   /* ── Footer ── */
-  .footer { background: url(project/assets/footer-bg.png) center / cover no-repeat, var(--crm-black); padding: 50px 75px 0; color: #fff; }
+  .footer { background: url(assets/footer-bg.png) center / cover no-repeat, var(--crm-black); padding: 50px 75px 0; color: #fff; }
   .footer-top { display: flex; padding: 48px 0; }
   .footer-col-1 { width: 410px; display: flex; align-items: center; justify-content: center; }
   .footer-direction { text-align: center; }
@@ -178,12 +147,12 @@
   .page[data-voice="modern"] .scripture h2 { font-family: var(--crm-font-sans); font-weight: 800; letter-spacing: -0.02em; }
   .page[data-voice="editorial"] .scripture h2 { font-family: var(--crm-font-serif); font-weight: 700; }
 
-  #tweak-root { font-family: var(--crm-font-sans); }
-
+  /* ── Hover lifts & logo link ── */
+  .brand { text-decoration: none; color: inherit; }
   .giving-card { transition: transform 200ms ease, box-shadow 200ms ease; }
   .giving-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
 </style>
-<link rel="stylesheet" href="project/mobile.css" />
+<link rel="stylesheet" href="giving-mobile.css" />
 </head>
 <body style="font-size: 16px">
 <div id="scaler">
@@ -192,8 +161,8 @@
     <!-- NAV -->
     <header class="nav">
       <a href="Home.html" class="brand">
-        <img src="project/assets/logo-crm.png" alt="CRM seal" />
-        <span class="wordmark">Rebuilder's Ministry</span>
+        <img src="assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark"><span class="wm-1">Rebuilder's</span><span class="wm-2">Ministry</span></span>
       </a>
       <nav class="nav-rail">
         <a href="Home.html">Home</a>
@@ -203,24 +172,24 @@
         <a href="Giving.html" class="active">Giving</a>
       </nav>
       <button class="btn-cta">Reachout to us</button>
-      <button class="ham-btn" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
     </header>
-    <div class="mob-menu" role="dialog" aria-modal="true">
-      <nav class="mob-nav">
-        <a href="Home.html">Home</a>
-        <a href="About.html">About Us</a>
-        <a href="Program.html">Programs</a>
-        <a href="Sermon.html">Sermon</a>
-        <a href="Giving.html" class="active">Giving</a>
-      </nav>
-      <button class="mob-cta" onclick="window.location.href='Contact.html'">Reachout to us</button>
-    </div>
+
+    <!-- MOBILE MENU -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="Home.html">Home</a>
+      <a href="About.html">About Us</a>
+      <a href="Program.html">Programs</a>
+      <a href="Sermon.html">Sermon</a>
+      <a href="Giving.html" class="active">Giving</a>
+      <a href="Contact.html" class="mm-cta">Reachout to us</a>
+    </nav>
 
     <!-- HERO -->
     <section class="giving-hero">
-      <h1>We see giving as a meaningful expression of gratitude to the Lord.</h1>
+      <h1>We see giving as a meaningful expression of gratitude.</h1>
     </section>
 
     <!-- WAYS TO GIVE -->
@@ -234,7 +203,7 @@
           <div class="bank-col-title">Tithe &amp; Offering</div>
           <div class="bank-card cream">
             <div class="bank-card-header">
-              <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+              <img src="assets/giving-gtbank.png" alt="GTBank" />
               <span class="bank-name">Guaranty Trust Bank</span>
             </div>
             <div class="account-inner">
@@ -254,7 +223,7 @@
           <div class="bank-col-title">General Giving</div>
           <div class="bank-card cream">
             <div class="bank-card-header">
-              <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+              <img src="assets/giving-gtbank.png" alt="GTBank" />
               <span class="bank-name">Guaranty Trust Bank</span>
             </div>
             <div class="account-inner">
@@ -277,7 +246,7 @@
           <div class="bank-col-title">Church Fuelling</div>
           <div class="bank-card mint">
             <div class="bank-card-header">
-              <img src="project/assets/giving-opay.png" alt="Opay" style="border-radius:50%;"/>
+              <img src="assets/giving-opay.png" alt="Opay" style="border-radius:50%;"/>
               <span class="bank-name">Opay</span>
             </div>
             <div class="account-inner">
@@ -294,11 +263,11 @@
         </div>
 
         <div>
-          <div class="bank-col-title">General Giving for Other Currencies</div>
+          <div class="bank-col-title">General Giving</div>
           <div class="bank-card pink">
             <div class="bank-card-header">
-              <img src="project/assets/giving-globus.png" alt="Globus Bank" style="border-radius:10px;" />
-              <span class="bank-name">Globus bank</span>
+              <img src="assets/giving-globus.png" alt="Globus Bank" style="border-radius:10px;" />
+              <span class="bank-name">Globus bank for <strong>Currencies</strong></span>
             </div>
             <div class="account-inner">
               <div class="multi-acct-grid">
@@ -359,7 +328,7 @@
       <div class="welfare-card-wrap">
         <div class="bank-card cream">
           <div class="bank-card-header">
-            <img src="project/assets/giving-gtbank.png" alt="GTBank" />
+            <img src="assets/giving-gtbank.png" alt="GTBank" />
             <span class="bank-name">Guaranty Trust Bank</span>
           </div>
           <div class="account-inner">
@@ -397,14 +366,14 @@
         <div class="footer-col-2">
           <h3>Christ The Rebuilder's Ministry</h3>
           <div class="hope">(Hope Sanctuary)</div>
-          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="addr"><svg class="addr-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</span></div>
           <div class="footer-contact">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
             <span>+234-708652527237</span>
           </div>
           <div class="footer-contact">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
-            <span>christherebuilder@gmail.com</span>
+            <span>Info@Rebuilder.com</span>
           </div>
         </div>
         <div class="footer-divider"></div>
@@ -420,7 +389,7 @@
       <div class="footer-mid">
         <div class="fm-brand">
           <div class="logo-row">
-            <img src="project/assets/logo-crm.png" alt="" />
+            <img src="assets/logo-crm.png" alt="" />
             <span>Christ The Rebuilder's Ministry</span>
           </div>
           <div class="social">
@@ -430,7 +399,7 @@
             <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
           </div>
         </div>
-        <div class="fm-links">
+        <div class="fm-links fm-links--pages">
           <h5>Pages</h5>
           <a href="Home.html">Home</a>
           <a href="About.html">About Us</a>
@@ -438,11 +407,11 @@
           <a href="Sermon.html">Sermon</a>
           <a href="Giving.html">Giving</a>
         </div>
-        <div class="fm-links">
+        <div class="fm-links fm-links--quick">
           <h5>Quick</h5>
           <a href="Contact.html">Contact Us</a>
-          <a href="https://web.facebook.com/AKAHopeSanctuary" target="_blank" rel="noopener">Watch On FB</a>
-          <a href="https://www.youtube.com/@christtherebuildersministry" target="_blank" rel="noopener">Watch On YT</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
         </div>
         <div class="fm-connect">
           <h3>Stay Connected</h3>
@@ -461,6 +430,7 @@
 <div class="copy-toast" id="copyToast">Copied!</div>
 
 <script>
+  // ── Copy to clipboard ──
   (function () {
     var toast = document.getElementById('copyToast');
     var toastTimer;
@@ -474,6 +444,7 @@
         toast.classList.add('show');
         toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
       }).catch(function () {
+        // fallback
         var ta = document.createElement('textarea');
         ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.select();
@@ -486,33 +457,52 @@
     });
   })();
 
+  // ── Scale the fixed 1440 design to viewport width ──
+  // On phones (≤768px) we DON'T scale — giving-mobile.css reflows the page.
   function fitScale() {
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
-    if (vw <= 1024) {
+    if (vw <= 768) {
       scaler.style.transform = 'none';
-      page.style.width = '100%';
-      document.body.style.height = 'auto';
-    } else {
-      page.style.width = '';
-      var scale = vw / 1440;
-      scaler.style.transform = 'scale(' + scale + ')';
-      document.body.style.height = (page.offsetHeight * scale) + 'px';
+      document.body.style.height = '';
+      return;
     }
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', fitScale);
   window.addEventListener('load', fitScale);
   fitScale();
   window.fitScale = fitScale;
+
+  // ── Mobile menu toggle ──
+  (function() {
+    var btn = document.getElementById('hamburger');
+    var menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    function setOpen(open) {
+      menu.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function(e) { e.stopPropagation(); setOpen(!menu.classList.contains('open')); });
+    menu.addEventListener('click', function(e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('click', function(e) {
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+    });
+    window.addEventListener('resize', function() { if (document.documentElement.clientWidth > 768) setOpen(false); });
+  })();
 </script>
 
-<!-- ════════ TWEAKS ════════ -->
+<!-- ════════ Interactions: nav CTA + scroll animations ════════ -->
 <script>
+  /* ── btn-cta → Contact ── */
   document.addEventListener('click', function(e) {
     if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
   });
 
+  /* ── Scroll-pop animations ── */
   (function() {
     var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
     var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
@@ -536,81 +526,5 @@
   })();
 </script>
 
-<div id="tweak-root"></div>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="project/tweaks-panel.jsx"></script>
-<script type="text/babel">
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "palette": [
-      "#FDB52A",
-      "#500F50",
-      "#3A0B3A"
-    ],
-    "voice": "editorial"
-  }/*EDITMODE-END*/;
-
-  const PALETTES = [
-    { value: ["#FDB52A","#500F50","#3A0B3A"], label: "Heritage" },
-    { value: ["#F76C5E","#3A1142","#280B2E"], label: "Coral & Plum" },
-    { value: ["#E8A317","#5C1A2E","#40121F"], label: "Saffron & Wine" },
-    { value: ["#F4B400","#1F3A5F","#142840"], label: "Sky & Slate" },
-  ];
-
-  function CRMTweaks() {
-    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-    React.useEffect(() => {
-      const root = document.documentElement;
-      const pal = t.palette || PALETTES[0].value;
-      root.style.setProperty('--crm-gold',        pal[0]);
-      root.style.setProperty('--crm-purple',       pal[1]);
-      root.style.setProperty('--crm-purple-deep',  pal[2] || pal[1]);
-      const page = document.querySelector('.page');
-      if (page) page.setAttribute('data-voice', t.voice);
-      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
-    }, [t.palette, t.voice]);
-
-    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
-    return (
-      <TweaksPanel title="Tweaks">
-        <TweakSection label="Color mood" />
-        <div style={note}>Re-skins gold + purple across every section.</div>
-        <TweakColor label="Palette" value={t.palette}
-          options={PALETTES.map(p => p.value)}
-          onChange={v => setTweak('palette', v)} />
-        <TweakSection label="Headline voice" />
-        <div style={note}>Editorial uses Georgia for the scripture quote; Modern uses bold Inter.</div>
-        <TweakRadio label="Voice" value={t.voice}
-          options={["modern","mixed","editorial"]}
-          onChange={v => setTweak('voice', v)} />
-      </TweaksPanel>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
-</script>
-<script src="project/site-animations.js"></script>
-  <script>
-  (function(){
-    var btn = document.querySelector('.ham-btn');
-    var menu = document.querySelector('.mob-menu');
-    if (!btn || !menu) return;
-    btn.addEventListener('click', function(){
-      var open = menu.classList.toggle('open');
-      btn.classList.toggle('open', open);
-      btn.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    menu.querySelectorAll('a, .mob-cta').forEach(function(el){
-      el.addEventListener('click', function(){
-        menu.classList.remove('open');
-        btn.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  })();
-  </script>
 </body>
 </html>

@@ -4,42 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CRM Church — About Us</title>
+<link rel="stylesheet" href="colors_and_type.css" />
 <style>
-  @font-face{font-family:"Georgia";src:url("project/fonts/Georgia.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
-  @font-face{font-family:"Geneva";src:url("project/fonts/Geneva.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:swap}
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap');
-  :root{
-    --crm-purple:#500F50;--crm-purple-deep:#3A0B3A;
-    --crm-purple-tint:rgba(228,110,228,0.20);--crm-purple-soft:rgba(80,15,80,0.06);
-    --crm-gold:#FDB52A;--crm-gold-soft:#FFF0D2;--crm-red:#F50100;
-    --crm-black:#0A0A0A;--crm-ink:#282828;--crm-ink-2:#333333;
-    --crm-ink-3:#777777;--crm-ink-4:#9B9B9B;--crm-white:#FFFFFF;
-    --crm-bg:#F7F7F7;--crm-bg-alt:#F7FCFF;--crm-line:#EEEEEE;--crm-line-2:#D2D2D2;
-    --crm-surface-dark:#0A0A0A;--crm-surface-dark-2:#1F1F1F;
-    --crm-on-dark-1:#FFFFFF;--crm-on-dark-2:rgba(255,255,255,0.70);--crm-on-dark-3:rgba(255,255,255,0.30);
-    --crm-fg-1:var(--crm-black);--crm-fg-2:var(--crm-ink);--crm-fg-3:var(--crm-ink-3);
-    --crm-accent:var(--crm-purple);--crm-accent-warm:var(--crm-gold);
-    --crm-font-sans:"Inter","Helvetica Neue",Arial,sans-serif;
-    --crm-font-display:"Inter","Helvetica Neue",Arial,sans-serif;
-    --crm-font-script:"Caveat","Lucida Handwriting",cursive;
-    --crm-font-serif:Georgia,"Times New Roman",serif;
-    --crm-font-ui:"DM Sans","Inter",sans-serif;
-    --crm-text-xs:12px;--crm-text-sm:14px;--crm-text-base:16px;--crm-text-md:18px;
-    --crm-text-lg:20px;--crm-text-xl:24px;--crm-text-2xl:30px;--crm-text-3xl:40px;
-    --crm-text-4xl:56px;--crm-text-5xl:72px;--crm-text-display:100px;
-    --crm-radius-xs:6px;--crm-radius-sm:8px;--crm-radius-md:12px;--crm-radius-lg:16px;
-    --crm-radius-xl:24px;--crm-radius-2xl:40px;--crm-radius-pill:1920px;
-    --crm-space-1:4px;--crm-space-2:8px;--crm-space-3:12px;--crm-space-4:16px;
-    --crm-space-5:20px;--crm-space-6:24px;--crm-space-8:32px;--crm-space-10:40px;
-    --crm-space-12:56px;--crm-space-16:80px;--crm-space-20:120px;--crm-space-24:150px;
-    --crm-shadow-sm:0 1px 2px rgba(0,0,0,0.04);--crm-shadow-md:0 8px 24px rgba(0,0,0,0.06);
-    --crm-shadow-lg:0 24px 60px rgba(0,0,0,0.10);--crm-shadow-poster:0 18px 40px rgba(0,0,0,0.18);
-    --crm-container:1280px;--crm-page-gutter:80px;--crm-nav-height:72px;
-  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #1a1a1a; overflow-x: hidden; }
+  html, body { background: #1a1a1a; }
   body {
     font-family: var(--crm-font-sans);
     -webkit-font-smoothing: antialiased;
@@ -47,7 +17,7 @@
   }
   img { display: block; }
 
-  #scaler { transform-origin: top center; width: 1440px; margin: 0 auto; }
+  #scaler { transform-origin: top center; }
   .page {
     width: 1440px;
     background: var(--crm-bg);
@@ -111,7 +81,7 @@
   /* ── Hero ── */
   .hero {
     height: 1020px; position: relative;
-    background: url(project/assets/about-hero-bg.png) center top / cover no-repeat, #fff;
+    background: url(assets/about-hero-bg.png) center top / cover no-repeat, #fff;
     display: flex; flex-direction: column; align-items: center;
     padding: 114px 80px 0;
   }
@@ -137,7 +107,7 @@
 
   /* ── Intro statement ── */
   .intro {
-    background: url(project/assets/paper-texture.png) center / cover no-repeat, #fff;
+    background: url(assets/paper-texture.png) center / cover no-repeat, #fff;
     height: 550px; display: flex; flex-direction: column; align-items: center;
     justify-content: center; text-align: center; padding: 0 208px;
   }
@@ -245,8 +215,9 @@
   /* ── We Evangelize band ── */
   .evangelize {
     height: 847px; position: relative; overflow: hidden;
-    background: url(project/assets/evangelize.png) center center / cover no-repeat;
+    background: url(assets/evangelize.jpg) center / cover no-repeat;
   }
+  .evangelize span { display: none; }
   .evangelize span {
     position: absolute; left: 147px; top: 119px; width: 1145px;
     font-family: "Cherry Bomb One", var(--crm-font-sans); font-weight: 400;
@@ -298,9 +269,9 @@
     position: relative; display: flex; flex-direction: column; justify-content: flex-end;
     padding: 19px;
   }
-  .program-card.pc1 { background: url(project/assets/program-1.jpg) center / cover no-repeat; }
-  .program-card.pc2 { background: url(project/assets/program-2.jpg) center / cover no-repeat; }
-  .program-card.pc3 { background: url(project/assets/program-3.jpg) center / cover no-repeat; }
+  .program-card.pc1 { background: url(assets/program-1.jpg) center / cover no-repeat; }
+  .program-card.pc2 { background: url(assets/program-2.jpg) center / cover no-repeat; }
+  .program-card.pc3 { background: url(assets/program-3.jpg) center / cover no-repeat; }
   .program-card::before {
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(rgba(0,0,0,0) 30%, rgba(0,0,0,0.75) 100%);
@@ -314,7 +285,7 @@
   /* ── Scripture band ── */
   .scripture {
     height: 598px; position: relative;
-    background: url(project/assets/about-scripture.jpg) center / cover no-repeat;
+    background: url(assets/about-scripture.jpg) center / cover no-repeat;
     display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   }
   .scripture .ref {
@@ -328,7 +299,7 @@
 
   /* ── Footer ── */
   .footer {
-    background: url(project/assets/footer-bg.png) center / cover no-repeat, var(--crm-black);
+    background: url(assets/footer-bg.png) center / cover no-repeat, var(--crm-black);
     padding: 50px 75px 0; position: relative; color: #fff;
   }
   .footer-top { display: flex; padding: 48px 0; }
@@ -396,8 +367,6 @@
   .page[data-air="airy"] .intro         { height: 660px; }
   .page[data-air="airy"] .programs      { padding-top: 220px; }
 
-  #tweak-root { font-family: var(--crm-font-sans); }
-
   /* ── Hover lifts & logo link ── */
   .brand { text-decoration: none; color: inherit; }
   .program-card, .giving-card, .pastor-card, .stream-card { transition: transform 200ms ease, box-shadow 200ms ease; }
@@ -408,17 +377,25 @@
   .ministry-tab a.arrow { transition: background 200ms ease; }
   .ministry-tab:hover a.arrow { background: rgba(80,15,80,0.65); }
 </style>
-<link rel="stylesheet" href="project/mobile.css" />
+<link rel="stylesheet" href="about-mobile.css" />
 </head>
 <body style="font-size: 16px">
+<template id="__bundler_thumbnail" data-bg-color="#500F50">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#500F50"/>
+    <circle cx="600" cy="330" r="150" fill="none" stroke="#FDB52A" stroke-width="14"/>
+    <path d="M600 235 L600 425 M520 330 L680 330" stroke="#FDB52A" stroke-width="14" stroke-linecap="round"/>
+    <text x="600" y="600" font-family="Georgia, serif" font-size="90" font-weight="700" fill="#ffffff" text-anchor="middle">CRM</text>
+  </svg>
+</template>
 <div id="scaler">
   <div class="page" data-screen-label="About Us" data-voice="mixed" data-air="balanced">
 
     <!-- NAV -->
     <header class="nav">
       <a href="Home.html" class="brand">
-        <img src="project/assets/logo-crm.png" alt="CRM seal" />
-        <span class="wordmark">Rebuilder's Ministry</span>
+        <img src="assets/logo-crm.png" alt="CRM seal" />
+        <span class="wordmark"><span class="wm-1">Rebuilder’s</span><span class="wm-2">Ministry</span></span>
       </a>
       <nav class="nav-rail">
         <a href="Home.html">Home</a>
@@ -428,25 +405,25 @@
         <a href="Giving.html">Giving</a>
       </nav>
       <button class="btn-cta">Reachout to us</button>
-      <button class="ham-btn" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
     </header>
-    <div class="mob-menu" role="dialog" aria-modal="true">
-      <nav class="mob-nav">
-        <a href="Home.html">Home</a>
-        <a href="About.html" class="active">About Us</a>
-        <a href="Program.html">Programs</a>
-        <a href="Sermon.html">Sermon</a>
-        <a href="Giving.html">Giving</a>
-      </nav>
-      <button class="mob-cta" onclick="window.location.href='Contact.html'">Reachout to us</button>
-    </div>
+
+    <!-- MOBILE MENU -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="Home.html">Home</a>
+      <a href="About.html" class="active">About Us</a>
+      <a href="Program.html">Programs</a>
+      <a href="Sermon.html">Sermon</a>
+      <a href="Giving.html">Giving</a>
+      <a href="Contact.html" class="mm-cta">Reachout to us</a>
+    </nav>
 
     <!-- HERO -->
     <section class="hero">
       <div class="hero-card">
-        <img src="project/assets/about-hero.png" alt="Christ the Rebuilder congregation" />
+        <img src="assets/about-hero.png" alt="Christ the Rebuilder congregation" />
         <div class="grad"></div>
         <div class="headline">
           <div class="l1" style="font-weight: 600">Welcome to</div>
@@ -457,27 +434,22 @@
 
     <!-- INTRO STATEMENT -->
     <section class="intro">
-      <p class="stmt">At CRM, we are <img class="chip-a" src="project/assets/intro-1.jpg" alt="" /> teaching and revealing Jesus Christ and His unending grace to all creatures, <img class="chip-b" src="project/assets/intro-2.jpg" alt="" /> we have a mandate to reveal the believer's identity and bringing unbelievers to their true identity in Christ Jesus. <img class="chip-c" src="project/assets/intro-3.jpg" alt="" /> Because he is still in the business of rebuilding lives</p>
+      <p class="stmt">At CRM, we are <img class="chip-a" src="assets/intro-1.jpg" alt="" /> teaching and revealing Jesus Christ and His unending grace to all creatures, <img class="chip-b" src="assets/intro-2.jpg" alt="" /> we have a mandate to reveal the believer’s identity and bringing unbelievers to their true identity in Christ Jesus. <img class="chip-c" src="assets/intro-3.jpg" alt="" /> Because he is still in the business of rebuilding lives</p>
       <a href="Contact.html" class="pill-dark">Request Prayer</a>
     </section>
 
     <!-- MISSION / VISION -->
     <section class="mission">
-      <img class="book" src="project/assets/open-book.png" alt="Open Bible outdoors" />
+      <img class="book" src="assets/open-book.png" alt="Open Bible outdoors" />
       <div class="mv-block mission-block">
         <span class="mv-script">Our mission</span>
         <h2>We trust in the strength of God</h2>
-        <p>If Jesus Christ tarries, we want to be a succor to several widows, fatherless, and orphans around the world. </p>
+        <p>Our mission is to spread the love and power of God everywhere, just like the waters cover the sea. We want to fill the world with people like you who are passionate and ready to share this message. It’s all about revival—igniting a generation and lighting them up for God!</p>
       </div>
       <div class="mv-block vision-block">
         <span class="mv-script">Our vision</span>
         <h2>We spread the gospel of Jesus</h2>
-        <p>
-    1. To preach the word of God to every soul in bondage, trouble, etc., so that their lives will be rebuilt.<br>
-    2. To raise disciples in every nation of the world.<br>
-    3. To prepare every soul that is ready for the second coming of our lord Jesus Christ.<br>
-    4. To make everyone who comes in contact with this ministry a better person in Christ and in life.
-  </p>
+        <p>Our vision is to illuminate the world with the message of Jesus Christ, sharing His love and teachings with every corner of the earth. We aim to inspire hearts and minds, fostering a community where faith flourishes and hope reigns. Through outreach, education, and compassionate service, we strive to spread the gospel, inviting all to experience the transformative power of His grace.</p>
       </div>
     </section>
 
@@ -500,21 +472,19 @@
 
     <!-- WE EVANGELIZE -->
     <section class="evangelize">
+      <span>We Evangelize...</span>
     </section>
 
     <!-- HOW CRM EMERGED -->
-    <section class="mandate" style="padding: 100px 72px 200px; height: 1215px">
+    <section class="mandate" style="padding: 100px 72px 200px; height: 1015px">
       <div class="inner">
-        <img class="photo" src="project/assets/mandate-photo.jpg" alt="CRM congregation, 1997" />
+        <img class="photo" src="assets/mandate-photo.jpg" alt="CRM congregation, 1997" />
         <div class="copy">
           <span class="script">The Mandate</span>
           <h2>How C.RM Emerged...</h2>
-          <p>The vision was given to me by God on the 27th of March 2007 at Iree in Osun state, Nigeria, at about 11: 00 pm to go and rebuild lives that are battered by the enemies, broken down, and charred by the enemies, and to restore hope to the hopeless. The mandate was given to me from Isaiah 61:4.
-The vision is to raise disciples in every nation of the world who will carry out the vision and be a blessing to this generation.</p>
-          <p>Immediately, we started our outreach programme in Lagos in March 2007 from Bible Life International Ministries at Arowolo Street, where we had seventeen (17) persons in attendance. It was a glorious outing with pictures to capture the event. Souls were won to the Kingdom of God.</p>
-          <p>In 2008, another outreach was held in Osun State, Nigeria, where a total of sixty-eight people were in attendance. Souls were added to God's kingdom. Great was the exploit. Also in 2009, another outreach was held in the Lagos suburban area in a particular location at Abule Egba, Lagos. The attendance was one hundred and ten (110) people. The program was a great success.</p>
-          <p>2010 was another wonderful experience as the Rebuilder's outreach was held at the Mosaka area of Lagos, where ninety (90) persons were partakers of God's blessings. During the outreach, a great number of people gave their lives to Christ. Glory be to God.</p>
-          <p>The vision is thriving through the help of God and the support from the partners of the ministry. Most of our outreaches were sponsored by the donations of our partners. May God bless them. To God be the Glory for the global stage CRM has attained.</p>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
+          <p>From 1997 to date, God has authored every chapter of our story, increasingly bringing the Gospel to the unsaved, transforming the lives of people, and raising disciples for Christ—globally.</p>
         </div>
       </div>
     </section>
@@ -552,7 +522,7 @@ The vision is to raise disciples in every nation of the world who will carry out
     <!-- SCRIPTURE BAND -->
     <section class="scripture">
       <span class="ref">Matthew 19:26</span>
-      <h2>"With God all things<br />are possible"</h2>
+      <h2>“With God all things<br />are possible”</h2>
     </section>
 
     <!-- FOOTER -->
@@ -568,16 +538,16 @@ The vision is to raise disciples in every nation of the world who will carry out
         </div>
         <div class="footer-divider"></div>
         <div class="footer-col-2">
-          <h3>Christ The Rebuilder's Ministry</h3>
+          <h3>Christ The Rebuilder’s Ministry</h3>
           <div class="hope">(Hope Sanctuary)</div>
-          <div class="addr">1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</div>
+          <div class="addr"><svg class="addr-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>1, Alhaji Kazeem, Oko Filling Bustop, Igando Lagos, Nigeria</span></div>
           <div class="footer-contact">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
             <span>+234-708652527237</span>
           </div>
           <div class="footer-contact">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
-            <span>christherebuilder@gmail.com</span>
+            <span>Info@Rebuilder.com</span>
           </div>
         </div>
         <div class="footer-divider"></div>
@@ -593,8 +563,8 @@ The vision is to raise disciples in every nation of the world who will carry out
       <div class="footer-mid">
         <div class="fm-brand">
           <div class="logo-row">
-            <img src="project/assets/logo-crm.png" alt="" />
-            <span>Christ The Rebuilder's Ministry</span>
+            <img src="assets/logo-crm.png" alt="" />
+            <span>Christ The Rebuilder’s Ministry</span>
           </div>
           <div class="social">
             <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></a>
@@ -603,7 +573,7 @@ The vision is to raise disciples in every nation of the world who will carry out
             <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.5 3.5z"></path></svg></a>
           </div>
         </div>
-        <div class="fm-links">
+        <div class="fm-links fm-links--pages">
           <h5>Pages</h5>
           <a href="Home.html">Home</a>
           <a href="About.html">About Us</a>
@@ -611,11 +581,11 @@ The vision is to raise disciples in every nation of the world who will carry out
           <a href="Sermon.html">Sermon</a>
           <a href="Giving.html">Giving</a>
         </div>
-        <div class="fm-links">
+        <div class="fm-links fm-links--quick">
           <h5>Quick</h5>
           <a href="Contact.html">Contact Us</a>
-          <a href="https://web.facebook.com/AKAHopeSanctuary" target="_blank" rel="noopener">Watch On FB</a>
-          <a href="https://www.youtube.com/@christtherebuildersministry" target="_blank" rel="noopener">Watch On YT</a>
+          <a href="#">Watch On FB</a>
+          <a href="#">Watch On YT</a>
         </div>
         <div class="fm-connect">
           <h3>Stay Connected</h3>
@@ -659,8 +629,8 @@ The vision is to raise disciples in every nation of the world who will carry out
     }).join('');
 
     var idx = 0;
-    var STEP = 632 + 34;
-    var maxIdx = CARDS.length - 2;
+    var STEP = 632 + 34;          // card + gap
+    var maxIdx = CARDS.length - 2; // 2 cards visible
     var prev = document.getElementById('bPrev');
     var next = document.getElementById('bNext');
     function render() {
@@ -673,32 +643,55 @@ The vision is to raise disciples in every nation of the world who will carry out
     render();
   })();
 
+  // ── Scale the fixed 1440 design to fit the viewport width ──
+  // On phones (≤768px) we DON'T scale — about-mobile.css reflows the page.
   function fitScale() {
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
-    if (vw <= 1024) {
+    if (vw <= 768) {
       scaler.style.transform = 'none';
-      page.style.width = '100%';
-      document.body.style.height = 'auto';
-    } else {
-      page.style.width = '';
-      var scale = vw / 1440;
-      scaler.style.transform = 'scale(' + scale + ')';
-      document.body.style.height = (page.offsetHeight * scale) + 'px';
+      document.body.style.height = '';
+      return;
     }
+    var scale = Math.min(1, vw / 1440);
+    scaler.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = (page.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', fitScale);
   window.addEventListener('load', fitScale);
   fitScale();
   window.fitScale = fitScale;
+
+  // ── Mobile menu toggle ──
+  (function() {
+    var btn = document.getElementById('hamburger');
+    var menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    function setOpen(open) {
+      menu.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      setOpen(!menu.classList.contains('open'));
+    });
+    menu.addEventListener('click', function(e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('click', function(e) {
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+    });
+    window.addEventListener('resize', function() { if (document.documentElement.clientWidth > 768) setOpen(false); });
+  })();
 </script>
 
+<!-- ════════ Interactions: nav CTA + scroll animations ════════ -->
 <script>
+  /* ── btn-cta → Contact ── */
   document.addEventListener('click', function(e) {
     if (e.target.closest('.btn-cta')) { window.location.href = 'Contact.html'; }
   });
 
+  /* ── Scroll-pop animations ── */
   (function() {
     var css = '.scroll-pop{opacity:0;transform:translateY(32px);transition:opacity 600ms cubic-bezier(.22,1,.36,1),transform 600ms cubic-bezier(.22,1,.36,1)}.scroll-pop.in{opacity:1;transform:none}';
     var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
@@ -722,69 +715,5 @@ The vision is to raise disciples in every nation of the world who will carry out
   })();
 </script>
 
-<div id="tweak-root"></div>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="project/tweaks-panel.jsx"></script>
-<script type="text/babel">
-  const TWEAK_DEFAULTS = { "palette": ["#FDB52A","#500F50","#3A0B3A"], "voice": "modern", "air": "airy" };
-  const PALETTES = [
-    { value: ["#FDB52A","#500F50","#3A0B3A"], label: "Heritage" },
-    { value: ["#F76C5E","#3A1142","#280B2E"], label: "Coral & Plum" },
-    { value: ["#E8A317","#5C1A2E","#40121F"], label: "Saffron & Wine" },
-    { value: ["#F4B400","#1F3A5F","#142840"], label: "Sky & Slate" },
-  ];
-  function CRMTweaks() {
-    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-    React.useEffect(() => {
-      const root = document.documentElement;
-      const pal = t.palette || PALETTES[0].value;
-      root.style.setProperty('--crm-gold', pal[0]);
-      root.style.setProperty('--crm-purple', pal[1]);
-      root.style.setProperty('--crm-purple-deep', pal[2] || pal[1]);
-      const page = document.querySelector('.page');
-      if (page) { page.setAttribute('data-voice', t.voice); page.setAttribute('data-air', t.air); }
-      if (window.fitScale) window.requestAnimationFrame(window.fitScale);
-    }, [t.palette, t.voice, t.air]);
-    const note = { fontSize: 11, lineHeight: 1.5, opacity: 0.55, margin: '-2px 0 10px', padding: '0 2px' };
-    return (
-      <TweaksPanel title="Tweaks">
-        <TweakSection label="Color mood" />
-        <div style={note}>Re-skins the gold signature and the purple seal across every section.</div>
-        <TweakColor label="Palette" value={t.palette} options={PALETTES.map(p => p.value)} onChange={(v) => setTweak('palette', v)} />
-        <TweakSection label="Headline voice" />
-        <div style={note}>Mixed keeps the designed Inter / Georgia split. Modern is all bold sans; Editorial is all serif.</div>
-        <TweakRadio label="Voice" value={t.voice} options={["modern","mixed","editorial"]} onChange={(v) => setTweak('voice', v)} />
-        <TweakSection label="Atmosphere" />
-        <div style={note}>How much room the page breathes — from urgent and dense to cathedral-quiet.</div>
-        <TweakRadio label="Spacing" value={t.air} options={["compact","balanced","airy"]} onChange={(v) => setTweak('air', v)} />
-      </TweaksPanel>
-    );
-  }
-  ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
-</script>
-<script src="project/site-animations.js"></script>
-  <script>
-  (function(){
-    var btn = document.querySelector('.ham-btn');
-    var menu = document.querySelector('.mob-menu');
-    if (!btn || !menu) return;
-    btn.addEventListener('click', function(){
-      var open = menu.classList.toggle('open');
-      btn.classList.toggle('open', open);
-      btn.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    menu.querySelectorAll('a, .mob-cta').forEach(function(el){
-      el.addEventListener('click', function(){
-        menu.classList.remove('open');
-        btn.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  })();
-  </script>
 </body>
 </html>
