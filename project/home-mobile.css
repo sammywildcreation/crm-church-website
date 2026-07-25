@@ -1,0 +1,303 @@
+/* ════════════════════════════════════════════════════════════════
+   CRM Home — mobile reflow (≤768px)
+   The desktop page is a fixed 1440px design scaled to fit. On phones
+   we DROP the scale (see fitScale in Home.html) and reflow each
+   section to the Figma "Home — mobile" (430px) frame. Heavy use of
+   !important because many sections carry inline desktop styles.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Hamburger + slide-in menu are hidden on desktop */
+.hamburger { display: none; }
+.mobile-menu { display: none; }
+.addr-pin { display: none; }
+
+@media (max-width: 768px) {
+
+  html, body { overflow-x: hidden; background: #fff; }
+  body { height: auto !important; }
+
+  /* Un-scale the fixed design */
+  #scaler { transform: none !important; width: 100%; }
+  .page {
+    width: 100% !important;
+    overflow-x: hidden;
+  }
+  .container { width: 100% !important; }
+  img { max-width: 100%; }
+
+  /* ── NAV → fixed mobile bar + hamburger ── */
+  .nav {
+    position: fixed !important;
+    height: 64px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+    backdrop-filter: saturate(1.2) blur(2px);
+  }
+  .brand img { width: 40px; height: 40px; }
+  .brand .wordmark { font-size: 12px; line-height: 15.6px; width: auto; }
+  .nav-rail { display: none !important; }
+  .nav > .btn-cta { display: none !important; }
+
+  .hamburger {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border: none; cursor: pointer;
+    border-radius: 10px; background: rgba(80,15,80,0.10);
+    transition: background 140ms ease;
+  }
+  .hamburger:hover { background: rgba(80,15,80,0.18); }
+  .hamburger svg { width: 20px; height: 20px; color: var(--crm-purple); }
+
+  /* ── Slide-in menu ── */
+  .mobile-menu {
+    display: flex; flex-direction: column;
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 60;
+    background: rgba(255,255,255,0.98);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    padding: 8px 16px 18px;
+    transform: translateY(-12px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .mobile-menu.open { opacity: 1; transform: none; pointer-events: auto; }
+  .mobile-menu a {
+    font-family: var(--crm-font-sans); font-size: 17px; font-weight: 500;
+    color: var(--crm-ink); text-decoration: none;
+    padding: 14px 6px; border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .mobile-menu a.active { color: var(--crm-purple); font-weight: 700; }
+  .mobile-menu a.mm-cta {
+    margin-top: 12px; border: none; border-radius: 14px; text-align: center;
+    background: var(--crm-purple); color: #fff; font-weight: 600; padding: 14px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    height: auto !important; min-height: 560px;
+    padding: 132px 28px 70px !important;
+    background-position: center top; background-size: cover;
+  }
+  .hero .script { font-size: 36px; }
+  .hero h1 { font-size: 40px; margin-top: 14px; line-height: 1.08; }
+  .hero .sub { font-size: 18px; margin-top: 22px; }
+
+  /* ── CONGREGATION BAND ── */
+  .band-photo {
+    width: 100% !important; height: 210px !important;
+    margin: -24px 0 0 !important; border-radius: 32px 32px 0 0 !important;
+  }
+
+  /* ── INTRO ── */
+  .intro { padding: 40px 20px !important; }
+  .intro p { font-size: 18px !important; line-height: 30.6px !important; max-width: none; }
+  .pill-row { gap: 12px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+  .pill-dark { font-size: 15px; padding: 11px 24px; }
+  .link-arrow { font-size: 15px; }
+
+  /* ── WHAT WE BELIEVE ── */
+  .believe { padding: 56px 20px 60px !important; border-radius: 0 0 24px 24px; }
+  .believe .script { font-size: 36px; }
+  .believe h2 { font-size: 28px !important; margin-top: 16px; line-height: 1.2; }
+  .believe .lede { font-size: 14px !important; line-height: 1.7; margin-top: 18px; }
+  .believe-photos {
+    width: 100% !important; height: auto !important; margin: 28px 0 0 !important;
+    display: flex !important; gap: 8px; align-items: stretch;
+  }
+  .believe-photos img {
+    position: static !important; left: auto !important; top: auto !important;
+    width: calc((100% - 16px) / 3) !important; height: auto !important;
+    border-radius: 8px;
+  }
+
+  /* ── SERMON: gradient section, dark text, dark player card ── */
+  .sermon-wrap { padding: 44px 20px !important; margin: 0 !important; }
+  .sermon-card {
+    width: 100% !important; height: auto !important;
+    background: none !important; border-radius: 0 !important;
+  }
+  .sermon-card .inner {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important;
+  }
+  .sermon-card .eyebrow { font-size: 12px; letter-spacing: 1.8px; color: var(--crm-ink); }
+  .sermon-card h2 { font-size: 28px !important; line-height: 1.2 !important; color: var(--crm-ink); margin-top: 10px; }
+  .player {
+    width: 100% !important; height: auto !important;
+    background: rgb(31,31,31); border-radius: 14px;
+    gap: 14px !important; padding: 16px !important; align-items: center;
+    flex-wrap: wrap; margin-top: 22px;
+  }
+  .player .logo { width: 56px !important; height: 56px !important; border-radius: 10px; }
+  .player .meta { min-width: 0; }
+  .player .controls { gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  .sermon-wrap .pill-white {
+    background: var(--crm-ink); color: #fff; font-size: 15px;
+    padding: 12px 28px; margin-top: 22px;
+  }
+
+  /* ── PROGRAMS ── */
+  .programs { padding: 52px 20px 56px !important; }
+  .programs .eyebrow { font-size: 12px; letter-spacing: 1.8px; }
+  .programs h2 { font-size: 32px !important; line-height: 1.15 !important; margin-top: 6px; }
+  .programs .sub { font-size: 14px !important; margin-top: 12px; }
+  .program-cards { flex-direction: column !important; gap: 16px; margin-top: 32px; }
+  .program-card { width: 100% !important; height: 196px !important; }
+  .program-card .time { font-size: 16px; }
+  .program-card .name { font-size: 24px; }
+  .program-card .day { font-size: 14px; }
+  .center-row { gap: 14px; margin-top: 36px; flex-wrap: wrap; }
+
+  /* ── PASTORS (dark, stacked) ── */
+  .pastors {
+    height: auto !important; padding: 56px 24px 60px !important;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .pastors .portrait {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important; height: auto !important;
+  }
+  .pastors .portrait img { width: 100% !important; max-width: 300px; height: auto !important; }
+  .pastors .copy {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important; margin-top: 30px;
+  }
+  .pastors .copy h2 { font-size: 24px !important; line-height: 35px !important; max-width: none; }
+  .pastors .copy p { font-size: 15px !important; line-height: 28px !important; margin-top: 20px; }
+  .pastors .copy .script { font-size: 26px !important; margin-top: 18px; }
+
+  /* ── PODCAST: white on mobile, dark card + black-outline buttons ── */
+  .podcast {
+    height: auto !important; border-radius: 0 !important;
+    background: #fff !important; padding: 52px 24px 44px !important;
+  }
+  .podcast .script {
+    position: static !important; left: auto !important; top: auto !important;
+    font-size: 26px; display: block; margin: 0;
+  }
+  .podcast .row {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important; flex-direction: column !important;
+    gap: 22px !important; margin-top: 12px;
+  }
+  .podcast .row .left { width: 100% !important; }
+  .podcast .row .left h2 { font-size: 28px !important; letter-spacing: -1.5px !important; color: var(--crm-ink); }
+  .podcast .row .left p { font-size: 14px !important; color: var(--crm-ink); margin-top: 16px; }
+  .podcast-card { width: 100% !important; }
+  .podcast-card .pc-title { color: #fff; }
+  .podcast .btns {
+    position: static !important; left: auto !important; top: auto !important;
+    flex-direction: column !important; gap: 14px; width: 100%; margin-top: 26px;
+  }
+  .podcast .btn-outline-white {
+    width: 100% !important; height: 59px; border: 1px solid #000 !important; border-radius: 16px;
+    padding: 0 16px 0 25px;
+  }
+  .podcast .btn-outline-white span { color: #000 !important; font-size: 16px; }
+  .podcast .btn-outline-white .chip { background: #000 !important; }
+  .podcast .btn-outline-white .chip svg { color: #fff !important; }
+
+  /* ── STREAMS ── */
+  .streams { padding: 52px 24px 44px !important; }
+  .streams .script { font-size: 36px; }
+  .streams h2 { font-size: 28px !important; line-height: 1.2 !important; margin-top: 12px; }
+  .stream-photos { flex-direction: column !important; gap: 14px; margin-top: 32px !important; }
+  .stream-photos .sp { width: 100% !important; height: 220px !important; }
+  .streams .watch-btns { flex-direction: column !important; gap: 14px; margin-top: 36px !important; }
+  .btn-outline-dark {
+    width: 100% !important; height: 59px !important; border-radius: 16px !important;
+    padding: 0 18px 0 24px !important;
+  }
+  .btn-outline-dark span { font-size: 16px !important; }
+  .btn-outline-dark .chip { width: 36px !important; height: 36px !important; border-radius: 10px !important; }
+  .btn-outline-dark .chip svg { width: 18px !important; height: 18px !important; }
+
+  /* ── MINISTRIES ── */
+  .ministries { padding: 48px 16px 56px !important; }
+  .ministries .panel { padding: 20px !important; }
+  .ministries .panel-title { font-size: 22px; }
+  .ministry-tab { padding: 18px 0; min-height: 72px; }
+  .ministry-tab:first-of-type { margin-top: 28px; }
+  .ministry-tab .num { font-size: 18px; width: 40px; }
+  .ministry-tab .mtitle { font-size: 22px; }
+  .ministry-tab .soon { font-size: 14px; }
+  .ministry-tab .arrow { width: 44px; height: 44px; border-radius: 12px; }
+  .ministry-tab .arrow svg { width: 20px; height: 20px; }
+
+  /* ── SCRIPTURE ── */
+  .scripture {
+    height: auto !important; min-height: 240px; padding: 60px 24px !important;
+  }
+  .scripture .ref { font-size: 26px !important; margin-left: 0 !important; margin-bottom: 6px; }
+  .scripture h2 { font-size: 30px !important; line-height: 40px !important; }
+
+  /* ── FOOTER → single column ── */
+  .footer { padding: 44px 26px 0 !important; }
+  .footer-top { flex-direction: column !important; padding: 8px 0 0 !important; }
+  .footer-col-1 { display: none !important; }
+  .footer-divider { display: none !important; }
+  .footer-col-2 { width: 100% !important; }
+  .footer-col-2 h3, .footer-col-2 .hope { display: none; }
+  .footer-col-2 .addr {
+    display: flex !important; align-items: flex-start; gap: 12px;
+    font-size: 16px !important; line-height: 22.4px !important;
+    max-width: none !important; margin-top: 0 !important; opacity: 0.9;
+  }
+  .addr-pin { display: block !important; width: 20px; height: 20px; flex: none; color: var(--crm-gold); margin-top: 1px; }
+  .footer-contact { margin-top: 18px !important; }
+  .footer-contact svg { color: var(--crm-gold) !important; width: 18px !important; height: 18px !important; }
+  .footer-contact span { font-size: 14px !important; }
+
+  .footer-col-3 { width: 100% !important; margin-top: 30px; }
+  .footer-col-3 h4 { font-size: 16px !important; font-weight: 600; margin-bottom: 12px !important; opacity: 0.7; }
+  .flag-grid {
+    display: flex !important; flex-wrap: wrap; gap: 10px !important;
+    font-size: 26px !important;
+  }
+
+  .footer-mid {
+    flex-direction: column !important; gap: 26px; padding: 36px 0 36px !important;
+    margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.12) !important;
+  }
+  .fm-brand { width: 100% !important; }
+  .fm-brand .logo-row { gap: 14px; }
+  .fm-brand .logo-row img { width: 62px !important; height: 62px !important; }
+  .fm-brand .logo-row span { font-size: 20px !important; line-height: 26px !important; width: auto !important; }
+  .fm-brand .social { margin-top: 22px; }
+  .fm-links { width: 100% !important; }
+  .fm-links h5 { display: none; }
+  .fm-links--quick { display: none !important; }
+  .fm-links--pages {
+    display: flex !important; flex-wrap: wrap; gap: 14px 26px;
+  }
+  .fm-links--pages a { margin-bottom: 0 !important; font-size: 16px !important; opacity: 1; }
+  .fm-connect { display: none !important; }
+
+  .footer-bottom { padding: 26px 0 34px !important; }
+  .footer-bottom span { font-size: 13px !important; opacity: 0.7; }
+
+  /* ── Wordmark stagger (overlap effect) ── */
+  .brand .wordmark {
+    display: flex !important;
+    flex-direction: column !important;
+    width: auto !important;
+    gap: 0 !important;
+    line-height: 1 !important;
+  }
+  .brand .wordmark .wm-1 {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.01em;
+  }
+  .brand .wordmark .wm-2 {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    margin-left: 9px !important;
+    margin-top: -1px !important;
+    letter-spacing: 0.03em;
+    opacity: 0.75;
+  }
+
+}
