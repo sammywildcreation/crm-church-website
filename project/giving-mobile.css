@@ -1,0 +1,169 @@
+/* ════════════════════════════════════════════════════════════════
+   CRM Giving — mobile reflow (≤768px)
+   Matches the Figma "Giving — Mobile" (430px) frame. Desktop is a
+   fixed 1440px design scaled to fit; on phones we drop the scale
+   (see fitScale in Giving.html) and reflow to a single column.
+   ════════════════════════════════════════════════════════════════ */
+
+.hamburger { display: none; }
+.mobile-menu { display: none; }
+.addr-pin { display: none; }
+
+@media (max-width: 768px) {
+
+  html, body { overflow-x: hidden; background: #fff; }
+  body { height: auto !important; }
+
+  #scaler { transform: none !important; width: 100%; }
+  .page { width: 100% !important; overflow-x: hidden; }
+  img { max-width: 100%; }
+
+  /* ── NAV → fixed mobile bar + hamburger ── */
+  .nav {
+    position: fixed !important; height: 64px; padding: 12px 16px !important;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  }
+  .brand img { width: 40px; height: 40px; }
+  .brand .wordmark { font-size: 12px; line-height: 15.6px; width: auto; }
+  .nav-rail { display: none !important; }
+  .nav > .btn-cta { display: none !important; }
+
+  .hamburger {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border: none; cursor: pointer;
+    border-radius: 10px; background: rgba(80,15,80,0.10);
+    transition: background 140ms ease;
+  }
+  .hamburger:hover { background: rgba(80,15,80,0.18); }
+  .hamburger svg { width: 20px; height: 20px; color: var(--crm-purple); }
+
+  .mobile-menu {
+    display: flex; flex-direction: column;
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 60;
+    background: rgba(255,255,255,0.98);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    padding: 8px 16px 18px;
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .mobile-menu.open { opacity: 1; transform: none; pointer-events: auto; }
+  .mobile-menu a {
+    font-family: var(--crm-font-sans); font-size: 17px; font-weight: 500;
+    color: var(--crm-ink); text-decoration: none;
+    padding: 14px 6px; border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .mobile-menu a.active { color: var(--crm-purple); font-weight: 700; }
+  .mobile-menu a.mm-cta {
+    margin-top: 12px; border: none; border-radius: 14px; text-align: center;
+    background: var(--crm-purple); color: #fff; font-weight: 600; padding: 14px;
+  }
+
+  /* ── HERO ── */
+  .giving-hero {
+    height: 300px !important; margin-top: 64px !important; padding-bottom: 36px !important;
+    background-size: cover !important; background-position: center !important;
+  }
+  .giving-hero h1 { font-size: 32px !important; padding: 0 24px !important; letter-spacing: 0 !important; }
+
+  /* ── WAYS TO GIVE → single column ── */
+  .ways-section { padding: 44px 24px 0 !important; }
+  .ways-heading { font-size: 24px !important; line-height: 1.3 !important; }
+  .ways-sub { font-size: 13px !important; line-height: 1.5 !important; margin-bottom: 32px !important; }
+
+  .bank-grid {
+    grid-template-columns: 1fr !important; gap: 0 !important; margin-bottom: 0 !important;
+  }
+  .bank-grid > div { margin-bottom: 36px; }
+  .bank-col-title { font-size: 22px !important; line-height: 1.3 !important; margin-bottom: 16px !important; }
+
+  .bank-card { padding: 20px !important; }
+  .bank-card-header { gap: 12px !important; margin-bottom: 18px !important; }
+  .bank-card-header img { width: 48px !important; height: 48px !important; }
+  .bank-card-header .bank-name { font-size: 24px !important; line-height: 1.2 !important; }
+
+  .account-inner { padding: 20px !important; }
+  .acct-num { font-size: 32px !important; line-height: 1.2 !important; }
+  .acct-num.sm { font-size: 26px !important; }
+
+  /* Globus multi-account → single column */
+  .multi-acct-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+
+  /* ── WELFARE SUPPORT ── */
+  .welfare-section { padding: 48px 24px 0 !important; }
+  .welfare-heading { font-size: 24px !important; line-height: 1.3 !important; margin-bottom: 16px; }
+  .welfare-body { font-size: 15px !important; line-height: 1.8 !important; margin-bottom: 32px !important; max-width: none !important; }
+  .welfare-card-wrap { max-width: none !important; padding-bottom: 56px !important; }
+
+  /* ── SCRIPTURE band ── */
+  .scripture { height: auto !important; min-height: 260px; padding: 64px 24px !important; }
+  .scripture .ref { font-size: 28px !important; margin-bottom: 6px; }
+  .scripture h2 { font-size: 32px !important; line-height: 42px !important; }
+
+  /* ── FOOTER → single column ── */
+  .footer { padding: 44px 26px 0 !important; }
+  .footer-top { flex-direction: column !important; padding: 8px 0 0 !important; }
+  .footer-col-1 { display: none !important; }
+  .footer-divider { display: none !important; }
+  .footer-col-2 { width: 100% !important; }
+  .footer-col-2 h3 { font-size: 22px !important; line-height: 30px !important; }
+  .footer-col-2 .hope { font-size: 16px !important; }
+  .footer-col-2 .addr {
+    display: flex !important; align-items: flex-start; gap: 12px;
+    font-size: 16px !important; line-height: 22.4px !important;
+    max-width: none !important; margin-top: 22px !important; opacity: 0.9;
+  }
+  .addr-pin { display: block !important; width: 20px; height: 20px; flex: none; color: var(--crm-gold); margin-top: 1px; }
+  .footer-contact { margin-top: 16px !important; }
+  .footer-contact svg { color: var(--crm-gold) !important; width: 18px !important; height: 18px !important; }
+  .footer-contact span { font-size: 15px !important; }
+
+  .footer-col-3 { width: 100% !important; margin-top: 30px; }
+  .footer-col-3 h4 { font-size: 16px !important; font-weight: 600; margin-bottom: 14px !important; opacity: 0.7; }
+  .flag-grid { display: flex !important; flex-wrap: wrap; gap: 12px !important; font-size: 30px !important; }
+
+  .footer-mid {
+    flex-direction: column !important; gap: 26px; padding: 36px 0 36px !important;
+    margin-top: 30px;
+  }
+  .fm-brand { width: 100% !important; }
+  .fm-brand .logo-row { gap: 14px; }
+  .fm-brand .logo-row img { width: 62px !important; height: 62px !important; }
+  .fm-brand .logo-row span { font-size: 20px !important; line-height: 26px !important; width: auto !important; }
+  .fm-brand .social { margin-top: 22px; }
+  .fm-links { width: 100% !important; }
+  .fm-links h5 { display: none; }
+  .fm-links--quick { display: none !important; }
+  .fm-links--pages { display: flex !important; flex-wrap: wrap; gap: 14px 26px; }
+  .fm-links--pages a { margin-bottom: 0 !important; font-size: 16px !important; opacity: 1; }
+  .fm-connect { display: none !important; }
+
+  .footer-bottom { padding: 26px 0 34px !important; }
+  .footer-bottom span { font-size: 13px !important; opacity: 0.7; }
+
+  /* ── Wordmark stagger (overlap effect) ── */
+  .brand .wordmark {
+    display: flex !important;
+    flex-direction: column !important;
+    width: auto !important;
+    gap: 0 !important;
+    line-height: 1 !important;
+  }
+  .brand .wordmark .wm-1 {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.01em;
+  }
+  .brand .wordmark .wm-2 {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    margin-left: 9px !important;
+    margin-top: -1px !important;
+    letter-spacing: 0.03em;
+    opacity: 0.75;
+  }
+
+}

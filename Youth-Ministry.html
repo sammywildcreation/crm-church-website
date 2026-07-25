@@ -236,7 +236,7 @@
 
   #tweak-root { font-family: var(--crm-font-sans); }
 </style>
-<link rel="stylesheet" href="project/mobile.css" />
+<link rel="stylesheet" href="project/youth-mobile.css" />
 </head>
 <body style="font-size: 16px">
 <div id="scaler">
@@ -256,20 +256,18 @@
         <a href="Giving.html">Giving</a>
       </nav>
       <button class="btn-cta">Reachout to us</button>
-      <button class="ham-btn" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
     </header>
-    <div class="mob-menu" role="dialog" aria-modal="true">
-      <nav class="mob-nav">
-        <a href="Home.html">Home</a>
-        <a href="About.html">About Us</a>
-        <a href="Program.html">Programs</a>
-        <a href="Sermon.html">Sermon</a>
-        <a href="Giving.html">Giving</a>
-      </nav>
-      <button class="mob-cta" onclick="window.location.href='Contact.html'">Reachout to us</button>
-    </div>
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="Home.html">Home</a>
+      <a href="About.html">About Us</a>
+      <a href="Program.html">Programs</a>
+      <a href="Sermon.html">Sermon</a>
+      <a href="Giving.html">Giving</a>
+      <a href="Contact.html" class="mm-cta">Reachout to us</a>
+    </nav>
 
     <!-- HERO -->
     <section class="ym-hero">
@@ -517,26 +515,25 @@
   ReactDOM.createRoot(document.getElementById('tweak-root')).render(<CRMTweaks />);
 </script>
 <script src="project/site-animations.js"></script>
-  <script>
-  (function(){
-    var btn = document.querySelector('.ham-btn');
-    var menu = document.querySelector('.mob-menu');
+<script>
+  (function() {
+    var btn = document.getElementById('hamburger');
+    var menu = document.getElementById('mobileMenu');
     if (!btn || !menu) return;
-    btn.addEventListener('click', function(){
-      var open = menu.classList.toggle('open');
-      btn.classList.toggle('open', open);
-      btn.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
+    function setOpen(open) {
+      menu.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      setOpen(!menu.classList.contains('open'));
     });
-    menu.querySelectorAll('a, .mob-cta').forEach(function(el){
-      el.addEventListener('click', function(){
-        menu.classList.remove('open');
-        btn.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
+    menu.addEventListener('click', function(e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('click', function(e) {
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
     });
+    window.addEventListener('resize', function() { if (document.documentElement.clientWidth > 768) setOpen(false); });
   })();
-  </script>
+</script>
 </body>
 </html>
