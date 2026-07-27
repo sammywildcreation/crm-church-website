@@ -28,11 +28,15 @@
   /* ── NAV → fixed mobile bar + hamburger ── */
   .nav {
     position: fixed !important;
+    top: 0 !important; left: 0 !important; right: 0 !important;
+    width: 100% !important;
     height: 64px;
     padding: 12px 16px;
     background: rgba(255,255,255,0.95);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
     backdrop-filter: saturate(1.2) blur(2px);
+    -webkit-backdrop-filter: saturate(1.2) blur(2px);
+    z-index: 1000 !important;
   }
   .brand img { width: 40px; height: 40px; }
   .brand .wordmark { font-size: 12px; line-height: 15.6px; width: auto; }
@@ -41,41 +45,53 @@
 
   .hamburger {
     display: flex; align-items: center; justify-content: center;
+    position: relative;
     width: 40px; height: 40px; border: none; cursor: pointer;
     border-radius: 10px; background: rgba(80,15,80,0.10);
     transition: background 140ms ease;
   }
   .hamburger:hover { background: rgba(80,15,80,0.18); }
   .hamburger svg { width: 20px; height: 20px; color: var(--crm-purple); }
+  /* Hamburger turns into an X when the menu is open */
+  .hamburger[aria-expanded="true"] { background: transparent; }
+  .hamburger[aria-expanded="true"] svg { display: none; }
+  .hamburger[aria-expanded="true"]::before,
+  .hamburger[aria-expanded="true"]::after {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    width: 22px; height: 2px; background: var(--crm-ink); border-radius: 2px;
+  }
+  .hamburger[aria-expanded="true"]::before { transform: translate(-50%,-50%) rotate(45deg); }
+  .hamburger[aria-expanded="true"]::after  { transform: translate(-50%,-50%) rotate(-45deg); }
 
-  /* ── Slide-in menu ── */
+  /* ── Full-screen mobile menu ── */
   .mobile-menu {
     display: flex; flex-direction: column;
-    position: fixed; top: 64px; left: 0; right: 0; z-index: 60;
-    background: rgba(255,255,255,0.98);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    padding: 8px 16px 18px;
-    transform: translateY(-12px);
+    position: fixed; inset: 0;
+    height: 100vh; height: 100dvh;
+    z-index: 900;
+    background: #fff;
+    padding: 84px 24px 32px;
     opacity: 0; pointer-events: none;
-    transition: opacity 180ms ease, transform 180ms ease;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: opacity 200ms ease;
+    overflow-y: auto;
   }
-  .mobile-menu.open { opacity: 1; transform: none; pointer-events: auto; }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
   .mobile-menu a {
-    font-family: var(--crm-font-sans); font-size: 17px; font-weight: 500;
+    font-family: var(--crm-font-sans); font-size: 26px; font-weight: 700;
     color: var(--crm-ink); text-decoration: none;
-    padding: 14px 6px; border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 20px 2px; border-bottom: 1px solid rgba(0,0,0,0.08);
   }
-  .mobile-menu a.active { color: var(--crm-purple); font-weight: 700; }
+  .mobile-menu a.active { color: var(--crm-purple); }
   .mobile-menu a.mm-cta {
-    margin-top: 12px; border: none; border-radius: 14px; text-align: center;
-    background: var(--crm-purple); color: #fff; font-weight: 600; padding: 14px;
+    margin-top: auto; border: none; border-radius: 16px; text-align: center;
+    background: var(--crm-purple); color: #fff; font-weight: 600; font-size: 17px;
+    padding: 18px; border-bottom: none;
   }
 
   /* ── HERO ── */
   .hero {
-    height: auto !important; min-height: 560px;
-    padding: 132px 28px 70px !important;
+    height: auto !important; min-height: 0 !important;
+    padding: 118px 28px 40px !important;
     background-position: center top; background-size: cover;
   }
   .hero .script { font-size: 36px; }
@@ -85,7 +101,7 @@
   /* ── CONGREGATION BAND ── */
   .band-photo {
     width: 100% !important; height: 210px !important;
-    margin: -24px 0 0 !important; border-radius: 32px 32px 0 0 !important;
+    margin: 0 0 0 !important; border-radius: 32px 32px 0 0 !important;
   }
 
   /* ── INTRO ── */
@@ -96,7 +112,7 @@
   .link-arrow { font-size: 15px; }
 
   /* ── WHAT WE BELIEVE ── */
-  .believe { padding: 56px 20px 60px !important; border-radius: 0 0 24px 24px; }
+  .believe { padding: 56px 20px 60px !important; border-radius: 0 0 24px 24px; position: relative; z-index: 2; }
   .believe .script { font-size: 36px; }
   .believe h2 { font-size: 28px !important; margin-top: 16px; line-height: 1.2; }
   .believe .lede { font-size: 14px !important; line-height: 1.7; margin-top: 18px; }
@@ -111,7 +127,7 @@
   }
 
   /* ── SERMON: gradient section, dark text, dark player card ── */
-  .sermon-wrap { padding: 44px 20px !important; margin: 0 !important; }
+  .sermon-wrap { padding: 68px 20px 44px !important; margin: -24px 0 0 !important; position: relative; z-index: 1; }
   .sermon-card {
     width: 100% !important; height: auto !important;
     background: none !important; border-radius: 0 !important;
