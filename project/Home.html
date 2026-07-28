@@ -765,6 +765,14 @@ Available on Facebook, Instagram, and TikTok.</p>
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
+    // On phones (<=768px) the page reflows via home-mobile.css, so we must NOT
+    // scale. A transform here would make position:fixed attach to #scaler
+    // instead of the viewport, causing the nav bar to scroll with the page.
+    if (vw <= 768) {
+      scaler.style.transform = 'none';
+      document.body.style.height = 'auto';
+      return;
+    }
     var scale = Math.min(1, vw / 1440);
     scaler.style.transform = 'scale(' + scale + ')';
     document.body.style.height = (page.offsetHeight * scale) + 'px';
