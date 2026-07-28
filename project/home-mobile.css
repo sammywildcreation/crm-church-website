@@ -37,6 +37,14 @@
     backdrop-filter: saturate(1.2) blur(2px);
     -webkit-backdrop-filter: saturate(1.2) blur(2px);
     z-index: 1000 !important;
+    /* Kill the desktop scroll-"pin" effect on mobile. The nav has a
+       scroll-timeline animation (nav-pin) AND a JS scroll handler that
+       translate it downward as you scroll — on desktop that keeps it still,
+       but on a fixed mobile bar it drags the nav into the middle of the page.
+       !important beats both CSS animations and JS inline styles, so the bar
+       now stays pinned to the top. */
+    animation: none !important;
+    transform: none !important;
   }
   .brand img { width: 40px; height: 40px; }
   .brand .wordmark { font-size: 12px; line-height: 15.6px; width: auto; }
@@ -89,10 +97,19 @@
   }
 
   /* ── HERO ── */
+  /* The hero sits inside a fixed 844px .hero-clip and has its own scroll-pin
+     animation/transform (hero-pin). On mobile we want normal document flow so
+     the congregation photo starts right below the hero text (no dead gap). */
+  .hero-clip {
+    height: auto !important;
+    overflow: visible !important;
+  }
   .hero {
     height: auto !important; min-height: 0 !important;
     padding: 118px 28px 40px !important;
     background-position: center top; background-size: cover;
+    animation: none !important;
+    transform: none !important;
   }
   .hero .script { font-size: 36px; }
   .hero h1 { font-size: 40px; margin-top: 14px; line-height: 1.08; }
