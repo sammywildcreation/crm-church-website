@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CRM Church — Home</title>
 <link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="home-mobile.css" />
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #1a1a1a; }
@@ -764,6 +765,14 @@ Available on Facebook, Instagram, and TikTok.</p>
     var scaler = document.getElementById('scaler');
     var page = scaler.querySelector('.page');
     var vw = document.documentElement.clientWidth;
+    // On phones (<=768px) the page reflows via home-mobile.css, so we must NOT
+    // scale. A transform here would make position:fixed attach to #scaler
+    // instead of the viewport, causing the nav bar to scroll with the page.
+    if (vw <= 768) {
+      scaler.style.transform = 'none';
+      document.body.style.height = 'auto';
+      return;
+    }
     var scale = Math.min(1, vw / 1440);
     scaler.style.transform = 'scale(' + scale + ')';
     document.body.style.height = (page.offsetHeight * scale) + 'px';
