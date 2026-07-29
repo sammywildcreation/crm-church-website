@@ -632,27 +632,50 @@ The vision is to raise disciples in every nation of the world who will carry out
   // ── Believe card slider ──
   (function () {
     var CARDS = [
-      { icon: 'book', title: 'Holy Trinity' },
-      { icon: 'cross', title: 'Baptism by Immersion' },
-      { icon: 'heart', title: 'Heaven Through Rapture' },
-      { icon: 'heart', title: 'Written Word of God' },
-      { icon: 'heart', title: 'Faith Based Church' },
-      { icon: 'heart', title: 'Second Coming' }
+      {
+        icon: 'book', title: 'Holy Trinity',
+        body: 'We believe in one true and eternal God who exists in three persons — Father, Son, and Holy Spirit. Though distinct in person, they are one in essence, power, and glory, united perfectly in love.',
+        verses: ['Matthew 28:19', '2 Corinthians 13:14']
+      },
+      {
+        icon: 'cross', title: 'Baptism by immersion',
+        body: 'We believe that every believer should follow Christ in baptism, being fully immersed in water as a public declaration of faith. It is an outward sign of dying to the old life and rising to walk in newness of life in Christ.',
+        verses: ['Romans 6:4', 'Acts 8:38']
+      },
+      {
+        icon: 'heart', title: 'Heaven through rapture',
+        body: 'We believe that Christ will return to gather His church, and that the dead in Christ and the living faithful will be caught up together to meet Him. This blessed hope assures us of eternal life with the Lord.',
+        verses: ['1 Thessalonians 4:16-17', '1 Corinthians 15:51-52']
+      },
+      {
+        icon: 'book', title: 'Written Word of God',
+        body: 'We believe that the Bible is the inspired and infallible Word of God, given by the Holy Spirit through His chosen servants. It is our final authority for faith, doctrine, and daily living.',
+        verses: ['2 Timothy 3:16', '2 Peter 1:21']
+      },
+      {
+        icon: 'heart', title: 'Faith based church',
+        body: 'We believe that salvation is a gift of God’s grace, received through faith in Jesus Christ and not earned by works. It is by this same faith that we live, worship, and please God.',
+        verses: ['Ephesians 2:8-9', 'Hebrews 11:6']
+      },
+      {
+        icon: 'cross', title: 'Second Coming of Jesus',
+        body: 'We believe that Jesus Christ will personally and visibly return to the earth in power and glory, just as He promised. He will reward the faithful and establish His everlasting kingdom.',
+        verses: ['Acts 1:11', 'Revelation 22:12']
+      }
     ];
     var ICONS = {
       book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
       cross: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2h-4v6H4v4h6v10h4V12h6V8h-6z"></path></svg>',
       heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-10-9.1C.3 8.8 1.6 5 5 5c2.1 0 3.4 1.2 4.3 2.5C10.2 6.2 11.5 5 13.6 5 17 5 18.3 8.8 16.6 11.9 14.1 16.4 12 21 12 21z" transform="translate(-0.6 0)"></path></svg>'
     };
-    var PARA = 'We believe in one true, living, and eternal God, the Creator of all things, who is holy, sovereign, and full of love and justice. He is all-powerful, all-knowing, and worthy of all worship. God exists eternally in three persons: Father, Son, and Holy Spirit';
     var track = document.getElementById('believeTrack');
     track.innerHTML = CARDS.map(function (c) {
       return '<div class="bcard">'
         + '<div class="icon">' + ICONS[c.icon] + '</div>'
         + '<div class="body">'
         + '<h3>' + c.title + '</h3>'
-        + '<p>' + PARA + '</p>'
-        + '<div class="verses"><span>John 3:16</span><span class="divider"></span><span>Thessalonians 2:13</span></div>'
+        + '<p>' + c.body + '</p>'
+        + '<div class="verses"><span>' + c.verses[0] + '</span><span class="divider"></span><span>' + c.verses[1] + '</span></div>'
         + '</div></div>';
     }).join('');
 
